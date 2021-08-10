@@ -16,7 +16,6 @@ import {
   DynamicColorCircle,
   StxNexus,
 } from '@stacks/ui';
-import FunctionIcon from 'mdi-react/FunctionIcon';
 import { useWallet } from '@common/hooks/use-wallet';
 import { MicroblockIcon } from '@components/icons/microblock';
 import { Tx, Status, statusFromTx } from '@common/api/transactions';
@@ -77,7 +76,7 @@ const iconForTx = (tx: Tx, currentAccountStxAddress: string | undefined) => {
     coinbase: IconPlus,
     smart_contract: IconCode,
     token_transfer: tokenTransferIcon(tx),
-    contract_call: () => <FunctionIcon size="14px" />,
+    contract_call: tokenTransferIcon(tx),
     poison_microblock: null,
   };
   return iconMap[tx.tx_type];
