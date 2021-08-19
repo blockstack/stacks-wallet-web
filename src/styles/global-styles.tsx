@@ -1,8 +1,11 @@
 import React, { memo } from 'react';
 import { CSSReset } from '@stacks/ui';
 import { Global, css } from '@emotion/react';
+import { extensionStyles } from './extension-styles';
+import { fullPageStyles } from './full-page-styles';
+import { popupStyles } from './popup-styles';
 
-const SizeStyles = css`
+const styles = css`
   body {
     display: flex;
 
@@ -11,6 +14,10 @@ const SizeStyles = css`
       pointer-events: none;
     }
   }
+
+  ${extensionStyles};
+  ${fullPageStyles};
+  ${popupStyles};
 
   #actions-root {
     flex-grow: 1;
@@ -21,49 +28,6 @@ const SizeStyles = css`
   .container-outer {
     min-height: 100vh;
     height: 100vh;
-  }
-
-  .mode__extension {
-    &,
-    body {
-      min-height: 600px !important;
-      min-width: 392px !important;
-      overflow-x: hidden;
-      main.main-content {
-        flex-grow: 1;
-        max-width: 392px;
-      }
-    }
-  }
-
-  .mode__full-page {
-    &,
-    body {
-      height: 100%;
-      max-height: unset;
-      width: 100%;
-
-      main.main-content {
-        flex-grow: 1;
-        justify-content: center;
-        max-width: 440px;
-        margin: 0 auto;
-      }
-
-      .onboarding-text {
-        text-align: center;
-      }
-    }
-  }
-
-  .mode__popup {
-    &,
-    body {
-      height: unset !important;
-      min-height: 552px !important;
-      min-width: 440px !important;
-      overflow-x: hidden;
-    }
   }
 
   .tippy-box[data-animation='fade'][data-state='hidden'] {
@@ -159,7 +123,7 @@ export const GlobalStyles = memo(() => {
   return (
     <>
       {CSSReset}
-      <Global styles={SizeStyles} />
+      <Global styles={styles} />
     </>
   );
 });

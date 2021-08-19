@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import { Box, BoxProps, color, Flex, FlexProps, IconButton, Stack } from '@stacks/ui';
 import { FiMoreHorizontal as IconDots, FiArrowLeft as IconArrowLeft } from 'react-icons/fi';
 
-import { StacksWalletLogo } from '@components/stacks-wallet-logo';
+import { HiroWalletLogo } from '@components/hiro-wallet-logo';
 import { useDoChangeScreen } from '@common/hooks/use-do-change-screen';
 import { useDrawers } from '@common/hooks/use-drawers';
 import { NetworkModeBadge } from '@components/network-mode-badge';
@@ -45,11 +45,12 @@ export const Header: React.FC<HeaderProps> = memo(props => {
       alignItems={hideActions ? 'center' : 'flex-start'}
       justifyContent="space-between"
       position="relative"
+      zIndex={10}
       {...rest}
     >
       {!title ? (
         <Stack alignItems="center" pt="7px" isInline>
-          <StacksWalletLogo onClick={() => doChangeScreen(ScreenPaths.HOME)} />
+          <HiroWalletLogo onClick={() => doChangeScreen(ScreenPaths.HOME)} />
           {VERSION ? (
             <Caption
               pt="extra-tight"

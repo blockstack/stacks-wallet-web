@@ -6,9 +6,11 @@ import { ScreenPaths } from '@common/types';
 import { Link } from '@components/link';
 import { PopupContainer } from '@components/popup/container';
 import { useOnboardingState } from '@common/hooks/auth/use-onboarding-state';
-import { Title, Body } from '@components/typography';
+import { Title, Text } from '@components/typography';
 import { Header } from '@components/header';
 import { InitialPageSelectors } from '@tests/integration/initial-page.selectors';
+import ExploreStacksLarge from '@assets/images/explore-stacks-lg.svg';
+import ExploreStacksSmall from '@assets/images/explore-stacks-sm.svg';
 
 const Actions: React.FC<StackProps> = props => {
   const { doMakeWallet } = useWallet();
@@ -25,33 +27,43 @@ const Actions: React.FC<StackProps> = props => {
   }, [doMakeWallet, doChangeScreen, decodedAuthRequest]);
 
   return (
-    <Stack justifyContent="center" spacing="loose" textAlign="center" {...props}>
+    <Stack spacing="loose" textAlign="left" {...props}>
       <Button
         onClick={register}
         isLoading={isCreatingWallet}
         data-testid={InitialPageSelectors.SignUp}
         borderRadius="10px"
+        width="198px"
+        height="48px"
       >
-        I'm new to Stacks
+        Create Stacks Account
       </Button>
       <Link
         onClick={() => doChangeScreen(ScreenPaths.SIGN_IN_INSTALLED)}
         data-testid={InitialPageSelectors.SignIn}
+        fontSize="14px"
       >
-        Sign in with Secret Key
+        I already have an account
       </Link>
     </Stack>
   );
 };
 
 export const Installed: React.FC = memo(() => (
-  <PopupContainer header={<Header hideActions />} requestType="auth">
-    <Stack spacing="extra-loose" flexGrow={1} justifyContent="center">
-      <Stack width="100%" spacing="loose" textAlign="center" alignItems="center">
-        <Title as="h1" fontWeight={500}>
-          Hiro Wallet is installed
+  <PopupContainer className="installed-page" header={<Header hideActions />} requestType="auth">
+    <Stack className="content-image" flexGrow={1}>
+      <img src={ExploreStacksLarge} className="image-large" />
+      <img src={ExploreStacksSmall} className="image-small" />
+    </Stack>
+    <Stack className="content-text" flexGrow={1} justifyContent="center">
+      <Stack width="100%" textAlign="left" alignItems="start">
+        <Title className="title" fontWeight={500}>
+          Explore the world of Stacks
         </Title>
-        <Body maxWidth="28ch">Are you new to Stacks or do you already have a Secret Key?</Body>
+        <Text className="text">
+          Hiro Wallet connects you to Stacks apps while keeping your account, data, and crypto
+          secure. Create your Stacks account to get started.
+        </Text>
       </Stack>
       <Actions />
     </Stack>

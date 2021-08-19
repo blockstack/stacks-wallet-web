@@ -143,6 +143,17 @@ const config = {
         ],
       },
       {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: 'svg-url-loader',
+            options: {
+              limit: 10000,
+            },
+          },
+        ],
+      },
+      {
         test: /\.wasm$/,
         // Tells WebPack that this module should be included as
         // base64-encoded binary file and not as code
