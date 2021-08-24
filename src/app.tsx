@@ -4,7 +4,7 @@ import { Toaster } from 'react-hot-toast';
 
 import { theme } from '@common/theme';
 import { HashRouter as Router } from 'react-router-dom';
-import { GlobalStyles } from '@components/global-styles';
+import { GlobalStyles } from 'styles/global-styles';
 import { VaultLoader } from '@components/vault-loader';
 import { AccountsDrawer } from '@features/accounts-drawer/accounts-drawer';
 import { NetworksDrawer } from '@features/network-drawer/networks-drawer';

@@ -9,6 +9,7 @@ interface PopupHomeProps {
   header?: any;
   // TODO: remove the need for prop drilling this
   requestType?: 'transaction' | 'auth';
+  className: string;
 }
 
 const UnmountEffectSuspense = ({
@@ -47,12 +48,18 @@ const UnmountEffect = ({ requestType }: { requestType?: PopupHomeProps['requestT
   </React.Suspense>
 );
 
-export const PopupContainer: React.FC<PopupHomeProps> = ({ children, header, requestType }) => {
+export const PopupContainer: React.FC<PopupHomeProps> = ({
+  children,
+  header,
+  requestType,
+  className,
+}) => {
   const { hasRehydratedVault } = useWallet();
   return hasRehydratedVault ? (
     <>
       <UnmountEffect requestType={requestType} />
       <Flex
+        className={className}
         flexDirection="column"
         flexGrow={1}
         width="100%"
