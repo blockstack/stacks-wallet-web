@@ -1,9 +1,9 @@
-import { useCurrentFee } from '@common/hooks/use-current-fee';
+import { useFeeWithDefault } from '../hooks/use-fee-with-default';
 
 interface FeeFetcherProps {
   children(fee: number): JSX.Element;
 }
 export function FeeFetcher({ children }: FeeFetcherProps) {
-  const fee = useCurrentFee();
+  const fee = useFeeWithDefault();
   return children(fee);
 }

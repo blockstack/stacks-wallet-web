@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { ThemeProvider, ColorModeProvider } from '@stacks/ui';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { Toaster } from 'react-hot-toast';
 
 import { theme } from '@common/theme';
@@ -13,6 +14,8 @@ import { Routes } from './routes';
 import { SettingsPopover } from '@features/settings-dropdown/settings-popover';
 import { AppErrorBoundary } from '@features/errors/app-error-boundary';
 
+const queryClient = new QueryClient();
+
 export const App: React.FC = () => {
   useEffect(() => {
     (window as any).__APP_VERSION__ = VERSION;
@@ -21,20 +24,22 @@ export const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
-      <ColorModeProvider defaultMode="light">
-        <>
-          <Router>
-            <AppErrorBoundary>
-              <VaultLoader />
-              <Routes />
-              <AccountsDrawer />
-              <NetworksDrawer />
-              <SettingsPopover />
-            </AppErrorBoundary>
-            <Toaster position="bottom-center" toastOptions={{ style: { fontSize: '14px' } }} />
-          </Router>
-        </>
-      </ColorModeProvider>
+      <QueryClientProvider client={queryClient}>
+        <ColorModeProvider defaultMode="light">
+          <>
+            <Router>
+              <AppErrorBoundary>
+                <VaultLoader />
+                <Routes />
+                <AccountsDrawer />
+                <NetworksDrawer />
+                <SettingsPopover />
+              </AppErrorBoundary>
+              <Toaster position="bottom-center" toastOptions={{ style: { fontSize: '14px' } }} />
+            </Router>
+          </>
+        </ColorModeProvider>
+      </QueryClientProvider>
     </ThemeProvider>
   );
 };

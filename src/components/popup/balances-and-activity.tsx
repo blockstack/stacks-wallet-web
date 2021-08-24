@@ -19,7 +19,6 @@ function EmptyActivity() {
       <Box mx="auto">
         <NoActivityIllustration />
       </Box>
-
       <Caption maxWidth="23ch" textAlign="center">
         No activity yet.
       </Caption>
@@ -48,6 +47,7 @@ const Loading = memo(() => (
 
 export function BalancesAndActivity(props: StackProps) {
   const { activeTab, setActiveTab } = useHomeTabs();
+
   return (
     <Stack flexGrow={1} spacing="extra-loose" {...props}>
       <Tabs

@@ -297,7 +297,6 @@ export function findMatchingNetworkKey(
   // first try to search for an _exact_ url match
   const exactUrlMatch = keys.find((key: string) => {
     const network = networks[key] as Network;
-    console.log('matcher', network.url, developerDefinedApiUrl);
     return network.url === developerDefinedApiUrl;
   });
   if (exactUrlMatch) return exactUrlMatch;
@@ -313,7 +312,7 @@ export function findMatchingNetworkKey(
 }
 
 export function cleanUsername(username: string) {
-  return username?.split('.')[0];
+  return username.split('.')[0];
 }
 
 export const slugify = (...args: (string | number)[]): string => {

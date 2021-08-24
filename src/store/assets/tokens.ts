@@ -18,12 +18,7 @@ import { currentNetworkState } from '@store/networks';
 const transferDataState = atomFamily<ContractPrincipal, any>(
   ({ contractAddress, contractName }) => {
     const anAtom = atom(get => {
-      const contractInterface = get(
-        contractInterfaceState({
-          contractName,
-          contractAddress,
-        })
-      );
+      const contractInterface = get(contractInterfaceState({ contractName, contractAddress }));
       if (!contractInterface) return;
       return isSip10Transfer(contractInterface);
     });

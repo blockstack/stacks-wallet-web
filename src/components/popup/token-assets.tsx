@@ -12,10 +12,12 @@ import { useCurrentAccountBalances } from '@common/hooks/account/use-current-acc
 import { NoAssetsEmptyIllustration } from '@components/vector/no-assets';
 import { useCurrentAccount } from '@common/hooks/account/use-current-account';
 import { UserAreaSelectors } from '@tests/integration/user-area.selectors';
+import { useQueryContractInterface } from '@common/hooks/use-query-contract-interface';
 import { AssetWithMeta } from '@common/asset-types';
 
 function FungibleAssetRow(props: { asset: AssetWithMeta }) {
   const asset = useAssetItemState(props.asset);
+  useQueryContractInterface(`${asset.contractAddress}.${asset.contractName}`);
   if (!asset) return null;
   return <AssetRow asset={asset} />;
 }
@@ -27,11 +29,11 @@ function FungibleAssets(props: StackProps) {
 
   const ftCount = Object.keys(balances.fungible_tokens);
   const noTokens = ftCount.length === 0;
-
   if (noTokens || !fungibleTokens) return null;
+
   return (
     <Stack spacing="loose" {...props}>
-      {fungibleTokens?.map(asset => (
+      {fungibleTokens.map(asset => (
         <Suspense fallback={<AssetRow asset={asset} />} key={asset.name}>
           <FungibleAssetRow asset={asset} />
         </Suspense>

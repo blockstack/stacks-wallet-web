@@ -5,55 +5,27 @@ import { atomFamily } from 'jotai/utils';
 import { atom } from 'jotai';
 import { currentNetworkState } from '@store/networks';
 import { getLocalData, setLocalData } from '@store/common/utils';
-import { ContractInterface } from '@stacks/rpc-client';
 import deepEqual from 'fast-deep-equal';
 import { ContractSourceResponse } from '@stacks/blockchain-api-client';
+import { ContractInterface } from '@stacks/rpc-client';
 
 enum ContractQueryKeys {
   ContractInterface = 'queries/ContractInterface',
   ContractSource = 'queries/ContractSource',
 }
 
-export const contractInterfaceResponseState = atomFamilyWithQuery<
-  ContractPrincipal,
-  ContractInterface | null
->(ContractQueryKeys.ContractInterface, async (get, { contractAddress, contractName }) => {
-  const { smartContractsApi } = get(apiClientState);
-  const network = get(currentNetworkState);
-  try {
-    const data = (await smartContractsApi.getContractInterface({
-      contractAddress,
-      contractName,
-    })) as ContractInterface;
-    const keyParams = [
-      network.url,
-      contractAddress,
-      contractName,
-      ContractQueryKeys.ContractInterface,
-    ];
-    // for a given contract interface, it does not change once deployed so we should cache it
-    return setLocalData(keyParams, data);
-  } catch (e) {
-    console.debug('contractInterfaceResponseState error', e);
-    return (() => Promise.resolve(null)) as unknown as null;
-  }
-});
+export type ContractDictionary = Record<string, ContractInterface>;
+
+export const contractsAtom = atom<ContractDictionary>({});
 
 export const contractInterfaceState = atomFamily<ContractPrincipal, ContractInterface | null>(
   ({ contractAddress, contractName }) => {
+    const key = `${contractAddress}.${contractName}`;
     const anAtom = atom(get => {
-      const network = get(currentNetworkState);
-      const keyParams = [
-        network.url,
-        contractAddress,
-        contractName,
-        ContractQueryKeys.ContractInterface,
-      ];
-      const localData = getLocalData<ContractInterface>(keyParams);
-      if (localData) return localData;
-      return get(contractInterfaceResponseState({ contractAddress, contractName }));
+      const contractsMap = get(contractsAtom);
+      return contractsMap[key];
     });
-    anAtom.debugLabel = `contractInterfaceState/${contractAddress}.${contractName}`;
+    anAtom.debugLabel = `contractInterfaceState/${key}`;
     return anAtom;
   },
   deepEqual
