@@ -11,7 +11,6 @@ import {
 import { currentNetworkState } from '@store/networks';
 import deepEqual from 'fast-deep-equal';
 import { makeLocalDataKey } from '@store/common/utils';
-import { apiClientState } from '@store/common/api-clients';
 
 export const localNonceState = atomFamily<[principal: string, networkUrl: string], number, number>(
   params => atomWithStorage(makeLocalDataKey(['LOCAL_NONCE_STATE', params]), 0),
@@ -25,13 +24,7 @@ export const currentAccountLocalNonceState = atom(get => {
   return get(localNonceState([address, network.url]));
 });
 
-export const lastApiNonce = atom(get => {
-  const principal = get(currentAccountStxAddressState);
-  if (!principal) return;
-
-  const { accountsApi } = get(apiClientState);
-  return accountsApi.getAccountNonces({ principal });
-});
+export const lastApiNonceAtom = atom<number | undefined>(undefined);
 
 export const currentAccountNonceState = atom(get => {
   const address = get(currentAccountStxAddressState);
@@ -40,9 +33,9 @@ export const currentAccountNonceState = atom(get => {
   const pendingTransactions = get(currentAccountMempoolTransactionsState);
   const lastLocalNonce = get(currentAccountLocalNonceState);
 
-  const apiNonce = get(lastApiNonce);
+  const apiNonce = get(lastApiNonceAtom);
   // We try to use the api nonce first since it will be the most accurate value
-  if (apiNonce && !isNaN(apiNonce.possible_next_nonce)) return +apiNonce.possible_next_nonce;
+  if (typeof apiNonce === 'number') return apiNonce;
 
   // most recent confirmed transactions sent by current address
   const lastConfirmedTx = confirmedTransactions?.filter(tx => tx.sender_address === address)?.[0];
