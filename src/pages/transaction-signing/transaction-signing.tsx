@@ -12,11 +12,14 @@ import { useTransactionRequest } from '@common/hooks/use-transaction-request';
 import { Stack } from '@stacks/ui';
 import { useUpdateAtom } from 'jotai/utils';
 import { transactionBroadcastErrorState } from '@store/transactions';
+import { useApiNonce } from '@common/hooks/account/use-api-nonce';
 
 export const TransactionPage = memo(() => {
   const transactionRequest = useTransactionRequest();
   const setBroadcastError = useUpdateAtom(transactionBroadcastErrorState);
   if (!transactionRequest) return null;
+
+  useApiNonce();
 
   useEffect(() => {
     return () => {
