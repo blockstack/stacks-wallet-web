@@ -2,7 +2,6 @@ import React, { useCallback, useState } from 'react';
 import { Button, color, Flex, Stack, StackProps } from '@stacks/ui';
 import { Caption } from '@components/typography';
 import { BaseDrawer, BaseDrawerProps } from '@components/drawer';
-import { StacksTransaction } from '@stacks/transactions';
 import { stacksValue } from '@common/stacks-utils';
 import { useHandleSubmitTransaction } from '@pages/transaction-signing/hooks/use-submit-stx-transaction';
 import { truncateMiddle } from '@stacks/ui-utils';
@@ -14,11 +13,13 @@ import { useCurrentAccount } from '@common/hooks/account/use-current-account';
 import { SpaceBetween } from '@components/space-between';
 import { NetworkRowItem } from '@components/network-row-item';
 import { TransactionEventCard } from '@pages/transaction-signing/components/event-card';
+import { StacksTransaction } from '@stacks/transactions';
 
 interface ConfirmSendDrawerProps extends BaseDrawerProps {
   amount: number;
   recipient: string;
   memo: string;
+  nonce?: number;
 }
 
 const LOADING_KEY = 'confirm-send-drawer';
@@ -90,6 +91,7 @@ export const ConfirmSendDrawer: React.FC<Omit<ConfirmSendDrawerProps, 'title'>> 
   onClose,
   amount,
   memo,
+  nonce,
   recipient,
 }) => {
   const [transaction, setTransaction] = useState<StacksTransaction | null>(null);
@@ -100,6 +102,7 @@ export const ConfirmSendDrawer: React.FC<Omit<ConfirmSendDrawerProps, 'title'>> 
     isShowing,
     amount,
     memo,
+    nonce,
     recipient,
     loadingKey: LOADING_KEY,
   });
@@ -110,7 +113,6 @@ export const ConfirmSendDrawer: React.FC<Omit<ConfirmSendDrawerProps, 'title'>> 
   }, [setTransaction, onClose]);
 
   const fee = transaction?.auth.spendingCondition?.fee?.toNumber();
-
   return (
     <BaseDrawer title="Confirm transfer" isShowing={isShowing} onClose={handleCancel}>
       <Stack pb="extra-loose" px="loose" spacing="extra-loose">

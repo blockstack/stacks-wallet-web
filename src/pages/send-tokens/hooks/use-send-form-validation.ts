@@ -15,6 +15,7 @@ import {
   stxNotCurrentAddressValidatorFactory,
 } from '@common/validation/stx-address-schema';
 import { useCallback, useMemo } from 'react';
+import { nonceSchema } from '@common/validation/nonce-schema';
 
 export enum SendFormErrorMessages {
   IncorrectAddressMode = 'The address is for the incorrect Stacks network',
@@ -129,6 +130,8 @@ export const useSendFormValidation = ({ setAssetError }: UseSendFormValidationAr
     [currentAccountStxAddress, currentNetwork]
   );
 
+  const nonceFormSchema = useCallback(nonceSchema, []);
+
   return useMemo(
     () =>
       yup.object({
@@ -136,7 +139,8 @@ export const useSendFormValidation = ({ setAssetError }: UseSendFormValidationAr
         recipient: recipientSchema(),
         amount: amountSchema(),
         memo: transactionMemoSchema(SendFormErrorMessages.MemoExceedsLimit),
+        nonce: nonceFormSchema(),
       }),
-    [amountSchema, recipientSchema, selectedAssetSchema]
+    [amountSchema, recipientSchema, selectedAssetSchema, nonceFormSchema]
   );
 };

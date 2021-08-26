@@ -45,15 +45,17 @@ interface AssetTransferOptions {
   amount: number;
   recipient: string;
   memo: string;
+  nonce?: number;
 }
 
 export function useMakeAssetTransfer() {
   return useAtomCallback<StacksTransaction | undefined, AssetTransferOptions>(
     useCallback(async (get, _set, arg) => {
-      const { amount, recipient, memo } = arg;
+      const { amount, recipient, memo, nonce } = arg;
       // unstable_async option @see https://github.com/pmndrs/jotai/blob/master/src/core/atom.ts#L8
       // allows you to await a get
       const assetTransferState = await get(makeFungibleTokenTransferState, true);
+
       const selectedAsset = get(selectedAssetStore);
       if (!assetTransferState || !selectedAsset) return;
       const {
@@ -63,11 +65,12 @@ export function useMakeAssetTransfer() {
         assetName,
         contractAddress,
         contractName,
-        nonce,
+        nonce: correctNonce,
         stxAddress,
       } = assetTransferState;
 
       const functionName = 'transfer';
+      const txNonce = nonce ?? correctNonce;
 
       const tokenBalanceKey = Object.keys(balances?.fungible_tokens || {}).find(contract => {
         return contract.startsWith(contractAddress);
@@ -108,7 +111,7 @@ export function useMakeAssetTransfer() {
         contractAddress,
         contractName,
         postConditions,
-        nonce: new BN(nonce, 10),
+        nonce: new BN(txNonce, 10),
         anchorMode: AnchorMode.Any,
       };
 

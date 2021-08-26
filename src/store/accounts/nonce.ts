@@ -23,12 +23,19 @@ export const currentAccountLocalNonceState = atom(get => {
   return get(localNonceState([address, network.url]));
 });
 
+export const overrideNonceState = atom<number | undefined>(undefined);
+
+// Used in single step form (like transaction signing)
+export const overrideNonceFormState = atom<number | undefined>(undefined);
+
 export const currentAccountNonceState = atom(get => {
   const address = get(currentAccountStxAddressState);
   const account = get(currentAccountInfoState);
   const confirmedTransactions = get(currentAccountConfirmedTransactionsState);
   const pendingTransactions = get(currentAccountMempoolTransactionsState);
   const lastLocalNonce = get(currentAccountLocalNonceState);
+  const overrideNonce = get(overrideNonceState);
+  if (typeof overrideNonce === 'number') return overrideNonce;
 
   // most recent confirmed transactions sent by current address
   const lastConfirmedTx = confirmedTransactions?.filter(tx => tx.sender_address === address)?.[0];

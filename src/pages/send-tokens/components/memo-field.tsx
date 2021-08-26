@@ -24,7 +24,7 @@ export const MemoField = memo(({ value, error, ...props }: FieldProps) => {
           name="memo"
           value={value}
           onChange={handleChange}
-          placeholder="Enter an message (optional)"
+          placeholder="Enter a message (optional)"
           autoComplete="off"
         />
       </InputGroup>

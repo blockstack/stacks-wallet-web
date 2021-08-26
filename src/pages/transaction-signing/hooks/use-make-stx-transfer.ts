@@ -14,24 +14,27 @@ interface TokenTransferParams {
   amount: number;
   recipient: string;
   memo: string;
+  nonce?: number;
 }
 
 export function useMakeStxTransfer() {
   return useAtomCallback<undefined | StacksTransaction, TokenTransferParams>(
     useCallback(async (get, _set, arg) => {
-      const { amount, recipient, memo } = arg;
+      const { amount, recipient, memo, nonce } = arg;
       const address = get(currentAccountStxAddressState);
       if (!address) return;
-      const { network, account, nonce } = await get(
+
+      const { network, account, correctNonce } = await get(
         waitForAll({
           network: currentStacksNetworkState,
           account: currentAccountState,
-          nonce: currentAccountNonceState,
+          correctNonce: currentAccountNonceState,
         }),
         true
       );
 
-      if (!account || typeof nonce === 'undefined') return;
+      if (!account || typeof correctNonce === 'undefined') return;
+      const txNonce = nonce ?? correctNonce;
 
       return makeSTXTokenTransfer({
         recipient,
@@ -39,7 +42,7 @@ export function useMakeStxTransfer() {
         memo,
         senderKey: account.stxPrivateKey,
         network: network as any,
-        nonce: new BN(nonce.toString(), 10),
+        nonce: new BN(txNonce.toString(), 10),
         anchorMode: AnchorMode.Any,
       });
     }, [])
@@ -51,6 +54,7 @@ export function useMakeTransferEffect({
   amount,
   recipient,
   memo,
+  nonce,
   transaction,
   setTransaction,
   loadingKey,
@@ -60,6 +64,7 @@ export function useMakeTransferEffect({
   amount: number;
   recipient: string;
   memo: string;
+  nonce?: number;
   setTransaction: (transaction: StacksTransaction) => void;
   loadingKey: string;
 }) {
@@ -77,10 +82,11 @@ export function useMakeTransferEffect({
       amount,
       recipient,
       memo,
+      nonce,
     });
     if (tx) setTransaction(tx);
     setIsIdle();
-  }, [amount, recipient, memo, method, setTransaction, setIsLoading, setIsIdle]);
+  }, [amount, recipient, memo, nonce, method, setTransaction, setIsLoading, setIsIdle]);
 
   useEffect(() => {
     if (isActive && notLoaded) void handleGenerateTransfer();

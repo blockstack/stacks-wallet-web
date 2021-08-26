@@ -83,3 +83,5 @@ export enum QueryRefreshRates {
   MEDIUM = 10_000,
   FAST = 3_500,
 }
+
+export const MAX_LENGTH_BIG_NUMBER = 16;

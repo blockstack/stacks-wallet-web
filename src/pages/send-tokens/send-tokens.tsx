@@ -1,5 +1,5 @@
 import React, { memo, Suspense, useCallback, useState } from 'react';
-import { Box, Text, Button, Stack } from '@stacks/ui';
+import { Box, IconButton, Text, Button, Stack } from '@stacks/ui';
 import { Formik, useFormikContext } from 'formik';
 
 import { PopupContainer } from '@components/popup/container';
@@ -21,6 +21,16 @@ import { useRefreshAllAccountData } from '@common/hooks/account/use-refresh-all-
 import { ConfirmSendDrawer } from '@pages/transaction-signing/components/confirm-send-drawer';
 import { SendFormSelectors } from '@tests/page-objects/send-form.selectors';
 import { SendFormMemoWarning } from './components/memo-warning';
+import { useUpdateAtom, useAtomValue } from 'jotai/utils';
+import {
+  overrideNonceState,
+  overrideNonceFormState,
+  currentAccountNonceState,
+} from '@store/accounts/nonce';
+import { FiChevronUp as IconChevronUp, FiChevronDown as IconChevronDown } from 'react-icons/fi';
+import { SpaceBetween } from '@components/space-between';
+import { NonceField } from '@pages/send-tokens/nonce-field';
+import { currentAccountStxAddressState } from '@store/accounts';
 
 type Amount = number | '';
 
@@ -28,13 +38,8 @@ export interface FormValues {
   amount: Amount;
   recipient: string;
   memo: string;
+  nonce?: number;
 }
-
-const initialValues: FormValues = {
-  amount: '',
-  recipient: '',
-  memo: '',
-};
 
 interface SendFormProps {
   assetError: string | undefined;
@@ -46,17 +51,30 @@ const SendForm = (props: SendFormProps) => {
 
   const doChangeScreen = useDoChangeScreen();
   const { selectedAsset } = useSelectedAsset();
+  const overrideNonceForm = useAtomValue(overrideNonceFormState);
+  const setOverrideNonce = useUpdateAtom(overrideNonceState);
   const refreshAllAccountData = useRefreshAllAccountData();
   const assets = useTransferableAssets();
 
   const { handleSubmit, values, setValues, errors, setFieldError } = useFormikContext<FormValues>();
 
   const onSubmit = useCallback(async () => {
+    if (typeof overrideNonceForm === 'number') {
+      setOverrideNonce(overrideNonceForm);
+    }
+
     if (values.amount && values.recipient && selectedAsset) {
       handleSubmit();
       await refreshAllAccountData(250);
     }
-  }, [refreshAllAccountData, handleSubmit, values, selectedAsset]);
+  }, [
+    refreshAllAccountData,
+    handleSubmit,
+    values,
+    selectedAsset,
+    overrideNonceForm,
+    setOverrideNonce,
+  ]);
 
   const onItemSelect = useCallback(() => {
     if (assets.length === 1) return;
@@ -67,6 +85,11 @@ const SendForm = (props: SendFormProps) => {
   const hasValues = values.amount && values.recipient !== '';
 
   const symbol = selectedAsset?.type === 'stx' ? 'STX' : selectedAsset?.meta?.symbol;
+  const editTxSettings = () => {
+    setShowSettings(!showSettings);
+  };
+
+  const [showSettings, setShowSettings] = useState(false);
 
   return (
     <PopupContainer
@@ -80,6 +103,13 @@ const SendForm = (props: SendFormProps) => {
         <RecipientField error={errors.recipient} value={values.recipient} />
         {selectedAsset?.hasMemo && <MemoField value={values.memo} error={errors.memo} />}
         {selectedAsset?.hasMemo && symbol && <SendFormMemoWarning symbol={symbol} />}
+        <SpaceBetween flexDirection="row-reverse">
+          <IconButton
+            onClick={editTxSettings}
+            icon={showSettings ? IconChevronUp : IconChevronDown}
+          />
+        </SpaceBetween>
+        {showSettings ? <NonceField error={errors.nonce} value={values.nonce || 0} /> : null}
         <Box mt="auto">
           {assetError && (
             <ErrorLabel mb="base">
@@ -107,6 +137,17 @@ export const SendTokensForm: React.FC = memo(() => {
   const [assetError, setAssetError] = useState<string | undefined>();
   const { selectedAsset } = useSelectedAsset();
   const sendFormSchema = useSendFormValidation({ setAssetError });
+
+  const address = useAtomValue(currentAccountStxAddressState);
+  if (!address) return null;
+  const correctNonce = useAtomValue(currentAccountNonceState);
+
+  const initialValues: FormValues = {
+    amount: '',
+    recipient: '',
+    memo: '',
+    nonce: correctNonce,
+  };
 
   return (
     <Formik

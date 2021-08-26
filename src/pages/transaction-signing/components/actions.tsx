@@ -11,9 +11,10 @@ import { useTransactionBroadcast } from '@pages/transaction-signing/hooks/use-tr
 import { transactionBroadcastErrorState } from '@store/transactions';
 import { useTransactionError } from '../hooks/use-transaction-error';
 import { TransactionErrorReason } from './transaction-error';
-import { useAtomValue } from 'jotai/utils';
+import { useUpdateAtom, useAtomValue } from 'jotai/utils';
 import { LoadingRectangle } from '@components/loading-rectangle';
 import { TransactionsSelectors } from '@tests/integration/transactions.selectors';
+import { overrideNonceFormState, overrideNonceState } from '@store/accounts/nonce';
 
 const MinimalErrorMessageSuspense = memo((props: StackProps) => {
   const error = useTransactionError();
@@ -72,6 +73,8 @@ const BaseConfirmButton = (props: ButtonProps) => (
 );
 
 const SubmitActionSuspense = (props: ButtonProps) => {
+  const overrideNonceForm = useAtomValue(overrideNonceFormState);
+  const setOverrideNonce = useUpdateAtom(overrideNonceState);
   const handleBroadcastTransaction = useTransactionBroadcast();
   const error = useTransactionError();
   const { setIsLoading, setIsIdle, isLoading } = useLoading(LOADING_KEYS.SUBMIT_TRANSACTION);
@@ -80,9 +83,12 @@ const SubmitActionSuspense = (props: ButtonProps) => {
 
   const handleSubmit = useCallback(async () => {
     setIsLoading();
+    if (typeof overrideNonceForm === 'number') {
+      setOverrideNonce(overrideNonceForm);
+    }
     await handleBroadcastTransaction();
     setIsIdle();
-  }, [setIsLoading, setIsIdle, handleBroadcastTransaction]);
+  }, [setIsLoading, setIsIdle, handleBroadcastTransaction, overrideNonceForm, setOverrideNonce]);
 
   return (
     <BaseConfirmButton
