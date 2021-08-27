@@ -31,16 +31,7 @@ Object.keys(config.entry).forEach(entryName => {
 
 config.plugins = [
   new webpack.HotModuleReplacementPlugin(),
-  new ReactRefreshWebpackPlugin({
-    overlay: {
-      entry: '@pmmmwh/react-refresh-webpack-plugin/client/ErrorOverlayEntry',
-      module: '@pmmmwh/react-refresh-webpack-plugin/overlay',
-      sockIntegration: 'wds',
-      sockProtocol: 'ws',
-      sockHost: 'localhost',
-      sockPort: 8080,
-    },
-  }),
+  new ReactRefreshWebpackPlugin({ overlay: false }),
 ].concat(config.plugins || []);
 
 const compiler = webpack(config);
