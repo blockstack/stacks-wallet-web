@@ -205,7 +205,7 @@ const config = {
       'process.env.TEST_ENV': JSON.stringify(TEST_ENV ? 'true' : 'false'),
     }),
     new webpack.ProvidePlugin({
-      process: 'process/browser',
+      process: 'process/browser.js',
       Buffer: ['buffer', 'Buffer'],
       fetch: 'cross-fetch',
     }),
