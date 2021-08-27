@@ -21,7 +21,7 @@ import { useRefreshAllAccountData } from '@common/hooks/account/use-refresh-all-
 import { ConfirmSendDrawer } from '@pages/transaction-signing/components/confirm-send-drawer';
 import { SendFormSelectors } from '@tests/page-objects/send-form.selectors';
 import { SendFormMemoWarning } from './components/memo-warning';
-import { useApiNonce } from '@common/hooks/account/use-api-nonce';
+import { useNextTxNonce } from '@common/hooks/account/use-next-tx-nonce';
 
 type Amount = number | '';
 
@@ -49,7 +49,7 @@ const SendForm = (props: SendFormProps) => {
   const { selectedAsset } = useSelectedAsset();
   const refreshAllAccountData = useRefreshAllAccountData();
   const assets = useTransferableAssets();
-  useApiNonce();
+  useNextTxNonce();
 
   const { handleSubmit, values, setValues, errors, setFieldError } = useFormikContext<FormValues>();
 

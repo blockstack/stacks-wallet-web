@@ -12,20 +12,20 @@ import { useTransactionRequest } from '@common/hooks/use-transaction-request';
 import { Stack } from '@stacks/ui';
 import { useUpdateAtom } from 'jotai/utils';
 import { transactionBroadcastErrorState } from '@store/transactions';
-import { useApiNonce } from '@common/hooks/account/use-api-nonce';
+import { useNextTxNonce } from '@common/hooks/account/use-next-tx-nonce';
 
 export const TransactionPage = memo(() => {
-  const transactionRequest = useTransactionRequest();
+  useNextTxNonce();
+
   const setBroadcastError = useUpdateAtom(transactionBroadcastErrorState);
-  if (!transactionRequest) return null;
-
-  useApiNonce();
-
   useEffect(() => {
     return () => {
       setBroadcastError(null);
     };
   }, [setBroadcastError]);
+
+  const transactionRequest = useTransactionRequest();
+  if (!transactionRequest) return null;
 
   return (
     <PopupContainer header={<PopupHeader />}>

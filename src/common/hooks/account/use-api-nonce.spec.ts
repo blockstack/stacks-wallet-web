@@ -1,4 +1,4 @@
-import { correctNextNonce } from '@common/hooks/account/use-api-nonce';
+import { correctNextNonce } from '@common/hooks/account/use-next-tx-nonce';
 import { AddressNonces } from '@stacks/blockchain-api-client/lib/generated';
 
 describe(correctNextNonce.name, () => {

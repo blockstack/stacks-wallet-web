@@ -24,7 +24,7 @@ export const currentAccountLocalNonceState = atom(get => {
   return get(localNonceState([address, network.url]));
 });
 
-export const lastApiNonceAtom = atom<number | undefined>(undefined);
+export const lastApiNonceState = atom<number | undefined>(undefined);
 
 export const currentAccountNonceState = atom(get => {
   const address = get(currentAccountStxAddressState);
@@ -33,7 +33,7 @@ export const currentAccountNonceState = atom(get => {
   const pendingTransactions = get(currentAccountMempoolTransactionsState);
   const lastLocalNonce = get(currentAccountLocalNonceState);
 
-  const apiNonce = get(lastApiNonceAtom);
+  const apiNonce = get(lastApiNonceState);
   // We try to use the api nonce first since it will be the most accurate value
   if (typeof apiNonce === 'number') return apiNonce;
 
