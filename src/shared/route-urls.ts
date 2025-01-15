@@ -105,4 +105,5 @@ export enum RouteUrls {
 
   // Request routes stacks
   RpcSignStacksTransaction = '/sign-stacks-transaction',
+  RpcStxCallContract = '/stx-call-contract',
 }

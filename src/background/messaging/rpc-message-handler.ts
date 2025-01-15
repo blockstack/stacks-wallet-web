@@ -13,6 +13,7 @@ import { rpcSendTransfer } from './rpc-methods/send-transfer';
 import { rpcSignMessage } from './rpc-methods/sign-message';
 import { rpcSignPsbt } from './rpc-methods/sign-psbt';
 import { rpcSignStacksMessage } from './rpc-methods/sign-stacks-message';
+import { rpcStxCallContract } from './rpc-methods/stx-call-contract';
 import { rpcSupportedMethods } from './rpc-methods/supported-methods';
 
 export async function rpcMessageHandler(message: WalletRequests, port: chrome.runtime.Port) {
@@ -44,6 +45,11 @@ export async function rpcMessageHandler(message: WalletRequests, port: chrome.ru
 
     case 'signPsbt': {
       await rpcSignPsbt(message, port);
+      break;
+    }
+
+    case 'stx_callContract': {
+      await rpcStxCallContract(message, port);
       break;
     }
 

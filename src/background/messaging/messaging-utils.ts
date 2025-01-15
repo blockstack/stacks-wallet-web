@@ -1,5 +1,8 @@
 import type { To } from 'react-router-dom';
 
+import { bytesToHex } from '@stacks/common';
+import { type PostCondition, serializePostCondition } from '@stacks/transactions';
+
 import { InternalMethods } from '@shared/message-types';
 import { sendMessage } from '@shared/messages';
 import { RouteUrls } from '@shared/route-urls';
@@ -63,6 +66,10 @@ export function makeSearchParamsWithDefaults(
   urlParams.set('tabId', tabId.toString());
   otherParams.forEach(([key, value]) => urlParams.append(key, value));
   return { urlParams, origin, tabId };
+}
+
+export function encodePostConditions(postConditions: PostCondition[]) {
+  return postConditions.map(pc => bytesToHex(serializePostCondition(pc)));
 }
 
 const IS_TEST_ENV = process.env.TEST_ENV === 'true';

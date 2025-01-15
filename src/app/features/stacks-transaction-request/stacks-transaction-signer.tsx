@@ -8,6 +8,7 @@ import * as yup from 'yup';
 import { HIGH_FEE_WARNING_LEARN_MORE_URL_STX } from '@leather.io/constants';
 import { FeeTypes } from '@leather.io/models';
 import {
+  defaultStacksFees,
   useCalculateStacksTxFees,
   useNextNonce,
   useStxCryptoAssetBalance,
@@ -40,7 +41,7 @@ import { MinimalErrorMessage } from './minimal-error-message';
 import { StacksTxSubmitAction } from './submit-action';
 
 interface StacksTransactionSignerProps {
-  stacksTransaction: StacksTransaction;
+  stacksTransaction?: StacksTransaction;
   disableFeeSelection?: boolean;
   disableNonceSelection?: boolean;
   isMultisig: boolean;
@@ -123,7 +124,7 @@ export function StacksTransactionSigner({
 
             {!isNonceAlreadySet && <NonceSetter />}
             <FeeForm
-              fees={stxFees}
+              fees={stxFees ?? defaultStacksFees}
               sbtcSponsorshipEligibility={{ isEligible: false }}
               defaultFeeValue={Number(transactionRequest?.fee || 0)}
               disableFeeSelection={disableFeeSelection}
