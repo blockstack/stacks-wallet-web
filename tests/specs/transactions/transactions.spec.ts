@@ -1,4 +1,4 @@
-import { TokenTransferPayload, deserializeTransaction } from '@stacks/transactions';
+import { TokenTransferPayloadWire, deserializeTransaction } from '@stacks/transactions';
 import { TestAppPage } from '@tests/page-object-models/test-app.page';
 import { TransactionRequestPage } from '@tests/page-object-models/transaction-request.page';
 import { OnboardingSelectors } from '@tests/selectors/onboarding.selectors';
@@ -84,11 +84,11 @@ test.describe('Transaction signing', () => {
       await transactionRequestPage.clickConfirmTransactionButton();
 
       const request = await requestPromise;
-      const requestBody = request.postDataBuffer();
+      const requestBody = request.postData();
       if (!requestBody) return;
 
       const deserialisedTx = deserializeTransaction(requestBody);
-      const payload = deserialisedTx.payload as TokenTransferPayload;
+      const payload = deserialisedTx.payload as TokenTransferPayloadWire;
       const amount = Number(payload.amount);
       const fee = Number(deserialisedTx.auth.spendingCondition?.fee);
       const parsedDisplayedFee = parseFloat(displayedFee.replace(' STX', ''));

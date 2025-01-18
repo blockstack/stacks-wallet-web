@@ -1,4 +1,4 @@
-import { StacksTransaction } from '@stacks/transactions';
+import { StacksTransactionWire } from '@stacks/transactions';
 import { HStack, styled } from 'leather-styles/jsx';
 
 import { Caption, ItemLayout, Pressable } from '@leather.io/ui';
@@ -14,7 +14,7 @@ import { SubmittedTransactionIcon } from './submitted-transaction-icon';
 import { getSubmittedTransactionDetails } from './submitted-transaction-list.utils';
 
 interface SubmittedTransactionItemProps {
-  transaction: StacksTransaction;
+  transaction: StacksTransactionWire;
   txid: string;
 }
 export function SubmittedTransactionItem({ transaction, txid }: SubmittedTransactionItemProps) {

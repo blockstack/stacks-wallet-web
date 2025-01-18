@@ -1,6 +1,6 @@
 import type { Transaction } from '@scure/btc-signer';
 import type { SignatureData } from '@stacks/connect';
-import type { StacksTransaction } from '@stacks/transactions';
+import type { StacksTransactionWire } from '@stacks/transactions';
 
 import type { UnsignedMessage } from '@shared/signature/signature-types';
 
@@ -50,7 +50,7 @@ function createPublishSubscribe<E>(): PubSubType<E> {
 export interface GlobalAppEvents {
   ledgerStacksTxSigned: {
     unsignedTx: string;
-    signedTx: StacksTransaction;
+    signedTx: StacksTransactionWire;
   };
   ledgerStacksTxSigningCancelled: {
     unsignedTx: string;

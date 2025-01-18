@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import type { StacksTransaction } from '@stacks/transactions';
+import type { StacksTransactionWire } from '@stacks/transactions';
 
 import { FeeTypes } from '@leather.io/models';
 import { defaultFeesMaxValuesAsMoney } from '@leather.io/query';
@@ -36,7 +36,7 @@ export function useSponsorTransactionFees() {
   };
 
   const submitSponsoredTx = useCallback(
-    async (unsignedSponsoredTx: StacksTransaction) => {
+    async (unsignedSponsoredTx: StacksTransactionWire) => {
       try {
         const signedSponsoredTx = await signTx(unsignedSponsoredTx);
         if (!signedSponsoredTx) return logger.error('Unable to sign sponsored transaction');

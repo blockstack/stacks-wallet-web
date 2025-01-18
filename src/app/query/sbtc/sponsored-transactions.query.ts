@@ -1,5 +1,4 @@
-import { bytesToHex } from '@stacks/common';
-import { StacksTransaction } from '@stacks/transactions';
+import { StacksTransactionWire } from '@stacks/transactions';
 import axios from 'axios';
 
 import { logger } from '@shared/logger';
@@ -9,7 +8,7 @@ import { generateUnsignedTransaction } from '@app/common/transactions/stacks/gen
 
 export interface TransactionBase {
   options?: any;
-  transaction: StacksTransaction | undefined;
+  transaction: StacksTransactionWire | undefined;
 }
 
 export interface SbtcSponsorshipVerificationResult {
@@ -19,7 +18,7 @@ export interface SbtcSponsorshipVerificationResult {
 
 export interface SbtcSponsorshipEligibility {
   isEligible: boolean;
-  unsignedSponsoredTx?: StacksTransaction;
+  unsignedSponsoredTx?: StacksTransactionWire;
 }
 
 interface SbtcSponsorshipSubmissionResult {
@@ -29,11 +28,11 @@ interface SbtcSponsorshipSubmissionResult {
 
 export async function submitSponsoredSbtcTransaction(
   apiUrl: string,
-  sponsoredTx: StacksTransaction
+  sponsoredTx: StacksTransactionWire
 ): Promise<SbtcSponsorshipSubmissionResult> {
   try {
     const { data } = await axios.post(`${apiUrl}/submit`, {
-      tx: bytesToHex(sponsoredTx.serialize()),
+      tx: sponsoredTx.serialize(),
     });
     return {
       txid: data.txid,
@@ -67,7 +66,7 @@ export async function verifySponsoredSbtcTransaction({
       fee,
       nonce,
     });
-    const serializedTx = bytesToHex(sponsoredTx.serialize());
+    const serializedTx = sponsoredTx.serialize();
 
     const result = await queryClient.fetchQuery({
       queryKey: ['verify-sponsored-sbtc-transaction', serializedTx],

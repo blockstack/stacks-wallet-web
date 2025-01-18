@@ -1,10 +1,10 @@
-import type { StacksTransaction } from '@stacks/transactions';
+import type { StacksTransactionWire } from '@stacks/transactions';
 
 import { GlobalAppEvents, appEvents } from '@app/common/publish-subscribe';
 
 export async function listenForStacksTxLedgerSigning(
   unsignedTx: string
-): Promise<StacksTransaction> {
+): Promise<StacksTransactionWire> {
   return new Promise((resolve, reject) => {
     function txSignedHandler(msg: GlobalAppEvents['ledgerStacksTxSigned']) {
       if (msg.unsignedTx === unsignedTx) {

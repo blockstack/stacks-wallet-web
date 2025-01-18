@@ -16,6 +16,7 @@ const defaultZeroValues = {
   inboundBalance: createMoney(0, 'BTC'),
   outboundBalance: createMoney(0, 'BTC'),
   pendingBalance: createMoney(0, 'BTC'),
+  unspendableBalance: createMoney(0, 'BTC'),
 };
 
 export function useBtcCryptoAssetBalanceNativeSegwit(address: string) {

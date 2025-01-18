@@ -1,12 +1,4 @@
 import {
-  ContractCallPayload as ConnectContractCallPayload,
-  ContractDeployPayload as ConnectContractDeployPayload,
-  STXTransferPayload as ConnectSTXTransferPayload,
-  TransactionTypes,
-} from '@stacks/connect';
-import { StacksNetwork } from '@stacks/network';
-import {
-  AnchorMode,
   ClarityVersion,
   type UnsignedContractCallOptions,
   type UnsignedContractDeployOptions,
@@ -17,19 +9,21 @@ import {
 } from '@stacks/transactions';
 import BN from 'bn.js';
 
-import { hexToBuff } from '@app/common/utils';
+import {
+  TransactionTypes,
+  ensurePostConditionWireFormat,
+  getPostConditions,
+  isTransactionTypeSupported,
+} from '@leather.io/stacks';
 
-import { getPostConditions } from './post-condition.utils';
-import { isTransactionTypeSupported } from './transaction.utils';
+import {
+  type ContractCallPayload,
+  type ContractDeployPayload,
+  type STXTransferPayload,
+} from '@shared/utils/legacy-requests';
 
 function initNonce(nonce?: number) {
   return nonce !== undefined ? new BN(nonce, 10) : undefined;
-}
-
-// This type exists to bridge the gap while @stacks/connect uses an outdated
-// version of @stacks/network
-interface TempCorrectNetworkPackageType {
-  network?: StacksNetwork;
 }
 
 interface GenerateUnsignedTxArgs<TxPayload> {
@@ -39,8 +33,6 @@ interface GenerateUnsignedTxArgs<TxPayload> {
   nonce?: number;
 }
 
-type ContractCallPayload = Omit<ConnectContractCallPayload, 'network'> &
-  TempCorrectNetworkPackageType;
 type GenerateUnsignedContractCallTxArgs = GenerateUnsignedTxArgs<ContractCallPayload>;
 
 function generateUnsignedContractCallTx(args: GenerateUnsignedContractCallTxArgs) {
@@ -54,44 +46,39 @@ function generateUnsignedContractCallTx(args: GenerateUnsignedContractCallTxArgs
     postConditionMode,
     postConditions,
     network,
-    anchorMode,
   } = txData;
 
-  const fnArgs = functionArgs.map(arg => deserializeCV(hexToBuff(arg)));
+  const fnArgs = functionArgs.map(arg => deserializeCV(arg));
 
   const options = {
     contractName,
     contractAddress,
     functionName,
     publicKey,
-    anchorMode: anchorMode ?? AnchorMode.Any,
     functionArgs: fnArgs,
     nonce: initNonce(nonce)?.toString(),
     fee: new BN(fee, 10).toString(),
     postConditionMode: postConditionMode,
-    postConditions: getPostConditions(postConditions),
+    postConditions,
     network,
     sponsored,
   } satisfies UnsignedContractCallOptions;
   return makeUnsignedContractCall(options);
 }
 
-type ContractDeployPayload = Omit<ConnectContractDeployPayload, 'network'> &
-  TempCorrectNetworkPackageType;
 type GenerateUnsignedContractDeployTxArgs = GenerateUnsignedTxArgs<ContractDeployPayload>;
 
 function generateUnsignedContractDeployTx(args: GenerateUnsignedContractDeployTxArgs) {
   const { txData, publicKey, nonce, fee } = args;
-  const { contractName, codeBody, network, postConditions, postConditionMode, anchorMode } = txData;
+  const { contractName, codeBody, network, postConditions, postConditionMode } = txData;
   const options = {
     contractName,
     codeBody,
     nonce: initNonce(nonce)?.toString(),
     fee: new BN(fee, 10)?.toString(),
     publicKey,
-    anchorMode: anchorMode ?? AnchorMode.Any,
     postConditionMode: postConditionMode,
-    postConditions: getPostConditions(postConditions),
+    postConditions: getPostConditions(postConditions?.map(pc => ensurePostConditionWireFormat(pc))),
     network,
     clarityVersion: ClarityVersion.Clarity3,
   } satisfies UnsignedContractDeployOptions;
@@ -99,18 +86,15 @@ function generateUnsignedContractDeployTx(args: GenerateUnsignedContractDeployTx
   return makeUnsignedContractDeploy(options);
 }
 
-type STXTransferPayload = Omit<ConnectSTXTransferPayload, 'network'> &
-  TempCorrectNetworkPackageType;
 type GenerateUnsignedStxTransferTxArgs = GenerateUnsignedTxArgs<STXTransferPayload>;
 
 function generateUnsignedStxTransferTx(args: GenerateUnsignedStxTransferTxArgs) {
   const { txData, publicKey, nonce, fee } = args;
-  const { recipient, memo, amount, network, anchorMode } = txData;
+  const { recipient, memo, amount, network } = txData;
   const options = {
     recipient,
     memo,
     publicKey,
-    anchorMode: anchorMode ?? AnchorMode.Any,
     amount: new BN(amount).toString(),
     nonce: initNonce(nonce)?.toString(),
     fee: new BN(fee, 10).toString(),
@@ -129,7 +113,7 @@ export async function generateUnsignedTransaction(options: GenerateUnsignedTrans
   if (!isValid) throw new Error(`Invalid Transaction Type: ${txData.txType}`);
 
   switch (txData.txType) {
-    case TransactionTypes.STXTransfer:
+    case TransactionTypes.StxTokenTransfer:
       return generateUnsignedStxTransferTx({ txData, publicKey, nonce, fee });
     case TransactionTypes.ContractCall:
       return generateUnsignedContractCallTx({ txData, publicKey, nonce, fee });

@@ -1,25 +1,21 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { bytesToHex } from '@stacks/common';
-import { type ContractCallPayload, TransactionTypes } from '@stacks/connect';
-import {
-  AnchorMode,
-  PostConditionMode,
-  serializeCV,
-  serializePostCondition,
-} from '@stacks/transactions';
+import { AnchorMode, PostConditionMode, serializeCV } from '@stacks/transactions';
 import type { RouteQuote } from 'bitflow-sdk';
 
 import { type SwapAsset } from '@leather.io/query';
+import { TransactionTypes } from '@leather.io/stacks';
 import { isError, isUndefined } from '@leather.io/utils';
 
 import { logger } from '@shared/logger';
 import { RouteUrls } from '@shared/route-urls';
 import { bitflow } from '@shared/utils/bitflow-sdk';
+import type { ContractCallPayload } from '@shared/utils/legacy-requests';
 
 import { LoadingKeys, useLoading } from '@app/common/hooks/use-loading';
 import { useCurrentStacksAccount } from '@app/store/accounts/blockchain/stacks/stacks-account.hooks';
+import { useCurrentStacksNetworkState } from '@app/store/networks/networks.hooks';
 import { useGenerateStacksContractCallUnsignedTx } from '@app/store/transactions/contract-call.hooks';
 import { useSignStacksTransaction } from '@app/store/transactions/transaction.hooks';
 
@@ -32,6 +28,7 @@ export function useStacksSwap(nonce: number | string) {
   const { setIsLoading, setIsIdle, isLoading } = useLoading(LoadingKeys.SUBMIT_SWAP_TRANSACTION);
   const currentAccount = useCurrentStacksAccount();
   const generateUnsignedTx = useGenerateStacksContractCallUnsignedTx();
+  const network = useCurrentStacksNetworkState();
   const signTx = useSignStacksTransaction();
   const broadcastStacksSwap = useStacksBroadcastSwap();
   const navigate = useNavigate();
@@ -106,16 +103,17 @@ export function useStacksSwap(nonce: number | string) {
       );
 
       const payload: ContractCallPayload = {
+        txType: TransactionTypes.ContractCall,
         anchorMode: AnchorMode.Any,
         contractAddress: swapParams.contractAddress,
         contractName: swapParams.contractName,
         functionName: swapParams.functionName,
-        functionArgs: swapParams.functionArgs.map(x => bytesToHex(serializeCV(x))),
+        functionArgs: swapParams.functionArgs.map(x => serializeCV(x)),
+        network,
         postConditionMode: PostConditionMode.Deny,
-        postConditions: swapParams.postConditions.map(pc => bytesToHex(serializePostCondition(pc))),
+        postConditions: swapParams.postConditions,
         publicKey: currentAccount?.stxPublicKey,
         sponsored: false,
-        txType: TransactionTypes.ContractCall,
       };
 
       const unsignedTx = await generateUnsignedTx(payload, {
@@ -130,7 +128,14 @@ export function useStacksSwap(nonce: number | string) {
 
       return { routeQuote, sponsorship, unsignedTx };
     },
-    [currentAccount, fetchRouteQuote, generateUnsignedTx, nonce, checkEligibilityForSponsor]
+    [
+      currentAccount,
+      fetchRouteQuote,
+      network,
+      generateUnsignedTx,
+      nonce,
+      checkEligibilityForSponsor,
+    ]
   );
 
   const onSubmitSwap = useCallback(

@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { StacksTransaction } from '@stacks/transactions';
+import { StacksTransactionWire } from '@stacks/transactions';
 
 import { isError, isString } from '@leather.io/utils';
 
@@ -22,7 +22,7 @@ export function useStacksBroadcastSwap() {
   });
 
   return useCallback(
-    async (signedTx: StacksTransaction) => {
+    async (signedTx: StacksTransactionWire) => {
       if (!signedTx) {
         logger.error('Cannot broadcast transaction, no tx in state');
         toast.error('Unable to broadcast transaction');

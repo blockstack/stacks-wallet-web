@@ -1,12 +1,7 @@
 import { sha256 } from '@noble/hashes/sha256';
 import { bytesToHex } from '@stacks/common';
-import {
-  ChainID,
-  ClarityType,
-  ClarityValue,
-  cvToString,
-  encodeStructuredData,
-} from '@stacks/transactions';
+import { ChainId } from '@stacks/network';
+import { ClarityType, ClarityValue, cvToString, encodeStructuredData } from '@stacks/transactions';
 
 import { stacksChainIdToCoreNetworkMode } from '@leather.io/stacks';
 
@@ -22,7 +17,7 @@ export function chainIdToDisplay(chainIdCv: ClarityValue): string {
   if (chainIdCv.type !== ClarityType.UInt) return '';
   const chainIdString = cvToString(chainIdCv);
   const chainId = parseInt(chainIdString.replace('u', ''));
-  if (!Object.values(ChainID).includes(chainId)) return '';
+  if (!Object.values(ChainId).includes(chainId)) return '';
   return capitalize(stacksChainIdToCoreNetworkMode(chainId));
 }
 

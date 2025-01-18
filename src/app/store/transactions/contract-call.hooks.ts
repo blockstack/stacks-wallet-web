@@ -1,10 +1,9 @@
 import { useCallback } from 'react';
 
-import { ContractCallPayload } from '@stacks/connect';
-
 import { useNextNonce } from '@leather.io/query';
 
 import { StacksTransactionFormValues } from '@shared/models/form.model';
+import type { ContractCallPayload } from '@shared/utils/legacy-requests';
 
 import {
   GenerateUnsignedTransactionOptions,
@@ -12,13 +11,11 @@ import {
 } from '@app/common/transactions/stacks/generate-unsigned-txs';
 
 import { useCurrentStacksAccount } from '../accounts/blockchain/stacks/stacks-account.hooks';
-import { useCurrentStacksNetworkState } from '../networks/networks.hooks';
 
 export function useGenerateStacksContractCallUnsignedTx() {
   const account = useCurrentStacksAccount();
 
   const { data: nextNonce } = useNextNonce(account?.address ?? '');
-  const network = useCurrentStacksNetworkState();
 
   return useCallback(
     async (payload: ContractCallPayload, values: Partial<StacksTransactionFormValues>) => {
@@ -28,11 +25,11 @@ export function useGenerateStacksContractCallUnsignedTx() {
         publicKey: account.stxPublicKey,
         nonce: Number(values?.nonce) ?? nextNonce?.nonce,
         fee: values.fee ?? 0,
-        txData: { ...payload, network },
+        txData: payload,
       };
       const transaction = await generateUnsignedTransaction(options);
       return { transaction, options };
     },
-    [account, network, nextNonce?.nonce]
+    [account, nextNonce?.nonce]
   );
 }

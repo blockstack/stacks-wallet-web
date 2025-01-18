@@ -1,4 +1,4 @@
-import { decrypt } from '@stacks/wallet-sdk';
+import { decryptMnemonic as decrypt } from '@stacks/encryption';
 
 import { logger } from '@shared/logger';
 

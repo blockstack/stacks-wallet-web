@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react';
 
 import * as btc from '@scure/btc-signer';
-import { StacksTransaction } from '@stacks/transactions';
+import { StacksTransactionWire } from '@stacks/transactions';
 
 import type { SupportedBlockchains } from '@leather.io/models';
 
@@ -25,7 +25,7 @@ interface BitcoinLedgerSigningContext extends BaseLedgerTxSigningContext {
 
 interface StacksLedgerSigningContext extends BaseLedgerTxSigningContext {
   chain: 'stacks';
-  transaction: StacksTransaction | null;
+  transaction: StacksTransactionWire | null;
   hasUserSkippedBuggyAppWarning: ReturnType<typeof createWaitForUserToSeeWarningScreen>;
 }
 

@@ -1,5 +1,4 @@
 import { Locator } from '@playwright/test';
-import { bytesToHex } from '@stacks/common';
 import { AnchorMode, makeUnsignedSTXTokenTransfer } from '@stacks/transactions';
 
 import { SharedComponentsSelectors } from './selectors/shared-component.selectors';
@@ -39,7 +38,7 @@ export async function generateUnsignedStxTransfer(
     amount,
     network,
   };
-  return bytesToHex((await makeUnsignedSTXTokenTransfer(options)).serialize());
+  return (await makeUnsignedSTXTokenTransfer(options)).serialize();
 }
 
 export async function generateMultisigUnsignedStxTransfer(
@@ -64,5 +63,5 @@ export async function generateMultisigUnsignedStxTransfer(
     amount,
     network,
   };
-  return bytesToHex((await makeUnsignedSTXTokenTransfer(options)).serialize());
+  return (await makeUnsignedSTXTokenTransfer(options)).serialize();
 }

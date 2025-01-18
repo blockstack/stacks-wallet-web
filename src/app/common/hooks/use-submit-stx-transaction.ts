@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 
-import { StacksTransaction, broadcastTransaction } from '@stacks/transactions';
+import { StacksTransactionWire, broadcastTransaction } from '@stacks/transactions';
 
 import { delay, isError } from '@leather.io/utils';
 
@@ -33,11 +33,11 @@ export function useSubmitTransactionCallback({ loadingKey }: UseSubmitTransactio
 
   return useCallback(
     ({ onSuccess, onError }: UseSubmitTransactionCallbackArgs) =>
-      async (transaction: StacksTransaction) => {
+      async (transaction: StacksTransactionWire) => {
         setIsLoading();
         try {
-          const response = await broadcastTransaction(transaction, stacksNetwork);
-          if (response.error) {
+          const response = await broadcastTransaction({ transaction, network: stacksNetwork });
+          if ('error' in response) {
             logger.error('Transaction broadcast', response);
             if (response.reason) toast.error(getErrorMessage(response.reason));
             onError(response.error);

@@ -1,5 +1,4 @@
-import { bytesToAscii, bytesToHex } from '@stacks/common';
-import { ClarityType, ClarityValue, cvToString, principalToString } from '@stacks/transactions';
+import { ClarityType, ClarityValue, cvToString } from '@stacks/transactions';
 
 import {
   TupleDisplayer,
@@ -31,10 +30,9 @@ export function ClarityValueListDisplayer(props: ClarityValueListDisplayerProps)
       return wrapText(`u${val.value.toString()}`);
     case ClarityType.Buffer:
       if (encoding === 'tryAscii') {
-        const str = bytesToAscii(val.buffer);
-        if (/[ -~]/.test(str)) return wrapText(JSON.stringify(str));
+        if (/[ -~]/.test(val.value)) return wrapText(JSON.stringify(val.value));
       }
-      return wrapText(`0x${bytesToHex(val.buffer)}`);
+      return wrapText(`0x${val.value}`);
     case ClarityType.OptionalNone:
       return wrapText('none');
     case ClarityType.OptionalSome:
@@ -45,13 +43,13 @@ export function ClarityValueListDisplayer(props: ClarityValueListDisplayerProps)
       return wrapText(`ok ${cvToString(val.value, encoding)}`);
     case ClarityType.PrincipalStandard:
     case ClarityType.PrincipalContract:
-      return wrapText(principalToString(val));
+      return wrapText(val.value);
     case ClarityType.List:
-      return wrapText(`[${val.list.map(v => cvToString(v, encoding)).join(', ')}]`);
+      return wrapText(`[${val.value.map(v => cvToString(v, encoding)).join(', ')}]`);
     case ClarityType.Tuple:
       return (
         <TupleDisplayer isRoot={isRoot}>
-          {Object.entries(val.data).map(([key, value]) => (
+          {Object.entries(val.value).map(([key, value]) => (
             <TupleNodeDisplayer clarityType={value.type} key={key}>
               <TupleNodeLabelDisplayer>{key}:</TupleNodeLabelDisplayer>
               <TupleNodeValueDisplayer>
@@ -62,8 +60,8 @@ export function ClarityValueListDisplayer(props: ClarityValueListDisplayerProps)
         </TupleDisplayer>
       );
     case ClarityType.StringASCII:
-      return wrapText(`"${val.data}"`);
+      return wrapText(`"${val.value}"`);
     case ClarityType.StringUTF8:
-      return wrapText(`u"${val.data}"`);
+      return wrapText(`u"${val.value}"`);
   }
 }

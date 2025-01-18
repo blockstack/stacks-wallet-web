@@ -1,14 +1,15 @@
 import { ContractCallOptions, UserData, makeContractCallToken } from '@stacks/connect';
-import { StacksTestnet } from '@stacks/network';
+import { STACKS_TESTNET } from '@stacks/network';
 import {
-  FungibleConditionCode,
+  type FungiblePostCondition,
   PostConditionMode,
-  createAssetInfo,
-  makeStandardFungiblePostCondition,
-  serializePostCondition,
+  postConditionToWire,
+  serializePostConditionWire,
 } from '@stacks/transactions';
 import BN from 'bn.js';
 import { vi } from 'vitest';
+
+import { formatAssetString } from '@leather.io/stacks';
 
 (window as any).fetch = vi.fn(() => ({
   text: () => Promise.resolve(1),
@@ -27,18 +28,18 @@ export async function generateContractCallToken({
   txOptions?: Partial<ContractCallOptions>;
 } = {}) {
   const address = 'ST1EXHZSN8MJSJ9DSG994G1V8CNKYXGMK7Z4SA6DH';
-  const assetAddress = 'ST34RKEJKQES7MXQFBT29KSJZD73QK3YNT5N56C6X';
-  const assetContractName = 'test-asset-contract';
+  const contractAddress = 'ST34RKEJKQES7MXQFBT29KSJZD73QK3YNT5N56C6X';
+  const contractName = 'test-asset-contract';
   const assetName = 'test-asset-name';
-  const info = createAssetInfo(assetAddress, assetContractName, assetName);
-  serializePostCondition(
-    makeStandardFungiblePostCondition(
-      address,
-      FungibleConditionCode.GreaterEqual,
-      new BN(100).toString(),
-      info
-    )
-  );
+
+  const pc: FungiblePostCondition = {
+    type: 'ft-postcondition',
+    address,
+    condition: 'gte',
+    amount: new BN(100).toString(),
+    asset: formatAssetString({ contractAddress, contractName, assetName }),
+  };
+
   localStorage.setItem(
     'blockstack-session',
     JSON.stringify({
@@ -46,7 +47,7 @@ export async function generateContractCallToken({
       version: '1.0.0',
     })
   );
-  const network = new StacksTestnet();
+  const network = STACKS_TESTNET;
   const txDataToken = await makeContractCallToken({
     contractAddress: 'ST1EXHZSN8MJSJ9DSG994G1V8CNKYXGMK7Z4SA6DH',
     contractName: 'hello-world',
@@ -54,14 +55,7 @@ export async function generateContractCallToken({
     functionName: 'print',
     postConditionMode: PostConditionMode.Allow,
     network: network as any,
-    postConditions: [
-      makeStandardFungiblePostCondition(
-        address,
-        FungibleConditionCode.GreaterEqual,
-        new BN(100).toString(),
-        info
-      ),
-    ],
+    postConditions: [serializePostConditionWire(postConditionToWire(pc))],
     ...txOptions,
   });
   return txDataToken;

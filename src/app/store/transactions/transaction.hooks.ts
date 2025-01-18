@@ -1,20 +1,11 @@
 import { useCallback, useMemo } from 'react';
 import { useAsync } from 'react-async-hook';
 
-import { bytesToHex } from '@noble/hashes/utils';
-import { TransactionTypes } from '@stacks/connect';
-import {
-  FungibleConditionCode,
-  PostCondition,
-  StacksTransaction,
-  TransactionSigner,
-  createAssetInfo,
-  createStacksPrivateKey,
-  makeStandardFungiblePostCondition,
-} from '@stacks/transactions';
+import { PostCondition, StacksTransactionWire, TransactionSigner } from '@stacks/transactions';
 import BN from 'bn.js';
 
 import { useNextNonce } from '@leather.io/query';
+import { TransactionTypes, formatAssetString } from '@leather.io/stacks';
 import { isUndefined, stxToMicroStx } from '@leather.io/utils';
 
 import { logger } from '@shared/logger';
@@ -93,13 +84,13 @@ interface PostConditionsOptions {
 export function makePostCondition(options: PostConditionsOptions): PostCondition {
   const { contractAddress, contractAssetName, contractName, stxAddress, amount } = options;
 
-  const assetInfo = createAssetInfo(contractAddress, contractName, contractAssetName);
-  return makeStandardFungiblePostCondition(
-    stxAddress,
-    FungibleConditionCode.Equal,
-    new BN(amount, 10).toString(),
-    assetInfo
-  );
+  return {
+    type: 'ft-postcondition',
+    address: stxAddress,
+    condition: 'eq',
+    amount: new BN(amount, 10).toString(),
+    asset: formatAssetString({ contractAddress, contractName, assetName: contractAssetName }),
+  };
 }
 
 export function useGenerateUnsignedStacksTransaction() {
@@ -136,7 +127,7 @@ function useSignTransactionSoftwareWallet() {
   const account = useCurrentStacksAccount();
 
   return useCallback(
-    (tx: StacksTransaction) => {
+    (tx: StacksTransactionWire) => {
       if (account?.type !== 'software') {
         [toast.error, logger.error].forEach(fn =>
           fn('Cannot use this method to sign a non-software wallet transaction')
@@ -145,7 +136,7 @@ function useSignTransactionSoftwareWallet() {
       }
       const signer = new TransactionSigner(tx);
       if (!account) return null;
-      signer.signOrigin(createStacksPrivateKey(account.stxPrivateKey));
+      signer.signOrigin(account.stxPrivateKey);
       return tx;
     },
     [account, toast.error]
@@ -157,13 +148,13 @@ export function useSignStacksTransaction() {
   const ledgerNavigate = useLedgerNavigate();
   const signSoftwareTx = useSignTransactionSoftwareWallet();
 
-  return (tx: StacksTransaction) =>
+  return (tx: StacksTransactionWire) =>
     whenWallet({
-      async ledger(tx: StacksTransaction) {
+      async ledger(tx: StacksTransactionWire) {
         ledgerNavigate.toConnectAndSignStacksTransactionStep(tx);
-        return listenForStacksTxLedgerSigning(bytesToHex(tx.serialize()));
+        return listenForStacksTxLedgerSigning(tx.serialize());
       },
-      async software(tx: StacksTransaction) {
+      async software(tx: StacksTransactionWire) {
         return signSoftwareTx(tx);
       },
     })(tx);

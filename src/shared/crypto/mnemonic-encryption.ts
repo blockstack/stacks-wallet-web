@@ -1,5 +1,5 @@
 import { bytesToHex } from '@stacks/common';
-import { decrypt, encrypt } from '@stacks/wallet-sdk';
+import { decryptMnemonic as decrypt, encryptMnemonic as encrypt } from '@stacks/encryption';
 
 import { deriveEncryptionKey } from './generate-encryption-key';
 import { generateRandomHexString } from './generate-random-hex';
@@ -41,7 +41,7 @@ export async function decryptMnemonic({
 }> {
   if (salt) {
     const encryptionKey = await deriveEncryptionKey({ password, salt });
-    const secretKey = await decrypt(Buffer.from(encryptedSecretKey, 'hex'), encryptionKey);
+    const secretKey = await decrypt(encryptedSecretKey, encryptionKey);
     return {
       secretKey,
       encryptedSecretKey,
@@ -50,7 +50,7 @@ export async function decryptMnemonic({
     };
   } else {
     // if there is no salt, decrypt the secret key, then re-encrypt with an argon2 hash
-    const secretKey = await decrypt(Buffer.from(encryptedSecretKey, 'hex'), password);
+    const secretKey = await decrypt(encryptedSecretKey, password);
     const newEncryptedKey = await encryptMnemonic({ secretKey, password });
     return {
       secretKey,

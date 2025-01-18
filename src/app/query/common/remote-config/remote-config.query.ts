@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
 import { useRemoteConfig } from '@leather.io/query';
-import { getPrincipalFromContractId } from '@leather.io/utils';
+import { getPrincipalFromAssetString } from '@leather.io/stacks';
 
 import { useWalletType } from '@app/common/use-wallet-type';
 import { useHasCurrentBitcoinAccount } from '@app/store/accounts/blockchain/bitcoin/bitcoin.hooks';
@@ -74,8 +74,8 @@ export function useConfigSbtc() {
       sponsorshipApiUrl: network.chain.bitcoin.mode === 'mainnet' ? apiUrlMainnet : apiUrlTestnet,
       isSbtcContract(contract: string) {
         return (
-          contract === getPrincipalFromContractId(contractIdMainnet) ||
-          contract === getPrincipalFromContractId(contractIdTestnet)
+          contract === getPrincipalFromAssetString(contractIdMainnet) ||
+          contract === getPrincipalFromAssetString(contractIdTestnet)
         );
       },
       shouldDisplayPromoCard: displayPromoCardOnNetworks.includes(network.id),
