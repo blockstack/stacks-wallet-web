@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import { z } from 'zod';
 
 import { useStacksClient } from '@leather.io/query';
 import { getStacksContractIdStringParts } from '@leather.io/stacks';
@@ -10,19 +11,21 @@ import { useConfigSbtc } from '../common/remote-config/remote-config.query';
 
 export const defaultSbtcLimits = {
   pegCap: 1000000000000,
-  perDepositMinimum: 100000,
   perDepositCap: 100000000,
+  perDepositMinimum: 100000,
   perWithdrawalCap: 100000000,
   accountCaps: {},
 };
 
-interface GetSbtcLimitsResponse {
-  pegCap: number;
-  perDepositCap: number;
-  perWithdrawalCap: number;
-  perDepositMinimum: number;
-  accountCaps: Record<any, any>;
-}
+const sbtcLimitsResponseSchema = z.object({
+  pegCap: z.number(),
+  perDepositCap: z.number(),
+  perDepositMinimum: z.number(),
+  perWithdrawalCap: z.number(),
+  accountCaps: z.record(z.any()),
+});
+
+type GetSbtcLimitsResponse = z.infer<typeof sbtcLimitsResponseSchema>;
 
 async function getSbtcLimits(apiUrl: string): Promise<GetSbtcLimitsResponse> {
   const resp = await axios.get(`${apiUrl}/limits`, {
@@ -30,7 +33,7 @@ async function getSbtcLimits(apiUrl: string): Promise<GetSbtcLimitsResponse> {
       'Content-Type': 'application/json',
     },
   });
-  return resp.data;
+  return sbtcLimitsResponseSchema.parse(resp.data);
 }
 
 export function useGetSbtcLimits() {
