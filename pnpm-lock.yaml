@@ -34,7 +34,7 @@ importers:
         version: 0.7.0(encoding@0.1.13)
       '@coinbase/cbpay-js':
         specifier: 2.1.0
-        version: 2.1.0(regenerator-runtime@0.13.11)
+        version: 2.1.0(regenerator-runtime@0.14.1)
       '@fungible-systems/zone-file':
         specifier: 2.0.0
         version: 2.0.0
@@ -415,8 +415,8 @@ importers:
         specifier: 0.6.0
         version: 0.6.0(@vue/compiler-sfc@3.5.13)
       '@leather.io/rpc':
-        specifier: 2.4.0
-        version: 2.4.0(encoding@0.1.13)
+        specifier: 2.5.4
+        version: 2.5.4(encoding@0.1.13)
       '@ls-lint/ls-lint':
         specifier: 2.2.3
         version: 2.2.3
@@ -3373,6 +3373,9 @@ packages:
   '@leather.io/models@0.24.3':
     resolution: {integrity: sha512-vsla6ARj645vqNDyj/5TEKrRI933Aac3Pq3rOyvf3zwepJqgdmPFbkLGFa36oHpC9hLsD6iy1zUyeEp71nqmdg==}
 
+  '@leather.io/models@0.25.0':
+    resolution: {integrity: sha512-wd50i92SiYR7XV54dae1nEVyG83lH0WYzuCe7MezNWZrk4wK/+H1EAvFr7k1cdyJDVs6Nv++uWaRMkr+38pLMw==}
+
   '@leather.io/panda-preset@0.8.0':
     resolution: {integrity: sha512-DnDSxZ5AJPYBdykTNpTeuB4WewwWUGWPoDWQdeX4/Th5gfekUwvnybLM9D3iVCkvmUgv+BZgMgCzHnd5cGO2FA==}
 
@@ -3395,6 +3398,9 @@ packages:
 
   '@leather.io/rpc@2.5.3':
     resolution: {integrity: sha512-RFZtXPiC/spPlYFbnCla77PKCRo4yagQjI3Z1AADTRGGB9EG5z+fxidO/1b6ch+EMT3B3fPLIbzMWVexTrrq4A==}
+
+  '@leather.io/rpc@2.5.4':
+    resolution: {integrity: sha512-tNZDDMBJWEGMgzX3FRjkHOBi+EsyLnCF3mEz9ted4IK7AybLvbUKCMoLN29wMv9/PdMjgmPngQiBTLXC2PsBjQ==}
 
   '@leather.io/stacks@1.4.0':
     resolution: {integrity: sha512-vF3eQljr+dsfg8DhlEFgQKvr9NHn9CKwt8XT51kWnULTtZH6syrABiarHGwhtE/AZz9weg5n5q/+m8b4lN6bGw==}
@@ -7943,8 +7949,8 @@ packages:
   caniuse-lite@1.0.30001680:
     resolution: {integrity: sha512-rPQy70G6AGUMnbwS1z6Xg+RkHYPAi18ihs47GH0jcxIG7wArmPgY3XbS2sRdBbxJljp3thdT8BIqv9ccCypiPA==}
 
-  caniuse-lite@1.0.30001692:
-    resolution: {integrity: sha512-A95VKan0kdtrsnMubMKxEKUKImOPSuCpYgxSQBo036P5YYgVIcOYJEgt/txJWqObiRQeISNCfef9nvlQ0vbV7A==}
+  caniuse-lite@1.0.30001695:
+    resolution: {integrity: sha512-vHyLade6wTgI2u1ec3WQBxv+2BrTERV28UXQu9LO6lZ9pYeMk34vjXFLOxo1A4UBA8XTL4njRQZdno/yYaSmWw==}
 
   case-sensitive-paths-webpack-plugin@2.4.0:
     resolution: {integrity: sha512-roIFONhcxog0JSSWbvVAh3OocukmSgpqOH6YpMkCvav/ySIV3JKg4Dc8vYtQjYi/UxpNE36r/9v+VqTQqgkYmw==}
@@ -9105,8 +9111,8 @@ packages:
   electron-to-chromium@1.5.63:
     resolution: {integrity: sha512-ddeXKuY9BHo/mw145axlyWjlJ1UBt4WK3AlvkT7W2AbqfRQoacVoRUCF6wL3uIx/8wT9oLKXzI+rFqHHscByaA==}
 
-  electron-to-chromium@1.5.82:
-    resolution: {integrity: sha512-Zq16uk1hfQhyGx5GpwPAYDwddJuSGhtRhgOA2mCxANYaDT79nAeGnaXogMGng4KqLaJUVnOnuL0+TDop9nLOiA==}
+  electron-to-chromium@1.5.86:
+    resolution: {integrity: sha512-/D7GAAaCRBQFBBcop6SfAAGH37djtpWkOuYhyAajw0l5vsfeSsUQYxaFPwr1c/mC/flARCDdKFo5gpFqNI+18w==}
 
   electron@27.3.11:
     resolution: {integrity: sha512-E1SiyEoI8iW5LW/MigCr7tJuQe7+0105UjqY7FkmCD12e2O6vtUbQ0j05HaBh2YgvkcEVgvQ2A8suIq5b5m6Gw==}
@@ -18085,9 +18091,9 @@ snapshots:
       picocolors: 1.1.0
       sisteransi: 1.0.5
 
-  '@coinbase/cbpay-js@2.1.0(regenerator-runtime@0.13.11)':
+  '@coinbase/cbpay-js@2.1.0(regenerator-runtime@0.14.1)':
     optionalDependencies:
-      regenerator-runtime: 0.13.11
+      regenerator-runtime: 0.14.1
 
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
@@ -19394,6 +19400,12 @@ snapshots:
       bignumber.js: 9.1.2
       zod: 3.23.8
 
+  '@leather.io/models@0.25.0':
+    dependencies:
+      '@stacks/stacks-blockchain-api-types': 7.8.2
+      bignumber.js: 9.1.2
+      zod: 3.23.8
+
   '@leather.io/panda-preset@0.8.0(jsdom@22.1.0)(typescript@5.4.5)':
     dependencies:
       '@pandacss/dev': 0.46.1(jsdom@22.1.0)(typescript@5.4.5)
@@ -19463,6 +19475,15 @@ snapshots:
   '@leather.io/rpc@2.5.3(encoding@0.1.13)':
     dependencies:
       '@leather.io/models': 0.24.3
+      '@stacks/network': 6.13.0(encoding@0.1.13)
+      '@stacks/transactions-v7': '@stacks/transactions@7.0.2(encoding@0.1.13)'
+      zod: 3.23.8
+    transitivePeerDependencies:
+      - encoding
+
+  '@leather.io/rpc@2.5.4(encoding@0.1.13)':
+    dependencies:
+      '@leather.io/models': 0.25.0
       '@stacks/network': 6.13.0(encoding@0.1.13)
       '@stacks/transactions-v7': '@stacks/transactions@7.0.2(encoding@0.1.13)'
       zod: 3.23.8
@@ -25913,8 +25934,8 @@ snapshots:
 
   browserslist@4.24.4:
     dependencies:
-      caniuse-lite: 1.0.30001692
-      electron-to-chromium: 1.5.82
+      caniuse-lite: 1.0.30001695
+      electron-to-chromium: 1.5.86
       node-releases: 2.0.19
       update-browserslist-db: 1.1.2(browserslist@4.24.4)
 
@@ -26119,7 +26140,7 @@ snapshots:
 
   caniuse-lite@1.0.30001680: {}
 
-  caniuse-lite@1.0.30001692: {}
+  caniuse-lite@1.0.30001695: {}
 
   case-sensitive-paths-webpack-plugin@2.4.0: {}
 
@@ -27343,7 +27364,7 @@ snapshots:
 
   electron-to-chromium@1.5.63: {}
 
-  electron-to-chromium@1.5.82: {}
+  electron-to-chromium@1.5.86: {}
 
   electron@27.3.11:
     dependencies:
