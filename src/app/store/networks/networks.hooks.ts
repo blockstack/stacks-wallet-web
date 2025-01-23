@@ -8,6 +8,8 @@ import {
   StacksNetwork,
   TransactionVersion,
 } from '@stacks/network';
+import { StacksNetwork as StacksNetworkV6 } from '@stacks/network-v6';
+import { ChainID, TransactionVersion as TransactionVersionV6 } from '@stacks/transactions-v6';
 
 import {
   type BitcoinNetworkModes,
@@ -37,6 +39,27 @@ export function useCurrentNetworkState() {
       currentNetwork.chain.stacks.url === HIRO_API_BASE_URL_NAKAMOTO_TESTNET;
     const mode = (isTestnet ? 'testnet' : 'mainnet') as BitcoinNetworkModes;
     return { ...currentNetwork, isTestnet, isNakamotoTestnet, mode };
+  }, [currentNetwork]);
+}
+
+export function useCurrentStacksNetworkStateV6(): StacksNetworkV6 {
+  const currentNetwork = useCurrentNetwork();
+
+  return useMemo(() => {
+    if (!currentNetwork) throw new Error('No current network');
+
+    const stacksNetwork = new StacksNetworkV6({ url: currentNetwork.chain.stacks.url });
+    stacksNetwork.version = whenStacksChainId(currentNetwork.chain.stacks.chainId)({
+      [ChainID.Mainnet]: TransactionVersionV6.Mainnet,
+      [ChainID.Testnet]: TransactionVersionV6.Testnet,
+    });
+
+    // Use actual chainId on network object, since it's used for signing
+    stacksNetwork.chainId =
+      currentNetwork.chain.stacks.subnetChainId ?? currentNetwork.chain.stacks.chainId;
+
+    stacksNetwork.bnsLookupUrl = currentNetwork.chain.stacks.url || '';
+    return stacksNetwork;
   }, [currentNetwork]);
 }
 

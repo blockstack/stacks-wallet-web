@@ -1,5 +1,6 @@
 import {
   ClarityVersion,
+  PostConditionMode,
   type UnsignedContractCallOptions,
   type UnsignedContractDeployOptions,
   deserializeCV,
@@ -22,7 +23,7 @@ import {
   type STXTransferPayload,
 } from '@shared/utils/legacy-requests';
 
-function initNonce(nonce?: number) {
+export function initNonce(nonce?: number) {
   return nonce !== undefined ? new BN(nonce, 10) : undefined;
 }
 
@@ -58,11 +59,12 @@ function generateUnsignedContractCallTx(args: GenerateUnsignedContractCallTxArgs
     functionArgs: fnArgs,
     nonce: initNonce(nonce)?.toString(),
     fee: new BN(fee, 10).toString(),
-    postConditionMode: postConditionMode,
+    postConditionMode: postConditionMode ?? PostConditionMode.Deny,
     postConditions,
     network,
     sponsored,
   } satisfies UnsignedContractCallOptions;
+
   return makeUnsignedContractCall(options);
 }
 
@@ -77,7 +79,7 @@ function generateUnsignedContractDeployTx(args: GenerateUnsignedContractDeployTx
     nonce: initNonce(nonce)?.toString(),
     fee: new BN(fee, 10)?.toString(),
     publicKey,
-    postConditionMode: postConditionMode,
+    postConditionMode,
     postConditions: getPostConditions(postConditions?.map(pc => ensurePostConditionWireFormat(pc))),
     network,
     clarityVersion: ClarityVersion.Clarity3,

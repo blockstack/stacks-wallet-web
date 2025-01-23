@@ -1,6 +1,7 @@
 import type { Transaction } from '@scure/btc-signer';
 import type { SignatureData } from '@stacks/connect';
 import type { StacksTransactionWire } from '@stacks/transactions';
+import type { StacksTransaction } from '@stacks/transactions-v6';
 
 import type { UnsignedMessage } from '@shared/signature/signature-types';
 
@@ -48,6 +49,10 @@ function createPublishSubscribe<E>(): PubSubType<E> {
 // Global app events. Only add events if your feature isn't capable of
 // communicating internally.
 export interface GlobalAppEvents {
+  ledgerStacksTxSignedV6: {
+    unsignedTx: string;
+    signedTx: StacksTransaction;
+  };
   ledgerStacksTxSigned: {
     unsignedTx: string;
     signedTx: StacksTransactionWire;
