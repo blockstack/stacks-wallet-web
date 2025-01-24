@@ -62,6 +62,11 @@ export async function rpcMessageHandler(message: WalletRequests, port: chrome.ru
       break;
     }
 
+    case 'stx_getAddresses': {
+      await rpcGetAddresses(message, port);
+      break;
+    }
+
     default:
       chrome.tabs.sendMessage(
         getTabIdFromPort(port),
