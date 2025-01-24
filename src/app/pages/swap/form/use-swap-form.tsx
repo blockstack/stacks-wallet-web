@@ -10,6 +10,7 @@ import {
   convertAmountToBaseUnit,
   convertAmountToFractionalUnit,
   createMoney,
+  isUndefined,
 } from '@leather.io/utils';
 
 import { FormErrorMessages } from '@shared/error-messages';
@@ -96,6 +97,14 @@ export function useSwapForm<T extends BaseSwapContext<T>>() {
         },
       })
       .test({
+        message: 'sBTC bridge temporarily disabled',
+        test() {
+          if (!isCrossChainSwap) return true;
+          if (isUndefined(sBtcLimits)) return false;
+          return true;
+        },
+      })
+      .test({
         message: `Min amount is ${convertAmountToBaseUnit(sBtcDepositCapMin).toString()} BTC`,
         test(value) {
           if (!isCrossChainSwap) return true;
@@ -139,8 +148,11 @@ export function useSwapForm<T extends BaseSwapContext<T>>() {
               swapAssetBase.balance.decimals
             )
           );
-          if (!remainingSbtcPegCapSupply) return true;
-          if (valueInFractionalUnit.isGreaterThan(remainingSbtcPegCapSupply)) return false;
+          if (
+            !remainingSbtcPegCapSupply ||
+            valueInFractionalUnit.isGreaterThan(remainingSbtcPegCapSupply)
+          )
+            return false;
           return true;
         },
       })
