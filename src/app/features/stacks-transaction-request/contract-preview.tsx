@@ -1,9 +1,8 @@
 import { HStack, Stack } from 'leather-styles/jsx';
 
+import { formatContractId } from '@leather.io/stacks';
 import { Caption, DynamicColorCircle, Title } from '@leather.io/ui';
 import { truncateMiddle } from '@leather.io/utils';
-
-import { formatContractId } from '@app/common/utils';
 
 interface ContractPreviewLayoutProps {
   contractAddress: string;

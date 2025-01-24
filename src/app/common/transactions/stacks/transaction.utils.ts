@@ -1,5 +1,4 @@
-import { bytesToHex } from '@stacks/common';
-import { TransactionTypes } from '@stacks/connect';
+import type { StacksNetwork } from '@stacks/network';
 import {
   CoinbaseTransaction,
   TransactionEventFungibleAsset,
@@ -7,8 +6,7 @@ import {
 import {
   AddressHashMode,
   AuthType,
-  StacksTransaction,
-  TransactionVersion,
+  StacksTransactionWire,
   addressFromVersionHash,
   addressHashModeToVersion,
   addressToString,
@@ -16,9 +14,11 @@ import {
 import { BigNumber } from 'bignumber.js';
 
 import { StacksTx, StacksTxStatus } from '@leather.io/models';
+import { getStacksContractName } from '@leather.io/stacks';
 import { truncateMiddle } from '@leather.io/utils';
 
-import { getStacksContractName, stacksValue } from '@app/common/stacks-utils';
+import { stacksValue } from '@app/common/stacks-utils';
+import { getStacksNetworkFromChainId } from '@app/store/networks/networks.hooks';
 
 export const statusFromTx = (tx: StacksTx): StacksTxStatus => {
   const { tx_status } = tx;
@@ -27,8 +27,8 @@ export const statusFromTx = (tx: StacksTx): StacksTxStatus => {
   return 'failed';
 };
 
-export const stacksTransactionToHex = (transaction: StacksTransaction) =>
-  `0x${bytesToHex(transaction.serialize())}`;
+export const stacksTransactionToHex = (transaction: StacksTransactionWire) =>
+  `0x${transaction.serialize()}`;
 
 export const getTxCaption = (transaction: StacksTx) => {
   switch (transaction.tx_type) {
@@ -91,24 +91,16 @@ export const calculateTokenTransferAmount = (
   return new BigNumber(amount).shiftedBy(-decimals);
 };
 
-export function isTransactionTypeSupported(txType: TransactionTypes) {
-  return (
-    txType === TransactionTypes.STXTransfer ||
-    txType === TransactionTypes.ContractCall ||
-    txType === TransactionTypes.ContractDeploy
-  );
-}
-
-export function isTxSponsored(tx: StacksTransaction) {
+export function isTxSponsored(tx: StacksTransactionWire) {
   return tx.auth.authType === AuthType.Sponsored;
 }
 
 function getAddressFromPublicKeyHash(
   publicKeyHash: Buffer,
   hashMode: AddressHashMode,
-  transactionVersion: TransactionVersion
+  network: StacksNetwork
 ): string {
-  const addrVer = addressHashModeToVersion(hashMode, transactionVersion);
+  const addrVer = addressHashModeToVersion(hashMode, network);
   if (publicKeyHash.length !== 20) {
     throw new Error('expected 20-byte pubkeyhash');
   }
@@ -116,12 +108,12 @@ function getAddressFromPublicKeyHash(
   return addressToString(addr);
 }
 
-export function getTxSenderAddress(tx: StacksTransaction): string | undefined {
+export function getTxSenderAddress(tx: StacksTransactionWire): string | undefined {
   if (!tx?.auth?.spendingCondition?.signer) return;
   const txSender = getAddressFromPublicKeyHash(
     Buffer.from(tx.auth.spendingCondition.signer, 'hex'),
     tx.auth.spendingCondition.hashMode as number,
-    tx.version
+    getStacksNetworkFromChainId(tx.chainId)
   );
   return txSender;
 }

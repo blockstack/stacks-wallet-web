@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { bytesToHex, signatureVrsToRsv } from '@stacks/common';
+import { signatureVrsToRsv } from '@stacks/common';
 import { serializeCV } from '@stacks/transactions';
 import { LedgerError } from '@zondax/ledger-stacks';
 
@@ -93,8 +93,8 @@ function LedgerSignStacksMsg({ account, unsignedMessage }: LedgerSignMsgProps) {
         },
         async structured(domain, msg) {
           return signLedgerStacksStructuredMessage(stacksApp)(
-            bytesToHex(serializeCV(domain)),
-            bytesToHex(serializeCV(msg)),
+            serializeCV(domain),
+            serializeCV(msg),
             account.index
           );
         },

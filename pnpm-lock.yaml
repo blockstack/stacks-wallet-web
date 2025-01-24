@@ -21,6 +21,16 @@ overrides:
   rollup: 4.22.4
   ws: 8.17.1
   levelup>semver: 5.7.2
+  '@leather.io/bitcoin': file:../mono/packages/bitcoin
+  '@leather.io/constants': file:../mono/packages/constants
+  '@leather.io/crypto': file:../mono/packages/crypto
+  '@leather.io/models': file:../mono/packages/models
+  '@leather.io/query': file:../mono/packages/query
+  '@leather.io/tokens': file:../mono/packages/tokens
+  '@leather.io/utils': file:../mono/packages/utils
+  '@leather.io/stacks': file:../mono/packages/stacks
+  '@leather.io/panda-preset': file:../mono/packages/panda-preset
+  '@leather.io/rpc': file:../mono/packages/rpc
 
 importers:
 
@@ -48,32 +58,32 @@ importers:
         specifier: 2.0.1
         version: 2.0.1
       '@leather.io/bitcoin':
-        specifier: 0.17.0
-        version: 0.17.0(encoding@0.1.13)
+        specifier: file:../mono/packages/bitcoin
+        version: file:../mono/packages/bitcoin(encoding@0.1.13)
       '@leather.io/constants':
-        specifier: 0.13.5
-        version: 0.13.5
+        specifier: file:../mono/packages/constants
+        version: file:../mono/packages/constants
       '@leather.io/crypto':
-        specifier: 1.6.14
-        version: 1.6.14
+        specifier: file:../mono/packages/crypto
+        version: file:../mono/packages/crypto(encoding@0.1.13)
       '@leather.io/models':
-        specifier: 0.24.3
-        version: 0.24.3
+        specifier: file:../mono/packages/models
+        version: file:../mono/packages/models
       '@leather.io/query':
-        specifier: 2.26.16
-        version: 2.26.16(encoding@0.1.13)(react@18.3.1)
+        specifier: file:../mono/packages/query
+        version: file:../mono/packages/query(encoding@0.1.13)(react@18.3.1)
       '@leather.io/stacks':
-        specifier: 1.4.0
-        version: 1.4.0(encoding@0.1.13)
+        specifier: file:../mono/packages/stacks
+        version: file:../mono/packages/stacks(encoding@0.1.13)
       '@leather.io/tokens':
-        specifier: 0.12.1
-        version: 0.12.1
+        specifier: file:../mono/packages/tokens
+        version: file:../mono/packages/tokens
       '@leather.io/ui':
         specifier: 1.44.4
         version: 1.44.4(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@emotion/is-prop-valid@1.3.1)(@types/react-dom@18.3.0)(@types/react@18.3.10)(encoding@0.1.13)(expo-modules-autolinking@1.11.1)
       '@leather.io/utils':
-        specifier: 0.25.0
-        version: 0.25.0(encoding@0.1.13)
+        specifier: file:../mono/packages/utils
+        version: file:../mono/packages/utils(encoding@0.1.13)
       '@ledgerhq/hw-transport-webusb':
         specifier: 6.27.19
         version: 6.27.19
@@ -123,41 +133,38 @@ importers:
         specifier: 7.106.0
         version: 7.106.0
       '@stacks/auth':
-        specifier: 6.15.0
-        version: 6.15.0(encoding@0.1.13)
-      '@stacks/blockchain-api-client':
-        specifier: 6.3.4
-        version: 6.3.4(encoding@0.1.13)
+        specifier: 7.0.2
+        version: 7.0.2(encoding@0.1.13)
       '@stacks/common':
-        specifier: 6.13.0
-        version: 6.13.0
+        specifier: 7.0.2
+        version: 7.0.2
       '@stacks/connect':
         specifier: 7.4.0
         version: 7.4.0(encoding@0.1.13)
-      '@stacks/connect-ui':
-        specifier: 6.1.1
-        version: 6.1.1
       '@stacks/encryption':
-        specifier: 6.15.0
-        version: 6.15.0
+        specifier: 7.0.2
+        version: 7.0.2
       '@stacks/network':
-        specifier: 6.13.0
-        version: 6.13.0(encoding@0.1.13)
+        specifier: 7.0.2
+        version: 7.0.2(encoding@0.1.13)
+      '@stacks/network-v6':
+        specifier: npm:@stacks/network@6.13.0
+        version: '@stacks/network@6.13.0(encoding@0.1.13)'
       '@stacks/profile':
-        specifier: 6.15.0
-        version: 6.15.0(encoding@0.1.13)
+        specifier: 7.0.2
+        version: 7.0.2(encoding@0.1.13)
       '@stacks/rpc-client':
         specifier: 1.0.3
         version: 1.0.3(encoding@0.1.13)
-      '@stacks/storage':
-        specifier: 6.15.0
-        version: 6.15.0(encoding@0.1.13)
       '@stacks/transactions':
-        specifier: 6.17.0
-        version: 6.17.0(encoding@0.1.13)
+        specifier: 7.0.2
+        version: 7.0.2(encoding@0.1.13)
+      '@stacks/transactions-v6':
+        specifier: npm:@stacks/transactions@6.17.0
+        version: '@stacks/transactions@6.17.0(encoding@0.1.13)'
       '@stacks/wallet-sdk':
-        specifier: 6.15.0
-        version: 6.15.0(encoding@0.1.13)
+        specifier: 7.0.2
+        version: 7.0.2(encoding@0.1.13)
       '@stitches/react':
         specifier: 1.2.8
         version: 1.2.8(react@18.3.1)
@@ -409,14 +416,14 @@ importers:
         specifier: 0.7.0
         version: 0.7.0(typescript@5.4.5)
       '@leather.io/panda-preset':
-        specifier: 0.8.0
-        version: 0.8.0(jsdom@22.1.0)(typescript@5.4.5)
+        specifier: file:../mono/packages/panda-preset
+        version: file:../mono/packages/panda-preset(jsdom@22.1.0)(typescript@5.4.5)
       '@leather.io/prettier-config':
         specifier: 0.6.0
         version: 0.6.0(@vue/compiler-sfc@3.5.13)
       '@leather.io/rpc':
-        specifier: 2.5.3
-        version: 2.5.3(encoding@0.1.13)
+        specifier: file:../mono/packages/rpc
+        version: file:../mono/packages/rpc(encoding@0.1.13)
       '@ls-lint/ls-lint':
         specifier: 2.2.3
         version: 2.2.3
@@ -3334,88 +3341,46 @@ packages:
   '@leather.io/analytics@2.0.1':
     resolution: {integrity: sha512-C4fcEZZ9la+UMhqDqEZIIMDMmmedDuhhlnqb7HFlGVUg5/EKrBbS4Kvcp36sv/Uz02h+DuoubTsoJ/rFkqq6Bw==}
 
-  '@leather.io/bitcoin@0.17.0':
-    resolution: {integrity: sha512-Nc4Bl2HWmxWvgIXbpa6Gs8EpqR1UJHDzXPu+R+2TIyOsjxFoGXoIQwLohxySnQa4i0UodrCXBrqDOqOTHtwbMQ==}
+  '@leather.io/bitcoin@file:../mono/packages/bitcoin':
+    resolution: {directory: ../mono/packages/bitcoin, type: directory}
 
-  '@leather.io/bitcoin@0.19.15':
-    resolution: {integrity: sha512-QTsR1jtIPW884cX57JidvUF0l139aLUIRA+/bw+Ph1kMlnaujtsUG7KdE4raMAjvBYU0BFd5tU2SBUNKafTM7A==}
+  '@leather.io/constants@file:../mono/packages/constants':
+    resolution: {directory: ../mono/packages/constants, type: directory}
 
-  '@leather.io/constants@0.13.5':
-    resolution: {integrity: sha512-FOh/F/g8WepB8HfoTXsMB/BYcm/F6INPEpyEZc3ljzaN0mLwVLO1kwgMTFU9Pq7tQlITvyWiyGHcB7OYovLoUQ==}
-
-  '@leather.io/constants@0.15.1':
-    resolution: {integrity: sha512-qgkUHOz/10jxTsprhwzBb3Iml9BkYFWtWKeomNh0nK3zVto2zb8mn6PXvcthVs5FYIYkxou6DfIAUDeUO0czDQ==}
-
-  '@leather.io/constants@0.15.3':
-    resolution: {integrity: sha512-Db8hFRqK4yu8M3lJmpVnpwEZ1ucc+8OSlYKRZRoUKvrSuqpvU9R/xIoTkN/BKsPN7iqsJ60ZKi5Ycy24fXwtYQ==}
-
-  '@leather.io/constants@0.15.4':
-    resolution: {integrity: sha512-zpMHd0y7UVAfoSEKYRRa2SkNrptAgLyrwwJ/YmVTg9T7quK9w32gK9dz1tj9zO6fQiluENhUV7SuQF2qIWF2eg==}
-
-  '@leather.io/crypto@1.6.14':
-    resolution: {integrity: sha512-D9Z0EgvXhdDSJdaQX+KCm2czqNCRDe3Kj7YJ3Hn1GiHet+wOy68sBJzG6yzESeC0Z7f1UBuDhmN9Edq5u1Zz2g==}
-
-  '@leather.io/crypto@1.6.31':
-    resolution: {integrity: sha512-xy60LCg15ehOKv80AG/YIk9Fd5GgwqLGgMhIe2c9H5ebkrN4lrUmz8KsV0qyutWi7FG1AuUKkab3t7V9nmvdEg==}
+  '@leather.io/crypto@file:../mono/packages/crypto':
+    resolution: {directory: ../mono/packages/crypto, type: directory}
 
   '@leather.io/eslint-config@0.7.0':
     resolution: {integrity: sha512-4K7olfSC+mJnG90TSaLIlytp14yDprGXwe1+oP9TLQbuPFpJai3/+g5Bp/FeUC4NZ23UVbAlGXFCav2amBb77w==}
 
-  '@leather.io/models@0.22.0':
-    resolution: {integrity: sha512-MmFmWdKN3T+L9euo+rq8JCr5Ku0mNulzVa0mYqXclB9vLa4NyhUsGHA3lWz8e05cMW9CsrPNg+eWpVg6AKTkeQ==}
+  '@leather.io/models@file:../mono/packages/models':
+    resolution: {directory: ../mono/packages/models, type: directory}
 
-  '@leather.io/models@0.24.1':
-    resolution: {integrity: sha512-BRjiX7N/LUlg5MMe3r5mkjUGLGtGRSpd21LPgo0lhUUSO1cBMAdp7rLACGM9LFPw+/dnUw1yMpT2hURC3pe3Gg==}
-
-  '@leather.io/models@0.24.3':
-    resolution: {integrity: sha512-vsla6ARj645vqNDyj/5TEKrRI933Aac3Pq3rOyvf3zwepJqgdmPFbkLGFa36oHpC9hLsD6iy1zUyeEp71nqmdg==}
-
-  '@leather.io/models@0.25.0':
-    resolution: {integrity: sha512-wd50i92SiYR7XV54dae1nEVyG83lH0WYzuCe7MezNWZrk4wK/+H1EAvFr7k1cdyJDVs6Nv++uWaRMkr+38pLMw==}
-
-  '@leather.io/panda-preset@0.8.0':
-    resolution: {integrity: sha512-DnDSxZ5AJPYBdykTNpTeuB4WewwWUGWPoDWQdeX4/Th5gfekUwvnybLM9D3iVCkvmUgv+BZgMgCzHnd5cGO2FA==}
+  '@leather.io/panda-preset@file:../mono/packages/panda-preset':
+    resolution: {directory: ../mono/packages/panda-preset, type: directory}
 
   '@leather.io/prettier-config@0.6.0':
     resolution: {integrity: sha512-QBKtLanfxFxXBlR58U/j8a6lBI0xzJzqqi36fXpGVp+9mJoEf6Ro6xrtFrixjW6seY6EOva4OApVnnPBsvOC/w==}
 
-  '@leather.io/query@2.26.16':
-    resolution: {integrity: sha512-Y5sf1vyHNoeDvvq2NHLtmhohlISlASrOszKtivrIrx4p5f2cMXyoevF3Plpn8L2pmotCpYgnbbezyt/7humW5Q==}
+  '@leather.io/query@file:../mono/packages/query':
+    resolution: {directory: ../mono/packages/query, type: directory}
     peerDependencies:
       react: '*'
 
-  '@leather.io/rpc@2.1.20':
-    resolution: {integrity: sha512-BE56W5yzdOPdVWHo2G+ZrXsEt3Jki47/noMxy+9On0sNW5B90M+pULm65szp5/vzqJuY7xIrQJ1AOyG22cd82g==}
+  '@leather.io/rpc@file:../mono/packages/rpc':
+    resolution: {directory: ../mono/packages/rpc, type: directory}
 
-  '@leather.io/rpc@2.4.0':
-    resolution: {integrity: sha512-S9PYtyOnZ9LJL8ZYsEPHUWmVkVL/E7oAfNLunFY7zVI0tJUl45OXJVCOjYRRKDKOqdx2pRpdqzeUSxRZvJdyVA==}
+  '@leather.io/stacks@file:../mono/packages/stacks':
+    resolution: {directory: ../mono/packages/stacks, type: directory}
 
-  '@leather.io/rpc@2.5.3':
-    resolution: {integrity: sha512-RFZtXPiC/spPlYFbnCla77PKCRo4yagQjI3Z1AADTRGGB9EG5z+fxidO/1b6ch+EMT3B3fPLIbzMWVexTrrq4A==}
-
-  '@leather.io/rpc@2.5.4':
-    resolution: {integrity: sha512-tNZDDMBJWEGMgzX3FRjkHOBi+EsyLnCF3mEz9ted4IK7AybLvbUKCMoLN29wMv9/PdMjgmPngQiBTLXC2PsBjQ==}
-
-  '@leather.io/stacks@1.4.0':
-    resolution: {integrity: sha512-vF3eQljr+dsfg8DhlEFgQKvr9NHn9CKwt8XT51kWnULTtZH6syrABiarHGwhtE/AZz9weg5n5q/+m8b4lN6bGw==}
-
-  '@leather.io/tokens@0.12.1':
-    resolution: {integrity: sha512-XoP9PT7uuzHIk9HFFkGTuMeG8KL94PVHQfdWtvb19qQC9YVMzwj+QSK45KUFYtXyfI+Ejsn7EFZmZ/C4vStDrg==}
+  '@leather.io/tokens@file:../mono/packages/tokens':
+    resolution: {directory: ../mono/packages/tokens, type: directory}
 
   '@leather.io/ui@1.44.4':
     resolution: {integrity: sha512-6RqXh0Ig4o12EECjGtdUOtdPEpxgQlm5mQxGdAaz2U4FckZQ7DTS0v5A7dh+0jJb3Z1zad9qjWyJuY31hoYjgg==}
 
-  '@leather.io/utils@0.20.0':
-    resolution: {integrity: sha512-Ot0oOYMku4oy3218W3Tt0ip0xjMyegOxFONqOyt/WSZe9xzTiXXUq0u3D8jwa851ZEOSCB7TgOO5RMzWK0lkLg==}
-
-  '@leather.io/utils@0.22.4':
-    resolution: {integrity: sha512-7KW+SzpjaFqeB75Y7LaC9CUK0k5rDl1y1fammMUOchaPVdLrsJ+6bzLW2p+7Vh6EnoRAKGk3V4/tML9eHpH7Gg==}
-
-  '@leather.io/utils@0.23.4':
-    resolution: {integrity: sha512-V8km++uJPEmlbxNyN1Mvt7HZI6P7CavNHqptcZrtOBkWPfHXR33XAtzSQKaW0xTbpN40rJo8FyxcXAWfts6MUA==}
-
-  '@leather.io/utils@0.25.0':
-    resolution: {integrity: sha512-JbQr63qndDCcBLYyQyyWn55Umx+RgwlB2GOguImIlSLZp6uBxWBUBxaiwX5NQNzeSc6eAhIAuoT3ywR8BPTmzw==}
+  '@leather.io/utils@file:../mono/packages/utils':
+    resolution: {directory: ../mono/packages/utils, type: directory}
 
   '@ledgerhq/devices@8.4.2':
     resolution: {integrity: sha512-oWNTp3jCMaEvRHsXNYE/yo+PFMgXAJGFHLOU1UdE4/fYkniHbD9wdxwyZrZvrxr9hNw4/9wHiThyITwPtMzG7g==}
@@ -5241,23 +5206,14 @@ packages:
   '@sinonjs/fake-timers@10.3.0':
     resolution: {integrity: sha512-V4BG07kuYSUkTCSBHG8G8TNhM+F19jXFWnQtzj+we8DrkpSBCee9Z3Ms8yiGer/dlmhe35/Xdgyo3/0rQKg7YA==}
 
-  '@socket.io/component-emitter@3.0.0':
-    resolution: {integrity: sha512-2pTGuibAXJswAPJjaKisthqS/NOK5ypG4LYT6tEAV0S/mxW0zOIvYvGK0V8w8+SHxAm6vRMSjqSalFXeBAqs+Q==}
-
-  '@socket.io/component-emitter@3.1.2':
-    resolution: {integrity: sha512-9BCxFwvbGg/RsZK9tjXd8s4UcwR0MWeFQ1XEKIQVVvAGJyINdrqKMcTRyLoK8Rse1GjzLV9cwjWV1olXRWEXVA==}
-
   '@stacks/auth@6.15.0':
     resolution: {integrity: sha512-foL5tXWGhOxtU8t/sGnQB+mFPYL22Zy+kZvdhce/qwev+whx/DhJJtwdF9xnFk3ZZ9XE0dQGwxiddE/q7GZ7Pw==}
 
-  '@stacks/blockchain-api-client@6.3.4':
-    resolution: {integrity: sha512-4O9qe7m2XKG8PNZ9n5cvhji95IDZ29WO1X2ICgeBPdGc5Y0WGmo0wgIFAROh37pGSkBJsuJjy15ICdP47iy8+w==}
+  '@stacks/auth@7.0.2':
+    resolution: {integrity: sha512-1N0ylkK9mz6RqIH3SbuIvoUG4eTgSkun7hHiPirScGCyXvmugjereGdTowSRSrEnl32/qrnquAAaO7a1XF6TMA==}
 
   '@stacks/common@4.3.5':
     resolution: {integrity: sha512-UuViiQ7fn3vdtTe3739aRzbl+wbukekeQuXgqt8d7nB2HC2HodD7GcHhpUga165cO35CD6lQUtj3vXxJb5Ga+A==}
-
-  '@stacks/common@6.13.0':
-    resolution: {integrity: sha512-wwzyihjaSdmL6NxKvDeayy3dqM0L0Q2sawmdNtzJDi0FnXuJGm5PeapJj7bEfcI9XwI7Bw5jZoC6mCn9nc5YIw==}
 
   '@stacks/common@6.16.0':
     resolution: {integrity: sha512-PnzvhrdGRMVZvxTulitlYafSK4l02gPCBBoI9QEoTqgSnv62oaOXhYAUUkTMFKxdHW1seVEwZsrahuXiZPIAwg==}
@@ -5276,9 +5232,6 @@ packages:
 
   '@stacks/connect@7.4.0':
     resolution: {integrity: sha512-2jhTHL6Wi7Y/B1AwUuumUUE5F+/X7AvtbJ3BzsNVP7yB+yswmtjC3ZO3jYEohBcuAay5ysfNWUYdjfiXvp0NDQ==}
-
-  '@stacks/encryption@6.15.0':
-    resolution: {integrity: sha512-506BdBvWhbXY1jxCdUcdbBzcSJctO2nzgzfenQwUuoBABSc1N/MFwQdlR9ZusY+E31zBxQPLfbr36V05/p2cfQ==}
 
   '@stacks/encryption@6.16.1':
     resolution: {integrity: sha512-DtVNNW/iipyxxRDz73S9DbLfRmBMqQCCog89F1Q1i6JUnl2kBB1PR9SPQfYv9zcAJ37oHoNB4i4b2tJWYr01vg==}
@@ -5301,14 +5254,17 @@ packages:
   '@stacks/profile@6.15.0':
     resolution: {integrity: sha512-+m11HYHU45+f98FySsVmofeLFWxnhnwZ5jbREoD2f53fmBulsSbJpDUVg3w4aPdj6hg4+o7rkg09gbirIXNWBw==}
 
+  '@stacks/profile@7.0.2':
+    resolution: {integrity: sha512-BJis1ZAP2yzv0IFaJcm4mZFtauizcB1zBVpAeOSX06BDEUgM8h0L8uRvAbfTvSuSjsveNgblucZouZMSEsQMGA==}
+
   '@stacks/rpc-client@1.0.3':
     resolution: {integrity: sha512-lao7MKCq39VA86v2rJzmgjHKG5bg9LWdLSzvktuEy3lfatVki/hRm6sitkmNhYVcdUVp3YV9gyW6mvu7U9weWw==}
 
   '@stacks/stacks-blockchain-api-types@7.8.2':
     resolution: {integrity: sha512-wcDSdgIZx/ttQfUTPtGJOIyEkTOjmCsC79TaIyxTIiihSgrGppqTuzkwHD/DyuQkcJtUZvDTxMsAXkBKShE1kw==}
 
-  '@stacks/storage@6.15.0':
-    resolution: {integrity: sha512-u8YZXdpdE1ZM/HYco9YgXUSd2lXtKjlYSlF98NVYVkYi3FcxvGp2tpDQJHriCcA02vgvC5WN8SqmuVxq8+g+nw==}
+  '@stacks/storage@7.0.2':
+    resolution: {integrity: sha512-PQHXEyOcqIJ4+SDxpwhb4MekGH6wrRDCTC5ZqpIscfXdKQE4IfdLQYA6aD9DKuFgA7mgpIZVtibSoEUXUvyl0g==}
 
   '@stacks/transactions@4.3.8':
     resolution: {integrity: sha512-5xYYv2TdXXM9PVixB79Pr99symQ8fhbVATjempGUxtL23/XUiRiLvJZohDxIE4VQ2EzbB4g4j8Y7oqPjj0h09Q==}
@@ -5319,8 +5275,8 @@ packages:
   '@stacks/transactions@7.0.2':
     resolution: {integrity: sha512-m2bvchqUeYv1ttXuC0EukW8UX4xBXTDcYb8bXmfI1RG89HXAvvCCgr5aiadU6zbutgoXvm8mquDt3nww0PO4Jg==}
 
-  '@stacks/wallet-sdk@6.15.0':
-    resolution: {integrity: sha512-VBMiWe5UAyDnvc2w8/XN7QuSkbXTnAJ5rvtzedb7yXKgIBMSjE+gQnUm0XasbNDRHc58Ag76IAMAIKh4ZAMC4w==}
+  '@stacks/wallet-sdk@7.0.2':
+    resolution: {integrity: sha512-hUVfdxpQXgspaaPab+KplypMjXw8xX73I20Bw79lE9L/CgEyMDw/AwauhH+ukhwGH0E4BbEy0Ezg6WfRVFo9Dw==}
 
   '@stdlib/array-float32@0.0.6':
     resolution: {integrity: sha512-QgKT5UaE92Rv7cxfn7wBKZAlwFFHPla8eXsMFsTGt5BiL4yUy36lwinPUh4hzybZ11rw1vifS3VAPuk6JP413Q==}
@@ -6624,9 +6580,6 @@ packages:
   '@types/node@18.19.45':
     resolution: {integrity: sha512-VZxPKNNhjKmaC1SUYowuXSRSMGyQGmQjvvA1xE4QZ0xce2kLtEhPDS+kqpCPBZYgqblCLQ2DAjSzmgCM5auvhA==}
 
-  '@types/node@18.19.56':
-    resolution: {integrity: sha512-4EMJlWwwGnVPflJAtM14p9eVSa6BOv5b92mCsh5zcM1UagNtEtrbbtaE6WE1tw2TabavatnwqXjlIpcAEuJJNg==}
-
   '@types/node@18.19.64':
     resolution: {integrity: sha512-955mDqvO2vFf/oL7V3WiUtiz+BugyX8uVbaT2H8oj3+8dRyH2FLiNdowe7eNqRM7IOIZvzDH76EoAT+gwm6aIQ==}
 
@@ -6773,9 +6726,6 @@ packages:
 
   '@types/webpack@5.28.5':
     resolution: {integrity: sha512-wR87cgvxj3p6D0Crt1r5avwqffqPXUkNlnQ1mjU93G7gCuFjufZR4I6j8cz5g1F1tTYpfOOFvly+cmIQwL9wvw==}
-
-  '@types/ws@7.4.7':
-    resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
 
   '@types/ws@8.5.12':
     resolution: {integrity: sha512-3tPRkv1EtkDpzlgyKyI8pGsGZAGPEaXeu0DOj5DI25Ja91bdAYddYHbADRYVrZMRbfW+1l5YwXVDKohDJNQxkQ==}
@@ -7580,9 +7530,6 @@ packages:
 
   babel-runtime@6.26.0:
     resolution: {integrity: sha512-ITKNuq2wKlW1fJg9sSW52eepoYgZBggvOAHC0u/CYu/qxQ9EVzThCgR69BnSXLHjy2f7SY5zaQ4yt7H9ZVxY2g==}
-
-  backo2@1.0.2:
-    resolution: {integrity: sha512-zj6Z6M7Eq+PBZ7PQxl5NT665MvJdAkzp0f60nAJ+sLaSCBPMwVak5ZegFbgVCzFcCJTKFoMizvM5Ld7+JrRJHA==}
 
   bail@2.0.2:
     resolution: {integrity: sha512-0xO6mYd7JB2YesxDKplafRpsiOzPt9V02ddPCLbY1xYGPOX24NTyN50qnUxgCPcSoYMhKpAuBTjQoRZCAkUDRw==}
@@ -8435,9 +8382,6 @@ packages:
     engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
     hasBin: true
 
-  cross-fetch@3.1.5:
-    resolution: {integrity: sha512-lvb1SBsI0Z7GDwmuid+mU3kWVBwTVUbe7S0H52yaaAdQOXq2YktTCZdlAcNKFzE6QtRz0snpw9bNiPeOIkkQvw==}
-
   cross-fetch@3.1.8:
     resolution: {integrity: sha512-cvA+JwZoU0Xq+h6WkMvAUqPEYy92Obet6UdKLfW60qn99ftItKjB5T+BkyWOFWe2pUyfQ+IJHmpOTznqk1M6Kg==}
 
@@ -9145,13 +9089,6 @@ packages:
 
   endent@2.1.0:
     resolution: {integrity: sha512-r8VyPX7XL8U01Xgnb1CjZ3XV+z90cXIJ9JPE/R9SEC9vpw2P6CfsRPJmp20DppC5N7ZAMCmjYkJIa744Iyg96w==}
-
-  engine.io-client@6.1.1:
-    resolution: {integrity: sha512-V05mmDo4gjimYW+FGujoGmmmxRaDsrVr7AXA3ZIfa04MWM1jOfZfUwou0oNqhNwy/votUDvGDt4JA4QF4e0b4g==}
-
-  engine.io-parser@5.0.7:
-    resolution: {integrity: sha512-P+jDFbvK6lE3n1OL+q9KuzdOFWkkZ/cMV9gol/SbVfpyqfvrfrFTOFJ6fQm2VC3PZHlU3QPhVwmbsCnauHF2MQ==}
-    engines: {node: '>=10.0.0'}
 
   enhanced-resolve@5.17.1:
     resolution: {integrity: sha512-LMHl3dXhTcfv8gM4kEzIUeTQ+7fpdA0l2tUf34BddXPkz2A5xJ5L/Pchd5BL6rdccM9QGvu0sWZzK1Z1t4wwyg==}
@@ -10146,9 +10083,6 @@ packages:
   has-bigints@1.0.2:
     resolution: {integrity: sha512-tSvCKtBr9lkF0Ex0aQiP9N+OpV4zi2r/Nee5VkRDbaqv35RLYMzbwQfFSZZH0kR+Rd6302UJZ2p/bJCEoR3VoQ==}
 
-  has-cors@1.1.0:
-    resolution: {integrity: sha512-g5VNKdkFuUuVCP9gYfDJHjK2nqdQJ7aDLTnycnc2+RvsOQbuLdF5pm7vuE5J76SEBIQjs4kQY/BWq74JUmjbXA==}
-
   has-flag@3.0.0:
     resolution: {integrity: sha512-sKJf1+ceQBr4SMkvQnBDNDtf4TXpVhVGateu0t918bl30FnbE2m4vNLX+VWe/dpjlb+HugGYzW7uQXH98HPEYw==}
     engines: {node: '>=4'}
@@ -10362,15 +10296,6 @@ packages:
 
   humanize-ms@1.2.1:
     resolution: {integrity: sha512-Fl70vYtsAFb/C06PTS9dZBo7ihau+Tu/DNCk/OyHhea07S+aeMWpFFkUaXRa8fI+ScZbEI8dfSxwY7gxZ9SAVQ==}
-
-  iced-error@0.0.13:
-    resolution: {integrity: sha512-yEEaG8QfyyRL0SsbNNDw3rVgTyqwHFMCuV6jDvD43f/2shmdaFXkqvFLGhDlsYNSolzYHwVLM/CrXt9GygYopA==}
-
-  iced-lock@1.1.0:
-    resolution: {integrity: sha512-J9UMVitgTMYrkUil5EB9/Q4BPWiMpFH156yjDlmMoMRKs3s3PnXj/6G0UlzIOGnNi5JVNk/zVYLXVnuo+1QnqQ==}
-
-  iced-runtime@1.0.4:
-    resolution: {integrity: sha512-rgiJXNF6ZgF2Clh/TKUlBDW3q51YPDJUXmxGQXx1b8tbZpVpTn+1RX9q1sjNkujXIIaVxZByQzPHHORg7KV51g==}
 
   iconv-lite@0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
@@ -11147,9 +11072,6 @@ packages:
   jsonpointer@5.0.1:
     resolution: {integrity: sha512-p/nXbhSEcu3pZRdkW1OfJhpsVtW1gd4Wa1fnQc9YLiTfAjn0312eMKimbdIQzuZl9aa9xUGaRlP9T/CJE/ditQ==}
     engines: {node: '>=0.10.0'}
-
-  jsonrpc-lite@2.2.0:
-    resolution: {integrity: sha512-/cbbSxtZWs1O7R4tWqabrCM/t3N8qKUZMAg9IUqpPvUs6UyRvm6pCNYkskyKN/XU0UgffW+NY2ZRr8t0AknX7g==}
 
   jsontokens@4.0.1:
     resolution: {integrity: sha512-+MO415LEN6M+3FGsRz4wU20g7N2JA+2j9d9+pGaNJHviG4L8N0qzavGyENw6fJqsq9CcrHOIL6iWX5yeTZ86+Q==}
@@ -12230,9 +12152,6 @@ packages:
   moment@2.30.1:
     resolution: {integrity: sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==}
 
-  more-entropy@0.0.7:
-    resolution: {integrity: sha512-e0TxQtU1F6/ZA8WnEA2JLQwwDqBTtZFLJSW7rWgUsQou35wx1IOL0g2O7q7oGoMgIJto+jHMnNGHLfSiylHRrw==}
-
   morgan@1.10.0:
     resolution: {integrity: sha512-AbegBVI4sh6El+1gNwvD5YIck7nSA36weD7xvIxG4in80j/UoK8AEGaWnnz8v1GxonMCltmlNs5ZKbGvl9b1XQ==}
     engines: {node: '>= 0.8.0'}
@@ -12332,15 +12251,6 @@ packages:
   node-eval@2.0.0:
     resolution: {integrity: sha512-Ap+L9HznXAVeJj3TJ1op6M6bg5xtTq8L5CU/PJxtkhea/DrIxdTknGKIECKd/v/Lgql95iuMAYvIzBNd0pmcMg==}
     engines: {node: '>= 4'}
-
-  node-fetch@2.6.7:
-    resolution: {integrity: sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==}
-    engines: {node: 4.x || >=6.0.0}
-    peerDependencies:
-      encoding: ^0.1.0
-    peerDependenciesMeta:
-      encoding:
-        optional: true
 
   node-fetch@2.7.0:
     resolution: {integrity: sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==}
@@ -12761,12 +12671,6 @@ packages:
 
   parse5@7.1.2:
     resolution: {integrity: sha512-Czj1WaSVpaoj0wbhMzLmWD69anp2WH7FXMB9n1Sy8/ZFF9jolSQVMu1Ij5WIyGmcBmhk7EOndpO4mIpihVqAXw==}
-
-  parseqs@0.0.6:
-    resolution: {integrity: sha512-jeAGzMDbfSHHA091hr0r31eYfTig+29g3GKKE/PPbEQ65X0lmMwlEoqmhzu0iztID5uJpZsFlUPDP8ThPL7M8w==}
-
-  parseuri@0.0.6:
-    resolution: {integrity: sha512-AUjen8sAkGgao7UyCX6Ahv0gIK2fABKmYjvP4xmy5JaKvcbTRueIqIPHLAfq30xJddqSE033IOMUSOMCcK3Sow==}
 
   parseurl@1.3.3:
     resolution: {integrity: sha512-CiyeOxFT/JZyN5m0z9PfXw4SCBJ6Sygz1Dpl0wqjlhDEGGBP1GnsUVEL0p63hoG1fcj3fHynXi9NYO4nWOL+qQ==}
@@ -13291,10 +13195,6 @@ packages:
     resolution: {integrity: sha512-UtlZbnxpYk1wufEWfhIjRn2U52zlY38uvnzFhs8rRxJxC1hSqw88JNR2Mbpqq9Kix8L1nGb3uQ+/1BiUWbigAg==}
     peerDependencies:
       webpack: ^1.3.0 || ^2 || ^3 || ^4 || ^5
-
-  progress@1.1.8:
-    resolution: {integrity: sha512-UdA8mJ4weIkUBO224tIarHzuHs4HuYiJvsuGT7j/SPQiUJVjYvNDBIPa0hAorduOfjGohB/qHWRa/lrrWX/mXw==}
-    engines: {node: '>=0.4.0'}
 
   progress@2.0.3:
     resolution: {integrity: sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==}
@@ -14346,14 +14246,6 @@ packages:
   snake-case@3.0.4:
     resolution: {integrity: sha512-LAOh4z89bGQvl9pFfNF8V146i7o7/CqFPbqzYgP+yYzDIDeS9HaNFtXABamRW+AQzEVODcvE79ljJ+8a9YSdMg==}
 
-  socket.io-client@4.4.1:
-    resolution: {integrity: sha512-N5C/L5fLNha5Ojd7Yeb/puKcPWWcoB/A09fEjjNsg91EDVr5twk/OEyO6VT9dlLSUNY85NpW6KBhVMvaLKQ3vQ==}
-    engines: {node: '>=10.0.0'}
-
-  socket.io-parser@4.2.4:
-    resolution: {integrity: sha512-/GbIKmo8ioc+NIWIhwdecY0ge+qVBSMdgxGygevmdHj24bsfgtCmcUUcQ5ZzcylGFHsN3k4HB4Cgkl96KVnuew==}
-    engines: {node: '>=10.0.0'}
-
   socketcluster-client@19.2.2:
     resolution: {integrity: sha512-RPjur52uWGi3RzI/3eyvccJJRs4ZHPnUBpuz9U9XzXyzhiT2OpVVbkOZQqhH9ykpj+8XYOyyz8K0RKL0gycSRg==}
 
@@ -14931,9 +14823,6 @@ packages:
     resolution: {integrity: sha512-WZGXGstmCWgeevgTL54hrCuw1dyMQIzWy7ZfqRJfSmJZBwklI15egmQytFP6bPidmw3M8d5yEowl1niq4vmqZw==}
     engines: {node: '>=0.10.0'}
 
-  triplesec@4.0.3:
-    resolution: {integrity: sha512-fug70e1nJoCMxsXQJlETisAALohm84vl++IiTTHEqM7Lgqwz62jrlwqOC/gJEAJjO/ByN127sEcioB56HW3wIw==}
-
   trough@2.2.0:
     resolution: {integrity: sha512-tmMpK00BjZiUyVyvrBK7knerNgmgvcV/KLVyuma/SC+TQN167GrMRciANTz09+k3zW8L8t60jWO1GpfkZdjTaw==}
 
@@ -15148,11 +15037,6 @@ packages:
 
   ufo@1.5.4:
     resolution: {integrity: sha512-UsUk3byDzKd04EyoZ7U4DOlxQaD14JUKQl6/P7wiX4FNvUfm3XL246n9W5AmqwW5RSFJ27NAuM0iLscAOYUiGQ==}
-
-  uglify-js@3.19.2:
-    resolution: {integrity: sha512-S8KA6DDI47nQXJSi2ctQ629YzwOVs+bQML6DAtvy0wgNdpi+0ySpQK0g2pxBq2xfF2z3YCscu7NNA8nXT9PlIQ==}
-    engines: {node: '>=0.8.0'}
-    hasBin: true
 
   unbox-primitive@1.0.2:
     resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==}
@@ -15837,10 +15721,6 @@ packages:
   xmlchars@2.2.0:
     resolution: {integrity: sha512-JZnDKK8B0RCDw84FNdDAIpZK+JuJw+s7Lz8nksI7SIuU3UXJJslUthsi+uWBUYOwPFwW7W7PRLRfUKpxjtjFCw==}
 
-  xmlhttprequest-ssl@2.0.0:
-    resolution: {integrity: sha512-QKxVRxiRACQcVuQEYFsI1hhkrMlrXHPegbbd1yn9UHOmRxY+si12nQYzri3vbzt8VdTTRviqcKxcyllFas5z2A==}
-    engines: {node: '>=0.4.0'}
-
   xtend@2.0.6:
     resolution: {integrity: sha512-fOZg4ECOlrMl+A6Msr7EIFcON1L26mb4NY5rurSkOex/TWhazOrg6eXD/B0XkuiYcYhQDWLXzQxLMVJ7LXwokg==}
     engines: {node: '>=0.4'}
@@ -15913,9 +15793,6 @@ packages:
 
   yazl@2.5.1:
     resolution: {integrity: sha512-phENi2PLiHnHb6QBVot+dJnaAZ0xosj7p3fWl+znIjBDlnMI2PsZCJZ306BPTFOaHf5qdDEI8x5qFrSOBN5vrw==}
-
-  yeast@0.1.2:
-    resolution: {integrity: sha512-8HFIh676uyGYP6wP13R/j6OJ/1HwJ46snpvzE7aHAN3Ryqh2yX6Xox2B4CUmTwwOIzlG3Bs7ocsP5dZH/R1Qbg==}
 
   yn@3.1.1:
     resolution: {integrity: sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==}
@@ -19278,21 +19155,21 @@ snapshots:
 
   '@leather.io/analytics@2.0.1': {}
 
-  '@leather.io/bitcoin@0.17.0(encoding@0.1.13)':
+  '@leather.io/bitcoin@file:../mono/packages/bitcoin(encoding@0.1.13)':
     dependencies:
       '@bitcoinerlab/secp256k1': 1.0.2
-      '@leather.io/constants': 0.13.5
-      '@leather.io/crypto': 1.6.14
-      '@leather.io/models': 0.22.0
-      '@leather.io/utils': 0.20.0
+      '@leather.io/constants': file:../mono/packages/constants
+      '@leather.io/crypto': file:../mono/packages/crypto(encoding@0.1.13)
+      '@leather.io/models': file:../mono/packages/models
+      '@leather.io/utils': file:../mono/packages/utils(encoding@0.1.13)
       '@noble/hashes': 1.5.0
       '@noble/secp256k1': 2.1.0
       '@scure/base': 1.1.9
       '@scure/bip32': 1.5.0
       '@scure/bip39': 1.4.0
       '@scure/btc-signer': 1.4.0
-      '@stacks/common': 6.13.0
-      '@stacks/transactions': 6.17.0(encoding@0.1.13)
+      '@stacks/common': 7.0.2
+      '@stacks/transactions': 7.0.2(encoding@0.1.13)
       bignumber.js: 9.1.2
       bip32: 4.0.0
       bitcoin-address-validation: 2.2.3
@@ -19303,57 +19180,13 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@leather.io/bitcoin@0.19.15(encoding@0.1.13)':
+  '@leather.io/constants@file:../mono/packages/constants':
     dependencies:
-      '@bitcoinerlab/secp256k1': 1.0.2
-      '@leather.io/constants': 0.15.3
-      '@leather.io/crypto': 1.6.31(encoding@0.1.13)
-      '@leather.io/models': 0.24.3
-      '@leather.io/utils': 0.23.4(encoding@0.1.13)
-      '@noble/hashes': 1.5.0
-      '@noble/secp256k1': 2.1.0
-      '@scure/base': 1.1.9
-      '@scure/bip32': 1.5.0
-      '@scure/bip39': 1.4.0
-      '@scure/btc-signer': 1.4.0
-      '@stacks/common': 6.13.0
-      '@stacks/transactions': 6.17.0(encoding@0.1.13)
-      bignumber.js: 9.1.2
-      bip32: 4.0.0
-      bitcoin-address-validation: 2.2.3
-      bitcoinjs-lib: 6.1.5
-      ecpair: 2.1.0
-      just-memoize: 2.2.0
-      varuint-bitcoin: 1.1.2
-    transitivePeerDependencies:
-      - encoding
+      '@leather.io/models': file:../mono/packages/models
 
-  '@leather.io/constants@0.13.5':
+  '@leather.io/crypto@file:../mono/packages/crypto(encoding@0.1.13)':
     dependencies:
-      '@leather.io/models': 0.22.0
-
-  '@leather.io/constants@0.15.1':
-    dependencies:
-      '@leather.io/models': 0.24.1
-
-  '@leather.io/constants@0.15.3':
-    dependencies:
-      '@leather.io/models': 0.24.3
-
-  '@leather.io/constants@0.15.4':
-    dependencies:
-      '@leather.io/models': 0.25.0
-
-  '@leather.io/crypto@1.6.14':
-    dependencies:
-      '@leather.io/utils': 0.20.0
-      '@scure/bip32': 1.5.0
-      '@scure/bip39': 1.4.0
-      just-memoize: 2.2.0
-
-  '@leather.io/crypto@1.6.31(encoding@0.1.13)':
-    dependencies:
-      '@leather.io/utils': 0.23.4(encoding@0.1.13)
+      '@leather.io/utils': file:../mono/packages/utils(encoding@0.1.13)
       '@scure/bip32': 1.5.0
       '@scure/bip39': 1.4.0
       just-memoize: 2.2.0
@@ -19370,31 +19203,13 @@ snapshots:
       - supports-color
       - typescript
 
-  '@leather.io/models@0.22.0':
+  '@leather.io/models@file:../mono/packages/models':
     dependencies:
       '@stacks/stacks-blockchain-api-types': 7.8.2
       bignumber.js: 9.1.2
       zod: 3.23.8
 
-  '@leather.io/models@0.24.1':
-    dependencies:
-      '@stacks/stacks-blockchain-api-types': 7.8.2
-      bignumber.js: 9.1.2
-      zod: 3.23.8
-
-  '@leather.io/models@0.24.3':
-    dependencies:
-      '@stacks/stacks-blockchain-api-types': 7.8.2
-      bignumber.js: 9.1.2
-      zod: 3.23.8
-
-  '@leather.io/models@0.25.0':
-    dependencies:
-      '@stacks/stacks-blockchain-api-types': 7.8.2
-      bignumber.js: 9.1.2
-      zod: 3.23.8
-
-  '@leather.io/panda-preset@0.8.0(jsdom@22.1.0)(typescript@5.4.5)':
+  '@leather.io/panda-preset@file:../mono/packages/panda-preset(jsdom@22.1.0)(typescript@5.4.5)':
     dependencies:
       '@pandacss/dev': 0.46.1(jsdom@22.1.0)(typescript@5.4.5)
     transitivePeerDependencies:
@@ -19409,26 +19224,26 @@ snapshots:
       - '@vue/compiler-sfc'
       - supports-color
 
-  '@leather.io/query@2.26.16(encoding@0.1.13)(react@18.3.1)':
+  '@leather.io/query@file:../mono/packages/query(encoding@0.1.13)(react@18.3.1)':
     dependencies:
       '@fungible-systems/zone-file': 2.0.0
       '@hirosystems/token-metadata-api-client': 1.2.0(encoding@0.1.13)
-      '@leather.io/bitcoin': 0.19.15(encoding@0.1.13)
-      '@leather.io/constants': 0.15.3
-      '@leather.io/models': 0.24.3
-      '@leather.io/rpc': 2.5.3(encoding@0.1.13)
-      '@leather.io/utils': 0.23.4(encoding@0.1.13)
+      '@leather.io/bitcoin': file:../mono/packages/bitcoin(encoding@0.1.13)
+      '@leather.io/constants': file:../mono/packages/constants
+      '@leather.io/models': file:../mono/packages/models
+      '@leather.io/rpc': file:../mono/packages/rpc(encoding@0.1.13)
+      '@leather.io/stacks': file:../mono/packages/stacks(encoding@0.1.13)
+      '@leather.io/utils': file:../mono/packages/utils(encoding@0.1.13)
       '@noble/hashes': 1.5.0
       '@scure/base': 1.1.9
       '@scure/bip32': 1.5.0
       '@scure/btc-signer': 1.4.0
-      '@stacks/common': 6.13.0
-      '@stacks/connect': 7.4.0(encoding@0.1.13)
-      '@stacks/network': 6.13.0(encoding@0.1.13)
+      '@stacks/common': 7.0.2
+      '@stacks/network': 7.0.2(encoding@0.1.13)
       '@stacks/stacks-blockchain-api-types': 7.8.2
-      '@stacks/transactions': 6.17.0(encoding@0.1.13)
+      '@stacks/transactions': 7.0.2(encoding@0.1.13)
       '@tanstack/react-query': 5.59.16(react@18.3.1)
-      alex-sdk: 2.1.4(@stacks/network@6.13.0(encoding@0.1.13))(@stacks/transactions@6.17.0(encoding@0.1.13))
+      alex-sdk: 2.1.4(@stacks/network@7.0.2(encoding@0.1.13))(@stacks/transactions@7.0.2(encoding@0.1.13))
       axios: 1.7.4
       bignumber.js: 9.1.2
       lodash.get: 4.4.2
@@ -19442,61 +19257,41 @@ snapshots:
       - debug
       - encoding
 
-  '@leather.io/rpc@2.1.20':
+  '@leather.io/rpc@file:../mono/packages/rpc(encoding@0.1.13)':
     dependencies:
-      '@leather.io/models': 0.22.0
-      zod: 3.23.8
-
-  '@leather.io/rpc@2.4.0(encoding@0.1.13)':
-    dependencies:
-      '@leather.io/models': 0.24.1
-      '@stacks/network': 6.13.0(encoding@0.1.13)
+      '@leather.io/models': file:../mono/packages/models
+      '@stacks/network': 7.0.2(encoding@0.1.13)
+      '@stacks/transactions': 7.0.2(encoding@0.1.13)
       zod: 3.23.8
     transitivePeerDependencies:
       - encoding
 
-  '@leather.io/rpc@2.5.3(encoding@0.1.13)':
+  '@leather.io/stacks@file:../mono/packages/stacks(encoding@0.1.13)':
     dependencies:
-      '@leather.io/models': 0.24.3
-      '@stacks/network': 6.13.0(encoding@0.1.13)
-      '@stacks/transactions-v7': '@stacks/transactions@7.0.2(encoding@0.1.13)'
-      zod: 3.23.8
-    transitivePeerDependencies:
-      - encoding
-
-  '@leather.io/rpc@2.5.4(encoding@0.1.13)':
-    dependencies:
-      '@leather.io/models': 0.25.0
-      '@stacks/network': 6.13.0(encoding@0.1.13)
-      '@stacks/transactions-v7': '@stacks/transactions@7.0.2(encoding@0.1.13)'
-      zod: 3.23.8
-    transitivePeerDependencies:
-      - encoding
-
-  '@leather.io/stacks@1.4.0(encoding@0.1.13)':
-    dependencies:
-      '@leather.io/constants': 0.13.5
-      '@leather.io/crypto': 1.6.14
-      '@leather.io/models': 0.22.0
-      '@leather.io/utils': 0.20.0
+      '@leather.io/constants': file:../mono/packages/constants
+      '@leather.io/crypto': file:../mono/packages/crypto(encoding@0.1.13)
+      '@leather.io/models': file:../mono/packages/models
+      '@leather.io/utils': file:../mono/packages/utils(encoding@0.1.13)
       '@noble/hashes': 1.5.0
       '@scure/bip32': 1.5.0
-      '@stacks/encryption': 6.16.1
-      '@stacks/network': 6.13.0(encoding@0.1.13)
+      '@stacks/common': 7.0.2
+      '@stacks/encryption': 7.0.2
+      '@stacks/network': 7.0.2(encoding@0.1.13)
       '@stacks/stacks-blockchain-api-types': 7.8.2
-      '@stacks/transactions': 6.17.0(encoding@0.1.13)
+      '@stacks/transactions': 7.0.2(encoding@0.1.13)
+      '@stacks/transactions-v6': '@stacks/transactions@6.17.0(encoding@0.1.13)'
       bignumber.js: 9.1.2
     transitivePeerDependencies:
       - encoding
 
-  '@leather.io/tokens@0.12.1': {}
+  '@leather.io/tokens@file:../mono/packages/tokens': {}
 
   '@leather.io/ui@1.44.4(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@emotion/is-prop-valid@1.3.1)(@types/react-dom@18.3.0)(@types/react@18.3.10)(encoding@0.1.13)(expo-modules-autolinking@1.11.1)':
     dependencies:
       '@expo/vector-icons': 14.0.0
       '@gorhom/bottom-sheet': 4.6.3(@types/react@18.3.10)(react-native-gesture-handler@2.16.1(react-native@0.74.1(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.3.10)(encoding@0.1.13)(react@18.2.0))(react@18.2.0))(react-native-reanimated@3.10.1(@babel/core@7.26.0)(react-native@0.74.1(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.3.10)(encoding@0.1.13)(react@18.2.0))(react@18.2.0))(react-native@0.74.1(@babel/core@7.26.0)(@babel/preset-env@7.26.0(@babel/core@7.26.0))(@types/react@18.3.10)(encoding@0.1.13)(react@18.2.0))(react@18.2.0)
-      '@leather.io/tokens': 0.12.1
-      '@leather.io/utils': 0.22.4(encoding@0.1.13)
+      '@leather.io/tokens': file:../mono/packages/tokens
+      '@leather.io/utils': file:../mono/packages/utils(encoding@0.1.13)
       '@radix-ui/react-accessible-icon': 1.0.3(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@radix-ui/react-accordion': 1.1.2(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@radix-ui/react-avatar': 1.0.4(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -19550,36 +19345,11 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@leather.io/utils@0.20.0':
+  '@leather.io/utils@file:../mono/packages/utils(encoding@0.1.13)':
     dependencies:
-      '@leather.io/constants': 0.13.5
-      '@leather.io/models': 0.22.0
-      '@leather.io/rpc': 2.1.20
-      bignumber.js: 9.1.2
-
-  '@leather.io/utils@0.22.4(encoding@0.1.13)':
-    dependencies:
-      '@leather.io/constants': 0.15.1
-      '@leather.io/models': 0.24.1
-      '@leather.io/rpc': 2.4.0(encoding@0.1.13)
-      bignumber.js: 9.1.2
-    transitivePeerDependencies:
-      - encoding
-
-  '@leather.io/utils@0.23.4(encoding@0.1.13)':
-    dependencies:
-      '@leather.io/constants': 0.15.3
-      '@leather.io/models': 0.24.3
-      '@leather.io/rpc': 2.5.3(encoding@0.1.13)
-      bignumber.js: 9.1.2
-    transitivePeerDependencies:
-      - encoding
-
-  '@leather.io/utils@0.25.0(encoding@0.1.13)':
-    dependencies:
-      '@leather.io/constants': 0.15.4
-      '@leather.io/models': 0.25.0
-      '@leather.io/rpc': 2.5.4(encoding@0.1.13)
+      '@leather.io/constants': file:../mono/packages/constants
+      '@leather.io/models': file:../mono/packages/models
+      '@leather.io/rpc': file:../mono/packages/rpc(encoding@0.1.13)
       bignumber.js: 9.1.2
     transitivePeerDependencies:
       - encoding
@@ -22572,35 +22342,28 @@ snapshots:
     dependencies:
       '@sinonjs/commons': 3.0.1
 
-  '@socket.io/component-emitter@3.0.0': {}
-
-  '@socket.io/component-emitter@3.1.2': {}
-
   '@stacks/auth@6.15.0(encoding@0.1.13)':
     dependencies:
-      '@stacks/common': 6.13.0
-      '@stacks/encryption': 6.15.0
-      '@stacks/network': 6.13.0(encoding@0.1.13)
+      '@stacks/common': 6.16.0
+      '@stacks/encryption': 6.16.1
+      '@stacks/network': 6.17.0(encoding@0.1.13)
       '@stacks/profile': 6.15.0(encoding@0.1.13)
       cross-fetch: 3.1.8(encoding@0.1.13)
       jsontokens: 4.0.1
     transitivePeerDependencies:
       - encoding
 
-  '@stacks/blockchain-api-client@6.3.4(encoding@0.1.13)':
+  '@stacks/auth@7.0.2(encoding@0.1.13)':
     dependencies:
-      '@stacks/stacks-blockchain-api-types': 7.8.2
-      '@types/ws': 7.4.7
-      cross-fetch: 3.1.5(encoding@0.1.13)
-      eventemitter3: 4.0.7
-      jsonrpc-lite: 2.2.0
-      socket.io-client: 4.4.1
-      ws: 8.17.1
+      '@noble/secp256k1': 1.7.1
+      '@stacks/common': 7.0.2
+      '@stacks/encryption': 7.0.2
+      '@stacks/network': 7.0.2(encoding@0.1.13)
+      '@stacks/profile': 7.0.2(encoding@0.1.13)
+      cross-fetch: 3.1.8(encoding@0.1.13)
+      jsontokens: 4.0.1
     transitivePeerDependencies:
-      - bufferutil
       - encoding
-      - supports-color
-      - utf-8-validate
 
   '@stacks/common@4.3.5':
     dependencies:
@@ -22608,15 +22371,10 @@ snapshots:
       '@types/node': 18.19.64
       buffer: 6.0.3
 
-  '@stacks/common@6.13.0':
-    dependencies:
-      '@types/bn.js': 5.1.6
-      '@types/node': 18.19.45
-
   '@stacks/common@6.16.0':
     dependencies:
       '@types/bn.js': 5.1.6
-      '@types/node': 18.19.56
+      '@types/node': 18.19.64
 
   '@stacks/common@7.0.2': {}
 
@@ -22637,24 +22395,12 @@ snapshots:
     dependencies:
       '@stacks/auth': 6.15.0(encoding@0.1.13)
       '@stacks/connect-ui': 6.1.1
-      '@stacks/network': 6.13.0(encoding@0.1.13)
+      '@stacks/network': 6.17.0(encoding@0.1.13)
       '@stacks/profile': 6.15.0(encoding@0.1.13)
       '@stacks/transactions': 6.17.0(encoding@0.1.13)
       jsontokens: 4.0.1
     transitivePeerDependencies:
       - encoding
-
-  '@stacks/encryption@6.15.0':
-    dependencies:
-      '@noble/hashes': 1.1.5
-      '@noble/secp256k1': 1.7.1
-      '@scure/bip39': 1.1.0
-      '@stacks/common': 6.13.0
-      '@types/node': 18.19.45
-      base64-js: 1.5.1
-      bs58: 5.0.0
-      ripemd160-min: 0.0.6
-      varuint-bitcoin: 1.1.2
 
   '@stacks/encryption@6.16.1':
     dependencies:
@@ -22662,7 +22408,7 @@ snapshots:
       '@noble/secp256k1': 1.7.1
       '@scure/bip39': 1.1.0
       '@stacks/common': 6.16.0
-      '@types/node': 18.19.64
+      '@types/node': 18.19.45
       base64-js: 1.5.1
       bs58: 5.0.0
       ripemd160-min: 0.0.6
@@ -22688,7 +22434,7 @@ snapshots:
 
   '@stacks/network@6.13.0(encoding@0.1.13)':
     dependencies:
-      '@stacks/common': 6.13.0
+      '@stacks/common': 6.16.0
       cross-fetch: 3.1.8(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
@@ -22709,9 +22455,20 @@ snapshots:
 
   '@stacks/profile@6.15.0(encoding@0.1.13)':
     dependencies:
-      '@stacks/common': 6.13.0
-      '@stacks/network': 6.13.0(encoding@0.1.13)
+      '@stacks/common': 6.16.0
+      '@stacks/network': 6.17.0(encoding@0.1.13)
       '@stacks/transactions': 6.17.0(encoding@0.1.13)
+      jsontokens: 4.0.1
+      schema-inspector: 2.0.2
+      zone-file: 2.0.0-beta.3
+    transitivePeerDependencies:
+      - encoding
+
+  '@stacks/profile@7.0.2(encoding@0.1.13)':
+    dependencies:
+      '@stacks/common': 7.0.2
+      '@stacks/network': 7.0.2(encoding@0.1.13)
+      '@stacks/transactions': 7.0.2(encoding@0.1.13)
       jsontokens: 4.0.1
       schema-inspector: 2.0.2
       zone-file: 2.0.0-beta.3
@@ -22727,12 +22484,12 @@ snapshots:
 
   '@stacks/stacks-blockchain-api-types@7.8.2': {}
 
-  '@stacks/storage@6.15.0(encoding@0.1.13)':
+  '@stacks/storage@7.0.2(encoding@0.1.13)':
     dependencies:
-      '@stacks/auth': 6.15.0(encoding@0.1.13)
-      '@stacks/common': 6.13.0
-      '@stacks/encryption': 6.15.0
-      '@stacks/network': 6.13.0(encoding@0.1.13)
+      '@stacks/auth': 7.0.2(encoding@0.1.13)
+      '@stacks/common': 7.0.2
+      '@stacks/encryption': 7.0.2
+      '@stacks/network': 7.0.2(encoding@0.1.13)
       base64-js: 1.5.1
       jsontokens: 4.0.1
     transitivePeerDependencies:
@@ -22776,21 +22533,19 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@stacks/wallet-sdk@6.15.0(encoding@0.1.13)':
+  '@stacks/wallet-sdk@7.0.2(encoding@0.1.13)':
     dependencies:
       '@scure/bip32': 1.1.3
       '@scure/bip39': 1.1.0
-      '@stacks/auth': 6.15.0(encoding@0.1.13)
-      '@stacks/common': 6.13.0
-      '@stacks/encryption': 6.15.0
-      '@stacks/network': 6.13.0(encoding@0.1.13)
-      '@stacks/profile': 6.15.0(encoding@0.1.13)
-      '@stacks/storage': 6.15.0(encoding@0.1.13)
-      '@stacks/transactions': 6.17.0(encoding@0.1.13)
-      buffer: 6.0.3
+      '@stacks/auth': 7.0.2(encoding@0.1.13)
+      '@stacks/common': 7.0.2
+      '@stacks/encryption': 7.0.2
+      '@stacks/network': 7.0.2(encoding@0.1.13)
+      '@stacks/profile': 7.0.2(encoding@0.1.13)
+      '@stacks/storage': 7.0.2(encoding@0.1.13)
+      '@stacks/transactions': 7.0.2(encoding@0.1.13)
       c32check: 2.0.0
       jsontokens: 4.0.1
-      triplesec: 4.0.3
       zone-file: 2.0.0-beta.3
     transitivePeerDependencies:
       - encoding
@@ -24394,10 +24149,6 @@ snapshots:
     dependencies:
       undici-types: 5.26.5
 
-  '@types/node@18.19.56':
-    dependencies:
-      undici-types: 5.26.5
-
   '@types/node@18.19.64':
     dependencies:
       undici-types: 5.26.5
@@ -24566,10 +24317,6 @@ snapshots:
       - esbuild
       - uglify-js
       - webpack-cli
-
-  '@types/ws@7.4.7':
-    dependencies:
-      '@types/node': 20.12.12
 
   '@types/ws@8.5.12':
     dependencies:
@@ -25286,11 +25033,11 @@ snapshots:
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
 
-  alex-sdk@2.1.4(@stacks/network@6.13.0(encoding@0.1.13))(@stacks/transactions@6.17.0(encoding@0.1.13)):
+  alex-sdk@2.1.4(@stacks/network@7.0.2(encoding@0.1.13))(@stacks/transactions@7.0.2(encoding@0.1.13)):
     dependencies:
-      '@stacks/network': 6.13.0(encoding@0.1.13)
-      '@stacks/transactions': 6.17.0(encoding@0.1.13)
-      clarity-codegen: 0.5.3(@stacks/transactions@6.17.0(encoding@0.1.13))
+      '@stacks/network': 7.0.2(encoding@0.1.13)
+      '@stacks/transactions': 7.0.2(encoding@0.1.13)
+      clarity-codegen: 0.5.3(@stacks/transactions@7.0.2(encoding@0.1.13))
     transitivePeerDependencies:
       - debug
 
@@ -25658,8 +25405,6 @@ snapshots:
       core-js: 2.6.12
       regenerator-runtime: 0.11.1
 
-  backo2@1.0.2: {}
-
   bail@2.0.2: {}
 
   balanced-match@1.0.2: {}
@@ -25744,7 +25489,7 @@ snapshots:
 
   bitflow-sdk@1.6.1(encoding@0.1.13):
     dependencies:
-      '@stacks/network': 6.13.0(encoding@0.1.13)
+      '@stacks/network': 6.17.0(encoding@0.1.13)
       '@stacks/transactions': 6.17.0(encoding@0.1.13)
       dotenv: 16.4.5
     transitivePeerDependencies:
@@ -26264,10 +26009,10 @@ snapshots:
 
   cjs-module-lexer@1.3.1: {}
 
-  clarity-codegen@0.5.3(@stacks/transactions@6.17.0(encoding@0.1.13)):
+  clarity-codegen@0.5.3(@stacks/transactions@7.0.2(encoding@0.1.13)):
     dependencies:
       '@stacks/stacks-blockchain-api-types': 7.8.2
-      '@stacks/transactions': 6.17.0(encoding@0.1.13)
+      '@stacks/transactions': 7.0.2(encoding@0.1.13)
       axios: 1.7.4
       lodash: 4.17.21
       yargs: 17.7.2
@@ -26640,12 +26385,6 @@ snapshots:
   cross-env@7.0.3:
     dependencies:
       cross-spawn: 7.0.5
-
-  cross-fetch@3.1.5(encoding@0.1.13):
-    dependencies:
-      node-fetch: 2.6.7(encoding@0.1.13)
-    transitivePeerDependencies:
-      - encoding
 
   cross-fetch@3.1.8(encoding@0.1.13):
     dependencies:
@@ -27395,24 +27134,6 @@ snapshots:
       dedent: 0.7.0
       fast-json-parse: 1.0.3
       objectorarray: 1.0.5
-
-  engine.io-client@6.1.1:
-    dependencies:
-      '@socket.io/component-emitter': 3.0.0
-      debug: 4.3.7
-      engine.io-parser: 5.0.7
-      has-cors: 1.1.0
-      parseqs: 0.0.6
-      parseuri: 0.0.6
-      ws: 8.17.1
-      xmlhttprequest-ssl: 2.0.0
-      yeast: 0.1.2
-    transitivePeerDependencies:
-      - bufferutil
-      - supports-color
-      - utf-8-validate
-
-  engine.io-parser@5.0.7: {}
 
   enhanced-resolve@5.17.1:
     dependencies:
@@ -28815,8 +28536,6 @@ snapshots:
 
   has-bigints@1.0.2: {}
 
-  has-cors@1.1.0: {}
-
   has-flag@3.0.0: {}
 
   has-flag@4.0.0: {}
@@ -29102,14 +28821,6 @@ snapshots:
     dependencies:
       ms: 2.1.3
     optional: true
-
-  iced-error@0.0.13: {}
-
-  iced-lock@1.1.0:
-    dependencies:
-      iced-runtime: 1.0.4
-
-  iced-runtime@1.0.4: {}
 
   iconv-lite@0.4.24:
     dependencies:
@@ -29825,8 +29536,6 @@ snapshots:
   jsonparse@1.3.1: {}
 
   jsonpointer@5.0.1: {}
-
-  jsonrpc-lite@2.2.0: {}
 
   jsontokens@4.0.1:
     dependencies:
@@ -31400,10 +31109,6 @@ snapshots:
   moment@2.30.1:
     optional: true
 
-  more-entropy@0.0.7:
-    dependencies:
-      iced-runtime: 1.0.4
-
   morgan@1.10.0:
     dependencies:
       basic-auth: 2.0.1
@@ -31497,12 +31202,6 @@ snapshots:
   node-eval@2.0.0:
     dependencies:
       path-is-absolute: 1.0.1
-
-  node-fetch@2.6.7(encoding@0.1.13):
-    dependencies:
-      whatwg-url: 5.0.0
-    optionalDependencies:
-      encoding: 0.1.13
 
   node-fetch@2.7.0(encoding@0.1.13):
     dependencies:
@@ -31980,10 +31679,6 @@ snapshots:
   parse5@7.1.2:
     dependencies:
       entities: 4.5.0
-
-  parseqs@0.0.6: {}
-
-  parseuri@0.0.6: {}
 
   parseurl@1.3.3: {}
 
@@ -32558,8 +32253,6 @@ snapshots:
       chalk: 3.0.0
       progress: 2.0.3
       webpack: 5.94.0(@swc/core@1.7.18)(esbuild@0.24.0)(webpack-cli@5.1.4(webpack-bundle-analyzer@4.10.2)(webpack-dev-server@4.15.1)(webpack@5.94.0))
-
-  progress@1.1.8: {}
 
   progress@2.0.3: {}
 
@@ -33881,26 +33574,6 @@ snapshots:
       dot-case: 3.0.4
       tslib: 2.7.0
 
-  socket.io-client@4.4.1:
-    dependencies:
-      '@socket.io/component-emitter': 3.0.0
-      backo2: 1.0.2
-      debug: 4.3.6(supports-color@5.5.0)
-      engine.io-client: 6.1.1
-      parseuri: 0.0.6
-      socket.io-parser: 4.2.4
-    transitivePeerDependencies:
-      - bufferutil
-      - supports-color
-      - utf-8-validate
-
-  socket.io-parser@4.2.4:
-    dependencies:
-      '@socket.io/component-emitter': 3.1.2
-      debug: 4.3.7
-    transitivePeerDependencies:
-      - supports-color
-
   socketcluster-client@19.2.2:
     dependencies:
       ag-auth: 2.1.0
@@ -34549,15 +34222,6 @@ snapshots:
 
   trim-right@1.0.1: {}
 
-  triplesec@4.0.3:
-    dependencies:
-      iced-error: 0.0.13
-      iced-lock: 1.1.0
-      iced-runtime: 1.0.4
-      more-entropy: 0.0.7
-      progress: 1.1.8
-      uglify-js: 3.19.2
-
   trough@2.2.0: {}
 
   ts-api-utils@1.3.0(typescript@5.4.5):
@@ -34752,8 +34416,6 @@ snapshots:
   ua-parser-js@1.0.39: {}
 
   ufo@1.5.4: {}
-
-  uglify-js@3.19.2: {}
 
   unbox-primitive@1.0.2:
     dependencies:
@@ -35628,8 +35290,6 @@ snapshots:
 
   xmlchars@2.2.0: {}
 
-  xmlhttprequest-ssl@2.0.0: {}
-
   xtend@2.0.6:
     dependencies:
       is-object: 0.1.2
@@ -35708,8 +35368,6 @@ snapshots:
   yazl@2.5.1:
     dependencies:
       buffer-crc32: 0.2.13
-
-  yeast@0.1.2: {}
 
   yn@3.1.1: {}
 

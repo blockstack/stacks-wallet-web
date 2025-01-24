@@ -1,6 +1,5 @@
 import { useCallback } from 'react';
 
-import { TransactionTypes } from '@stacks/connect';
 import * as yup from 'yup';
 
 import {
@@ -8,7 +7,7 @@ import {
   useStacksRawTransaction,
   useStxAvailableUnlockedBalance,
 } from '@leather.io/query';
-import { getStacksBurnAddress } from '@leather.io/stacks';
+import { TransactionTypes, getStacksBurnAddress } from '@leather.io/stacks';
 import { stxToMicroStx } from '@leather.io/utils';
 
 import { useRefreshAllAccountData } from '@app/common/hooks/account/use-refresh-all-account-data';
@@ -55,7 +54,7 @@ export function useStacksTransactionAction({ actionType, txid }: UseStacksTransa
         nonce: tx.nonce,
         fee: stxToMicroStx(fee).toNumber(),
         txData: {
-          txType: TransactionTypes.STXTransfer,
+          txType: TransactionTypes.StxTokenTransfer,
           recipient: getStacksBurnAddress(network.chainId),
           amount: 1,
           memo: '_cancel transaction',

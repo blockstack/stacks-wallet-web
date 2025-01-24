@@ -1,7 +1,8 @@
-import { StacksMainnet, StacksTestnet } from '@stacks/network';
 import { RPCClient } from '@stacks/rpc-client';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+
+import { StacksMainnet, StacksTestnet } from './legacy-network';
 
 dayjs.extend(relativeTime);
 

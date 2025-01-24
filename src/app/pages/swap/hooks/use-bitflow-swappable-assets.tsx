@@ -11,12 +11,8 @@ import {
   useStxAvailableUnlockedBalance,
   useTransferableSip10Tokens,
 } from '@leather.io/query';
-import {
-  convertAmountToFractionalUnit,
-  createMoney,
-  getPrincipalFromContractId,
-  isDefined,
-} from '@leather.io/utils';
+import { getPrincipalFromAssetString } from '@leather.io/stacks';
+import { convertAmountToFractionalUnit, createMoney, isDefined } from '@leather.io/utils';
 
 import { useSip10FiatMarketData } from '@app/common/hooks/use-calculate-sip10-fiat-value';
 import { createGetBitflowAvailableTokensQueryOptions } from '@app/query/bitflow-sdk/bitflow-available-tokens.query';
@@ -62,7 +58,8 @@ function useCreateSwapAsset(address: string) {
       }
 
       const availableBalance = sip10Tokens.find(
-        sip10Token => getPrincipalFromContractId(sip10Token.info.contractId) === token.tokenContract
+        sip10Token =>
+          getPrincipalFromAssetString(sip10Token.info.contractId) === token.tokenContract
       )?.balance.availableBalance;
 
       return {

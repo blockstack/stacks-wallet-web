@@ -1,8 +1,6 @@
 import { useCallback } from 'react';
 import { useAsync } from 'react-async-hook';
 
-import { bytesToHex } from '@stacks/common';
-import { TransactionTypes } from '@stacks/connect';
 import {
   ClarityValue,
   PostConditionMode,
@@ -18,12 +16,13 @@ import {
 
 import type { Sip10CryptoAssetInfo } from '@leather.io/models';
 import { useNextNonce } from '@leather.io/query';
+import { TransactionTypes, getStacksAssetStringParts } from '@leather.io/stacks';
 import { stxToMicroStx } from '@leather.io/utils';
 
 import { logger } from '@shared/logger';
 import type { StacksSendFormValues, StacksTransactionFormValues } from '@shared/models/form.model';
 
-import { ftUnshiftDecimals, getStacksContractIdStringParts } from '@app/common/stacks-utils';
+import { ftUnshiftDecimals } from '@app/common/stacks-utils';
 import {
   GenerateUnsignedTransactionOptions,
   generateUnsignedTransaction,
@@ -47,7 +46,7 @@ export function useGenerateStxTokenTransferUnsignedTx() {
         nonce: Number(values?.nonce) ?? nextNonce?.nonce,
         fee: stxToMicroStx(values?.fee || 0).toNumber(),
         txData: {
-          txType: TransactionTypes.STXTransfer,
+          txType: TransactionTypes.StxTokenTransfer,
           // Using account address here as a fallback for a fee estimation
           recipient: values?.recipient ?? account.address,
           amount: values?.amount ? stxToMicroStx(values?.amount).toString(10) : '0',
@@ -86,7 +85,7 @@ export function useGenerateFtTokenTransferUnsignedTx(info: Sip10CryptoAssetInfo)
   const network = useCurrentStacksNetworkState();
   const { contractId } = info;
   const { contractAddress, contractAssetName, contractName } =
-    getStacksContractIdStringParts(contractId);
+    getStacksAssetStringParts(contractId);
   return useCallback(
     async (values?: StacksSendFormValues | StacksTransactionFormValues) => {
       try {
@@ -129,7 +128,7 @@ export function useGenerateFtTokenTransferUnsignedTx(info: Sip10CryptoAssetInfo)
             contractAddress,
             contractName,
             functionName,
-            functionArgs: functionArgs.map(serializeCV).map(arg => bytesToHex(arg)),
+            functionArgs: functionArgs.map(arg => serializeCV(arg)),
             postConditions,
             postConditionMode: PostConditionMode.Deny,
             network,

@@ -1,5 +1,3 @@
-import { hexToBytes } from '@stacks/common';
-import { BytesReader, PostCondition, deserializePostCondition } from '@stacks/transactions';
 import { toUnicode } from 'punycode';
 
 import { KEBAB_REGEX } from '@leather.io/constants';
@@ -105,11 +103,6 @@ export function getTicker(value: string) {
   return name.toUpperCase();
 }
 
-export function postConditionFromString(postCondition: string): PostCondition {
-  const reader = new BytesReader(hexToBytes(postCondition));
-  return deserializePostCondition(reader);
-}
-
 function isUtf8(buf?: Buffer | Uint8Array): boolean {
   if (!buf) {
     return false;
@@ -193,7 +186,7 @@ function cleanHex(hexWithMaybePrefix: string): string {
     : hexWithMaybePrefix;
 }
 
-export function hexToBuff(hex: string): Buffer {
+function hexToBuff(hex: string): Buffer {
   return Buffer.from(cleanHex(hex), 'hex');
 }
 
@@ -219,14 +212,6 @@ export function addPortSuffix(url: string) {
 
 export function with0x(value: string): string {
   return !value.startsWith('0x') ? `0x${value}` : value;
-}
-
-export function getPrincipalFromContractId(identifier: string) {
-  return identifier.split('::')[0];
-}
-
-export function formatContractId(address: string, name: string) {
-  return `${address}.${name}`;
 }
 
 export function doesBrowserSupportWebUsbApi() {

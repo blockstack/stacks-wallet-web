@@ -1,4 +1,4 @@
-import { PayloadType, StacksTransaction } from '@stacks/transactions';
+import { PayloadType, StacksTransactionWire } from '@stacks/transactions';
 
 import { StacksTx } from '@leather.io/models';
 
@@ -12,7 +12,7 @@ interface SubmittedTransactionDetails {
 }
 
 interface GetSubmittedTransactionDetailsArgs {
-  payload: StacksTransaction['payload'];
+  payload: StacksTransactionWire['payload'];
   senderAddress?: string;
   txid: string;
 }

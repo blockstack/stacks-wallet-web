@@ -1,10 +1,10 @@
-import { CommonSignaturePayload, SignaturePayload } from '@stacks/connect';
 import { deserializeCV } from '@stacks/transactions';
 import { TokenInterface, decodeToken } from 'jsontokens';
 
 import { isString } from '@leather.io/utils';
 
-import { StructuredMessageDataDomain } from '@shared/signature/signature-types';
+import type { StructuredMessageDataDomain } from '@shared/signature/signature-types';
+import type { CommonSignaturePayload, SignaturePayload } from '@shared/utils/legacy-requests';
 
 export function getGenericSignaturePayloadFromToken(requestToken: string): CommonSignaturePayload {
   const token = decodeToken(requestToken);
@@ -18,7 +18,7 @@ export function getSignaturePayloadFromToken(requestToken: string): SignaturePay
 
 export function getStructuredDataPayloadFromToken(requestToken: string) {
   const token = decodeToken(requestToken);
-  if (isString(token.payload)) throw new Error('error decoding json token');
+  if (isString(token.payload)) throw new Error('Error decoding json token');
 
   const result = token.payload as unknown as TokenInterface & {
     message: string;
@@ -27,7 +27,7 @@ export function getStructuredDataPayloadFromToken(requestToken: string) {
 
   return {
     ...(result as unknown as CommonSignaturePayload),
-    message: deserializeCV(Buffer.from(result.message, 'hex')),
-    domain: deserializeCV(Buffer.from(result.domain, 'hex')) as StructuredMessageDataDomain,
+    message: deserializeCV(result.message),
+    domain: deserializeCV(result.domain) as StructuredMessageDataDomain,
   };
 }

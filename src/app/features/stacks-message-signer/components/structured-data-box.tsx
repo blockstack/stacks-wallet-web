@@ -30,9 +30,9 @@ export function StructuredDataBox(props: {
   }, [message, domain]);
 
   useEffect(() => {
-    setDomainName(cvToDisplay(domain.data.name));
-    setDomainVersion(cvToDisplay(domain.data.version));
-    setDomainChainName(chainIdToDisplay(domain.data['chain-id']));
+    setDomainName(cvToDisplay(domain.value.name));
+    setDomainVersion(cvToDisplay(domain.value.version));
+    setDomainChainName(chainIdToDisplay(domain.value['chain-id']));
   }, [domain]);
 
   if (!message) return null;

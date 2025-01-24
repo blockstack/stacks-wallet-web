@@ -1,4 +1,4 @@
-import { ChainID } from '@stacks/common';
+import { ChainId } from '@stacks/network';
 
 import { UnsignedMessage } from '@shared/signature/signature-types';
 
@@ -24,7 +24,7 @@ export function SignatureRequestStructuredDataContent({
   return (
     <>
       <StructuredDataBox message={payload.message} domain={payload.domain} />
-      <NoFeesWarningRow chainId={payload.network?.chainId ?? ChainID.Testnet} />
+      <NoFeesWarningRow chainId={payload.network?.chainId ?? ChainId.Testnet} />
       <SignMessageActions
         isLoading={isLoading}
         onSignMessageCancel={onCancelMessageSigning}

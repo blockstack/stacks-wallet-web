@@ -1,6 +1,9 @@
 import { BrowserContext, Page } from '@playwright/test';
-import { MultiSigSpendingCondition, deserializeTransaction } from '@stacks/transactions';
-import { TokenTransferPayload } from '@stacks/transactions/dist/payload';
+import {
+  MultiSigSpendingCondition,
+  type TokenTransferPayloadWire,
+  deserializeTransaction,
+} from '@stacks/transactions';
 import {
   TEST_ACCOUNT_1_PUBKEY,
   TEST_ACCOUNT_2_STX_ADDRESS,
@@ -80,11 +83,11 @@ test.describe('RPC: stx_signTransaction', () => {
     const deserializedSignedTx = deserializeTransaction(result.result.txHex);
     // compare transactions
     test
-      .expect((deserializedUnsignedTxHex.payload as TokenTransferPayload).recipient)
-      .toEqual((deserializedSignedTx.payload as TokenTransferPayload).recipient);
+      .expect((deserializedUnsignedTxHex.payload as TokenTransferPayloadWire).recipient)
+      .toEqual((deserializedSignedTx.payload as TokenTransferPayloadWire).recipient);
     test
-      .expect((deserializedUnsignedTxHex.payload as TokenTransferPayload).amount)
-      .toEqual((deserializedSignedTx.payload as TokenTransferPayload).amount);
+      .expect((deserializedUnsignedTxHex.payload as TokenTransferPayloadWire).amount)
+      .toEqual((deserializedSignedTx.payload as TokenTransferPayloadWire).amount);
     test.expect(deserializedUnsignedTxHex.payload.type).toEqual(deserializedSignedTx.payload.type);
     test
       .expect(deserializedUnsignedTxHex.auth.spendingCondition.nonce)

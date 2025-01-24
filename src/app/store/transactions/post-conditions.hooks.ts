@@ -1,27 +1,27 @@
 import { useMemo } from 'react';
 
-import { ContractCallPayload, ContractDeployPayload, STXTransferPayload } from '@stacks/connect';
-import { FungiblePostCondition, addressToString } from '@stacks/transactions';
+import { FungiblePostConditionWire, addressToString } from '@stacks/transactions';
 
 import { isFtAsset, useGetFungibleTokenMetadataQuery } from '@leather.io/query';
+import { ensurePostConditionWireFormat, getPostCondition } from '@leather.io/stacks';
 
-import {
-  getPostCondition,
-  handlePostConditions,
-} from '@app/common/transactions/stacks/post-condition.utils';
+import type { TransactionPayload } from '@shared/utils/legacy-requests';
+
+import { handlePostConditions } from '@app/common/transactions/stacks/post-condition.utils';
 import { useCurrentStacksAccountAddress } from '@app/store/accounts/blockchain/stacks/stacks-account.hooks';
 
 import { useTransactionRequestState } from './requests.hooks';
 
-export function formatPostConditionState(
-  payload?: ContractCallPayload | ContractDeployPayload | STXTransferPayload | null,
-  address?: string
-) {
+export function formatPostConditionState(payload?: TransactionPayload | null, address?: string) {
   if (!payload || !address) return;
 
   if (payload.postConditions) {
     if (payload.stxAddress)
-      return handlePostConditions(payload.postConditions, payload.stxAddress, address);
+      return handlePostConditions(
+        payload.postConditions.map(pc => ensurePostConditionWireFormat(pc)),
+        payload.stxAddress,
+        address
+      );
 
     return payload.postConditions.map(getPostCondition);
   }
@@ -38,9 +38,9 @@ export function usePostConditionState() {
   return useMemo(() => formatPostConditionState(payload, address), [address, payload]);
 }
 
-export function useAssetFromFungiblePostCondition(pc: FungiblePostCondition) {
-  const contractAddress = addressToString(pc.assetInfo.address);
-  const contractName = pc.assetInfo.contractName.content;
+export function useAssetFromFungiblePostCondition(pc: FungiblePostConditionWire) {
+  const contractAddress = addressToString(pc.asset.address);
+  const contractName = pc.asset.contractName.content;
   const contractId = `${contractAddress}.${contractName}`;
   const { data: asset } = useGetFungibleTokenMetadataQuery(contractId);
 

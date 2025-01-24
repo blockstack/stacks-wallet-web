@@ -8,7 +8,6 @@ import {
 } from '@app/store/accounts/blockchain/stacks/stacks-accounts';
 import { useSignatureRequestAccountIndex } from '@app/store/signatures/requests.hooks';
 import { useTransactionRequestState } from '@app/store/transactions/requests.hooks';
-import { transactionNetworkVersionState } from '@app/store/transactions/transaction';
 
 import { hasSwitchedAccountsState, useCurrentAccountIndex } from '../../account';
 import type { StacksAccount } from './stacks-account.models';
@@ -55,10 +54,6 @@ export function useTransactionAccountIndex() {
     }
     return undefined;
   }, [accounts, txAddress]);
-}
-
-export function useTransactionNetworkVersion() {
-  return useAtomValue(transactionNetworkVersionState);
 }
 
 /**

@@ -1,5 +1,6 @@
-import { ChainID, bytesToHex } from '@stacks/common';
+import { bytesToHex } from '@stacks/common';
 import { hashMessage } from '@stacks/encryption';
+import { ChainId } from '@stacks/network';
 
 import { UnsignedMessage } from '@shared/signature/signature-types';
 
@@ -28,7 +29,7 @@ export function StacksSignatureRequestMessageContent({
         message={payload.message}
         hash={bytesToHex(hashMessage(payload.message))}
       />
-      <NoFeesWarningRow chainId={payload.network?.chainId ?? ChainID.Testnet} />
+      <NoFeesWarningRow chainId={payload.network?.chainId ?? ChainId.Testnet} />
       <SignMessageActions
         isLoading={isLoading}
         onSignMessageCancel={onCancelMessageSigning}

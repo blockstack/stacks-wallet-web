@@ -2,7 +2,7 @@ import { Box } from 'leather-styles/jsx';
 
 import { useAccountDisplayName } from '@app/common/hooks/account/use-account-names';
 import { AccountTotalBalance } from '@app/components/account-total-balance';
-import { AcccountAddresses } from '@app/components/account/account-addresses';
+import { AccountAddresses } from '@app/components/account/account-addresses';
 import { AccountListItemLayout } from '@app/components/account/account-list-item.layout';
 import { AccountNameLayout } from '@app/components/account/account-name';
 import { useCurrentAccountIndex } from '@app/store/accounts/account';
@@ -23,7 +23,7 @@ export function CurrentAccountDisplayer({ onSelectAccount }: CurrentAccountDispl
   return (
     <AccountListItemLayout
       withChevron
-      accountAddresses={<AcccountAddresses index={index} />}
+      accountAddresses={<AccountAddresses index={index} />}
       accountName={<AccountNameLayout isLoading={false}>{name}</AccountNameLayout>}
       avatar={
         <AccountAvatarItem

@@ -136,9 +136,9 @@ const provider: LeatherProviderOverrides = {
     console.warn(`
         WARNING: Legacy Leather request detected
 
-        Leather now uses an RPC-style API, that can be used directly, 
+        Leather now uses an RPC-style API, that can be used directly,
         rather than through libraries such as Stacks Connect. For example,
-        to get a user's addresses, you should use the 
+        to get a user's addresses, you should use the
         LeatherProvider.request('getAddresses') method.
 
         See our docs for more information https://leather.gitbook.io/
@@ -311,10 +311,10 @@ function warnAboutDeprecatedProvider(legacyProvider: object) {
 }
 
 try {
-  // Makes properties immutable to contend with other wallets that use agressive
-  // "prioritisation" default settings. As other wallet's use this approach,
+  // Makes properties immutable to contend with other wallets that use aggressive
+  // "prioritization" default settings. As other wallet's use this approach,
   // Leather has to use it too, so that the browsers' own internal logic being
-  // used to determine content script exeuction order. A more fair way to
+  // used to determine content script execution order. A more fair way to
   // contend over shared provider space. `StacksProvider` should be considered
   // deprecated and each wallet use their own provider namespace.
   Object.defineProperty(window, 'StacksProvider', {

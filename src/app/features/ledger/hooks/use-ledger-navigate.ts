@@ -2,7 +2,6 @@ import { useMemo } from 'react';
 import { resolvePath, useLocation, useNavigate } from 'react-router-dom';
 
 import { bytesToHex } from '@stacks/common';
-import { StacksTransaction } from '@stacks/transactions';
 
 import type { SupportedBlockchains } from '@leather.io/models';
 
@@ -28,11 +27,11 @@ export function useLedgerNavigate() {
         });
       },
 
-      toConnectAndSignStacksTransactionStep(transaction: StacksTransaction) {
+      toConnectAndSignStacksTransactionStep(transaction: string) {
         return navigate(RouteUrls.ConnectLedger, {
           replace: true,
           relative: 'path',
-          state: { tx: bytesToHex(transaction.serialize()) },
+          state: { tx: transaction },
         });
       },
 

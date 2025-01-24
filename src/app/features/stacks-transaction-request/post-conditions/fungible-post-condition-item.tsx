@@ -1,8 +1,8 @@
 import { Suspense } from 'react';
 
-import { TransactionTypes } from '@stacks/connect';
-import { FungiblePostCondition, addressToString } from '@stacks/transactions';
+import { type FungiblePostConditionWire, addressToString } from '@stacks/transactions';
 
+import { TransactionTypes } from '@leather.io/stacks';
 import { truncateMiddle } from '@leather.io/utils';
 
 import { ftDecimals, getSafeImageCanonicalUri } from '@app/common/stacks-utils';
@@ -22,7 +22,7 @@ import { useTransactionRequestState } from '@app/store/transactions/requests.hoo
 
 interface FungiblePostConditionItemProps {
   isLast?: boolean;
-  pc: FungiblePostCondition;
+  pc: FungiblePostConditionWire;
 }
 
 function FungiblePostConditionItemSuspense(
@@ -45,7 +45,7 @@ function FungiblePostConditionItemSuspense(
   const name = getNameFromPostCondition(pc);
 
   const contractName = 'contractName' in pc.principal && pc.principal.contractName.content;
-  const address = addressToString(pc.principal.address);
+  const address = 'address' in pc.principal ? addressToString(pc.principal.address) : '';
   const isSending = address === currentAccount?.address;
 
   const amount = asset?.decimals ? ftDecimals(pcAmount, asset.decimals) : pcAmount;
@@ -72,9 +72,7 @@ function FungiblePostConditionItemSuspense(
         isContractPrincipal ? 'The contract ' : isSending ? 'You ' : 'Another address '
       } ${title}`}
       left={asset?.name || name}
-      right={`${truncateMiddle(addressToString(pc.principal.address), 4)}${
-        contractName ? `.${contractName}` : ''
-      }`}
+      right={`${truncateMiddle(address, 4)}${contractName ? `.${contractName}` : ''}`}
       amount={amount}
       ticker={ticker}
       icon={iconString}

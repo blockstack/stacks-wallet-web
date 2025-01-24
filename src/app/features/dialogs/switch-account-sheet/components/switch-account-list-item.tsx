@@ -6,7 +6,7 @@ import { useAccountDisplayName } from '@app/common/hooks/account/use-account-nam
 import { useSwitchAccount } from '@app/common/hooks/account/use-switch-account';
 import { useLoading } from '@app/common/hooks/use-loading';
 import { AccountTotalBalance } from '@app/components/account-total-balance';
-import { AcccountAddresses } from '@app/components/account/account-addresses';
+import { AccountAddresses } from '@app/components/account/account-addresses';
 import { AccountListItemLayout } from '@app/components/account/account-list-item.layout';
 import { AccountNameLayout } from '@app/components/account/account-name';
 import { useNativeSegwitSigner } from '@app/store/accounts/blockchain/bitcoin/native-segwit-account.hooks';
@@ -44,7 +44,7 @@ export const SwitchAccountListItem = memo(
 
     return (
       <AccountListItemLayout
-        accountAddresses={<AcccountAddresses index={index} />}
+        accountAddresses={<AccountAddresses index={index} />}
         accountName={
           <AccountNameLayout
             data-testid={getSwitchAccountSheetAccountNameSelector(index)}

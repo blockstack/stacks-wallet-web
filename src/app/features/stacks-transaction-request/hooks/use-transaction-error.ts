@@ -1,15 +1,14 @@
 import { useMemo } from 'react';
 
-import { TransactionTypes } from '@stacks/connect';
 import BigNumber from 'bignumber.js';
 import { useFormikContext } from 'formik';
 
 import {
   useCalculateStacksTxFees,
-  useGetContractInterfaceQuery,
   useNextNonce,
   useStxCryptoAssetBalance,
 } from '@leather.io/query';
+import { TransactionTypes } from '@leather.io/stacks';
 import { stxToMicroStx } from '@leather.io/utils';
 
 import { StacksTransactionFormValues } from '@shared/models/form.model';
@@ -19,6 +18,7 @@ import { initialSearchParams } from '@app/common/initial-search-params';
 import { validateStacksAddress } from '@app/common/stacks-utils';
 import { TransactionErrorReason } from '@app/features/stacks-transaction-request/transaction-error/transaction-error';
 import { useCheckSbtcSponsorshipEligible } from '@app/query/sbtc/sponsored-transactions.hooks';
+import { useGetContractInterfaceQuery } from '@app/query/stacks/contract.query';
 import {
   useCurrentStacksAccount,
   useCurrentStacksAccountAddress,
@@ -65,7 +65,7 @@ export function useTransactionError() {
     if (availableUnlockedBalance && !getIsMultisig()) {
       const zeroBalance = availableUnlockedBalance.amount.toNumber() === 0;
 
-      if (transactionRequest.txType === TransactionTypes.STXTransfer) {
+      if (transactionRequest.txType === TransactionTypes.StxTokenTransfer) {
         if (zeroBalance) return TransactionErrorReason.StxTransferInsufficientFunds;
 
         const transferAmount = new BigNumber(transactionRequest.amount);

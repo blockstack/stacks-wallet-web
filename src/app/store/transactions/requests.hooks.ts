@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { getPayloadFromToken } from '@shared/utils/requests';
+import { getLegacyTransactionPayloadFromToken } from '@shared/utils/legacy-requests';
 
 import { initialSearchParams } from '@app/common/initial-search-params';
 
@@ -13,6 +13,6 @@ export function useTransactionRequestState() {
 
   return useMemo(() => {
     if (!requestToken) return null;
-    return getPayloadFromToken(requestToken);
+    return getLegacyTransactionPayloadFromToken(requestToken);
   }, [requestToken]);
 }

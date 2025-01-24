@@ -9,7 +9,7 @@ import { useStacksAccountLoader } from '../loaders/stacks-account-loader';
 interface AccountAddressesProps {
   index: number;
 }
-export function AcccountAddresses({ index }: AccountAddressesProps) {
+export function AccountAddresses({ index }: AccountAddressesProps) {
   const account = useStacksAccountLoader({ index });
   const signer = useBitcoinNativeSegwitAccountLoader({ index });
   return (

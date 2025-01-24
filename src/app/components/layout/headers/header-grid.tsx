@@ -1,4 +1,4 @@
-import { ChainID } from '@stacks/transactions';
+import { ChainId } from '@stacks/network';
 import { Flex, Grid, GridItem, type GridProps, HStack } from 'leather-styles/jsx';
 
 import { NetworkModeBadge } from '@leather.io/ui';
@@ -34,7 +34,7 @@ export function HeaderGridRightCol({ children }: HasChildren) {
   return (
     <HStack alignItems="center" justifyContent="flex-end">
       <NetworkModeBadge
-        isTestnetChain={chain.stacks.chainId === ChainID.Testnet}
+        isTestnetChain={chain.stacks.chainId === ChainId.Testnet}
         name={chainName}
       />
       {children}

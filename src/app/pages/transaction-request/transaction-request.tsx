@@ -63,7 +63,6 @@ function TransactionRequestBase() {
   const transactionRequest = useTransactionRequestState();
   const unsignedTx = useUnsignedStacksTransactionBaseState();
   const { data: stxFees } = useCalculateStacksTxFees(unsignedTx.transaction);
-
   const generateUnsignedTx = useGenerateUnsignedStacksTransaction();
   const stxAddress = useCurrentStacksAccountAddress();
 

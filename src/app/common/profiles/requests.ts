@@ -1,10 +1,11 @@
-import { ProfileUpdatePayload } from '@stacks/connect';
 import { getPublicKeyFromPrivate } from '@stacks/encryption';
 import { Person } from '@stacks/profile';
 import { getAppPrivateKey } from '@stacks/wallet-sdk';
 import { TokenVerifier, decodeToken } from 'jsontokens';
 
 import { isString } from '@leather.io/utils';
+
+import type { ProfileUpdatePayload } from '@shared/utils/legacy-requests';
 
 import { StacksAccount } from '@app/store/accounts/blockchain/stacks/stacks-account.models';
 

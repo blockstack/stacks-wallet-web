@@ -4,7 +4,7 @@ import {
   TupleCV,
   UIntCV,
   deserializeCV,
-  serializeCV,
+  serializeCVBytes,
 } from '@stacks/transactions';
 
 export type SignedMessageType = 'utf8' | 'structured';
@@ -69,18 +69,18 @@ export function toSerializableUnsignedMessage(
   if (unsignedMessage.messageType === 'utf8') return unsignedMessage;
   return {
     messageType: 'structured',
-    message: serializeCV(unsignedMessage.message),
-    domain: serializeCV(unsignedMessage.domain),
+    message: serializeCVBytes(unsignedMessage.message),
+    domain: serializeCVBytes(unsignedMessage.domain),
   };
 }
 
 export function deserializeUnsignedMessage(
-  serialisedUnsignedMessage: UnsignedMessageUtf8 | SerializedUnsignedMessageStructured
+  serializedUnsignedMessage: UnsignedMessageUtf8 | SerializedUnsignedMessageStructured
 ): UnsignedMessage {
-  if (serialisedUnsignedMessage.messageType === 'utf8') return serialisedUnsignedMessage;
+  if (serializedUnsignedMessage.messageType === 'utf8') return serializedUnsignedMessage;
   return {
     messageType: 'structured',
-    message: deserializeCV(serialisedUnsignedMessage.message),
-    domain: deserializeCV(serialisedUnsignedMessage.domain),
+    message: deserializeCV(serializedUnsignedMessage.message),
+    domain: deserializeCV(serializedUnsignedMessage.domain),
   };
 }

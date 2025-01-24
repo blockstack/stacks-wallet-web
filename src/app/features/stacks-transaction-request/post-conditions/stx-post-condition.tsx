@@ -1,5 +1,4 @@
-import { TransactionTypes } from '@stacks/connect';
-
+import { TransactionTypes } from '@leather.io/stacks';
 import { truncateMiddle } from '@leather.io/utils';
 
 import { stacksValue } from '@app/common/stacks-utils';
@@ -9,7 +8,7 @@ import { useTransactionRequestState } from '@app/store/transactions/requests.hoo
 export function StxPostCondition(): React.JSX.Element | null {
   const pendingTransaction = useTransactionRequestState();
 
-  if (!pendingTransaction || pendingTransaction.txType !== TransactionTypes.STXTransfer)
+  if (!pendingTransaction || pendingTransaction.txType !== TransactionTypes.StxTokenTransfer)
     return null;
 
   return (
@@ -20,7 +19,7 @@ export function StxPostCondition(): React.JSX.Element | null {
       ticker="STX"
       left="Stacks Token"
       right={
-        pendingTransaction.txType === TransactionTypes.STXTransfer
+        pendingTransaction.txType === TransactionTypes.StxTokenTransfer
           ? `To ${truncateMiddle(pendingTransaction.recipient, 4)}`
           : undefined
       }

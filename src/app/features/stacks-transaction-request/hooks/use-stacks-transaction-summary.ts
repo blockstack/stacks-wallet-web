@@ -1,12 +1,12 @@
-import { bytesToUtf8 } from '@stacks/common';
 import {
-  type Address,
+  type AddressWire,
   ClarityType,
   ContractCallPayload,
   IntCV,
-  StacksTransaction,
-  TokenTransferPayload,
+  StacksTransactionWire,
+  TokenTransferPayloadWire,
   addressToString,
+  createAddress,
   cvToString,
   serializeCV,
 } from '@stacks/transactions';
@@ -26,7 +26,7 @@ import {
 
 import { removeTrailingNullCharacters } from '@app/common/utils';
 
-function safeAddressToString(address: Address) {
+function safeAddressToString(address: AddressWire) {
   try {
     return addressToString(address);
   } catch (error) {
@@ -38,7 +38,11 @@ export function useStacksTransactionSummary(token: CryptoCurrency) {
   // TODO: unsafe type assumption
   const tokenMarketData = useCryptoCurrencyMarketDataMeanAverage(token as 'BTC' | 'STX');
 
-  function formSentSummaryTxState(txId: string, signedTx: StacksTransaction, decimals?: number) {
+  function formSentSummaryTxState(
+    txId: string,
+    signedTx: StacksTransactionWire,
+    decimals?: number
+  ) {
     return {
       state: {
         txLink: {
@@ -51,19 +55,19 @@ export function useStacksTransactionSummary(token: CryptoCurrency) {
     };
   }
 
-  function formReviewTxSummary(tx: StacksTransaction, symbol = 'STX', decimals = 6) {
+  function formReviewTxSummary(tx: StacksTransactionWire, symbol = 'STX', decimals = 6) {
     if (symbol !== 'STX') {
       return formSip10TxSummary(tx, symbol, decimals);
     }
 
-    const payload = tx.payload as TokenTransferPayload;
+    const payload = tx.payload as TokenTransferPayloadWire;
     const txValue = payload.amount;
     const fee = tx.auth.spendingCondition.fee;
     const memoContent = payload?.memo?.content ?? '';
     const memoDisplayText = removeTrailingNullCharacters(memoContent) || 'No memo';
 
     return {
-      recipient: safeAddressToString(payload?.recipient?.address),
+      recipient: safeAddressToString(createAddress(payload?.recipient?.value)),
       fee: formatMoney(convertToMoneyTypeWithDefaultOfZero('STX', Number(fee))),
       totalSpend: formatMoney(
         convertToMoneyTypeWithDefaultOfZero('STX', Number(txValue) + Number(fee))
@@ -86,10 +90,10 @@ export function useStacksTransactionSummary(token: CryptoCurrency) {
       return noMemoText;
     }
     const isSome = payload.functionArgs[3].type === ClarityType.OptionalSome;
-    return isSome ? bytesToUtf8(serializeCV(payload.functionArgs[3])) : noMemoText;
+    return isSome ? serializeCV(payload.functionArgs[3]) : noMemoText;
   }
 
-  function formSip10TxSummary(tx: StacksTransaction, symbol: string, decimals = 6) {
+  function formSip10TxSummary(tx: StacksTransactionWire, symbol: string, decimals = 6) {
     const payload = tx.payload as ContractCallPayload;
     const fee = tx.auth.spendingCondition.fee;
     const txValue = Number((payload.functionArgs[0] as IntCV).value);

@@ -1,13 +1,13 @@
 import { FungibleConditionCode, parsePrincipalString } from '@stacks/transactions';
 import { HEYSTACK_HEY_TX_REQUEST, HEYSTACK_HEY_TX_REQUEST_DECODED } from '@tests/mocks';
 
-import { getPayloadFromToken } from '@shared/utils/requests';
+import { getLegacyTransactionPayloadFromToken } from '@shared/utils/legacy-requests';
 
 import { formatPostConditionState } from './post-conditions.hooks';
 
 describe(formatPostConditionState.name, () => {
   it('formats the post condition correctly', () => {
-    const payload = getPayloadFromToken(HEYSTACK_HEY_TX_REQUEST);
+    const payload = getLegacyTransactionPayloadFromToken(HEYSTACK_HEY_TX_REQUEST);
     const result = formatPostConditionState(payload, 'ST2PHCPANVT8DVPSY5W2ZZ81M285Q5Z8Y6DQMZE7Z');
     expect(result).toBeTruthy();
     expect(result!.length).toEqual(1);

@@ -1,4 +1,4 @@
-import { PayloadType, StacksTransaction, addressToString } from '@stacks/transactions';
+import { PayloadType, StacksTransactionWire, addressToString } from '@stacks/transactions';
 import { CircleProps } from 'leather-styles/jsx';
 
 import { StacksTx } from '@leather.io/models';
@@ -9,7 +9,7 @@ import { TransactionIconWrapper } from '@app/components/transaction/transaction-
 import { TransactionTypeIcon } from '@app/components/transaction/transaction-type-icon';
 
 interface SubmittedTransactionIconProps extends CircleProps {
-  transaction: StacksTransaction;
+  transaction: StacksTransactionWire;
 }
 export function SubmittedTransactionIcon({ transaction, ...rest }: SubmittedTransactionIconProps) {
   const senderAddress = getTxSenderAddress(transaction);

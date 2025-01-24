@@ -1,31 +1,32 @@
 import {
   FungibleConditionCode,
-  FungiblePostCondition,
+  type FungiblePostConditionWire,
   NonFungibleConditionCode,
-  NonFungiblePostCondition,
-  PostCondition,
+  type NonFungiblePostConditionWire,
   PostConditionType,
-  STXPostCondition,
+  type PostConditionWire,
+  type STXPostConditionWire,
   addressToString,
   parsePrincipalString,
 } from '@stacks/transactions';
 
+import { getPostCondition } from '@leather.io/stacks';
+
 import { stacksValue } from '@app/common/stacks-utils';
-import { postConditionFromString } from '@app/common/utils';
 
 export const getIconStringFromPostCondition = (
-  pc: STXPostCondition | FungiblePostCondition | NonFungiblePostCondition
+  pc: STXPostConditionWire | FungiblePostConditionWire | NonFungiblePostConditionWire
 ) => {
   if (pc.conditionType === PostConditionType.Fungible)
-    return `${addressToString(pc.assetInfo.address)}.${pc.assetInfo.contractName}.${
-      pc.assetInfo.assetName.content
+    return `${addressToString(pc.asset.address)}.${pc.asset.contractName}.${
+      pc.asset.assetName.content
     }`;
   if (pc.conditionType === PostConditionType.STX) return 'STX';
-  return pc.assetInfo.assetName.content;
+  return pc.asset.assetName.content;
 };
 
 export const getAmountFromPostCondition = (
-  pc: STXPostCondition | FungiblePostCondition | NonFungiblePostCondition
+  pc: STXPostConditionWire | FungiblePostConditionWire | NonFungiblePostConditionWire
 ) => {
   if (pc.conditionType === PostConditionType.Fungible) return pc.amount.toString();
   if (pc.conditionType === PostConditionType.STX)
@@ -34,19 +35,19 @@ export const getAmountFromPostCondition = (
 };
 
 export const getSymbolFromPostCondition = (
-  pc: STXPostCondition | FungiblePostCondition | NonFungiblePostCondition
+  pc: STXPostConditionWire | FungiblePostConditionWire | NonFungiblePostConditionWire
 ) => {
-  if ('assetInfo' in pc) {
-    return pc.assetInfo.assetName.content.slice(0, 3).toUpperCase();
+  if ('asset' in pc) {
+    return pc.asset.assetName.content.slice(0, 3).toUpperCase();
   }
   return 'STX';
 };
 
 export const getNameFromPostCondition = (
-  pc: STXPostCondition | FungiblePostCondition | NonFungiblePostCondition
+  pc: STXPostConditionWire | FungiblePostConditionWire | NonFungiblePostConditionWire
 ) => {
-  if ('assetInfo' in pc) {
-    return pc.assetInfo.assetName.content;
+  if ('asset' in pc) {
+    return pc.asset.assetName.content;
   }
   return 'STX';
 };
@@ -59,22 +60,16 @@ export function getPostConditionCodeMessage(
   switch (code) {
     case FungibleConditionCode.Equal:
       return `${sender} will transfer exactly`;
-
     case FungibleConditionCode.Greater:
       return `${sender} will transfer more than`;
-
     case FungibleConditionCode.GreaterEqual:
       return `${sender} will transfer at least`;
-
     case FungibleConditionCode.Less:
       return `${sender} will transfer less than`;
-
     case FungibleConditionCode.LessEqual:
       return `${sender} will transfer at most`;
-
     case NonFungibleConditionCode.Sends:
       return `${sender} will transfer`;
-
     case NonFungibleConditionCode.DoesNotSend:
       return `${sender} will keep or receive`;
   }
@@ -93,17 +88,20 @@ export function getPostConditionCodeMessage(
  * accounts.
  */
 export function handlePostConditions(
-  postConditions: (PostCondition | string)[],
+  postConditions: PostConditionWire[],
   payloadAddress: string,
   currentAddress: string
-): PostCondition[] {
+): PostConditionWire[] {
   const payloadPrincipal = parsePrincipalString(payloadAddress);
   const currentAddressPrincipal = parsePrincipalString(currentAddress);
 
   return postConditions.map(postCondition => {
     const formattedPostCondition = getPostCondition(postCondition);
-    // if it's a contract principal, do nothing
-    if ('contractName' in formattedPostCondition.principal) return formattedPostCondition;
+    if (
+      'contractName' in formattedPostCondition.principal ||
+      !('address' in formattedPostCondition.principal)
+    )
+      return formattedPostCondition;
     const { principal, ...payload } = formattedPostCondition;
     const sameType = payloadPrincipal.address.type === principal.address.type;
     const sameHash = payloadPrincipal.address.hash160 === principal.address.hash160;
@@ -113,16 +111,6 @@ export function handlePostConditions(
       principal: isOriginatorAddress ? currentAddressPrincipal : principal,
     };
   });
-}
-
-export function getPostCondition(postCondition: string | PostCondition): PostCondition {
-  return typeof postCondition === 'string' ? postConditionFromString(postCondition) : postCondition;
-}
-
-export function getPostConditions(
-  postConditions?: (string | PostCondition)[]
-): PostCondition[] | undefined {
-  return postConditions?.map(getPostCondition);
 }
 
 const getTitleFromConditionCode = (code: FungibleConditionCode | NonFungibleConditionCode) => {
@@ -147,7 +135,7 @@ const getTitleFromConditionCode = (code: FungibleConditionCode | NonFungibleCond
 };
 
 export const getPostConditionTitle = (
-  pc: STXPostCondition | FungiblePostCondition | NonFungiblePostCondition
+  pc: STXPostConditionWire | FungiblePostConditionWire | NonFungiblePostConditionWire
 ) => {
   return getTitleFromConditionCode(pc.conditionCode) || '';
 };

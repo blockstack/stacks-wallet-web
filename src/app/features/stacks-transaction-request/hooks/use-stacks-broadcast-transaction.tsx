@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { AuthType, StacksTransaction } from '@stacks/transactions';
+import { AuthType, StacksTransactionWire } from '@stacks/transactions';
 
 import type { CryptoCurrency } from '@leather.io/models';
 import { delay, isError, isString } from '@leather.io/utils';
@@ -54,7 +54,7 @@ export function useStacksBroadcastTransaction({
   });
 
   return useMemo(() => {
-    function handlePreviewSuccess(signedTx: StacksTransaction, txId?: string) {
+    function handlePreviewSuccess(signedTx: StacksTransactionWire, txId?: string) {
       if (requestToken && tabId) {
         finalizeTxSignature({
           requestPayload: requestToken,
@@ -81,7 +81,7 @@ export function useStacksBroadcastTransaction({
       }
     }
 
-    async function broadcastTransactionAction(signedTx: StacksTransaction) {
+    async function broadcastTransactionAction(signedTx: StacksTransactionWire) {
       if (!signedTx) {
         logger.error('Cannot broadcast transaction, no tx in state');
         toast.error('Unable to broadcast transaction');
@@ -120,7 +120,7 @@ export function useStacksBroadcastTransaction({
       }
     }
 
-    async function broadcastTransaction(unsignedTx: StacksTransaction) {
+    async function broadcastTransaction(unsignedTx: StacksTransactionWire) {
       try {
         if (!unsignedTx) return;
         const signedTx = await signStacksTransaction(unsignedTx);

@@ -1,19 +1,17 @@
-import {
-  AddressVersion,
-  createStacksPrivateKey,
-  getPublicKey,
-  publicKeyToAddress,
-} from '@stacks/transactions';
-import { deriveStxPrivateKey } from '@stacks/wallet-sdk';
+import { AddressVersion, privateKeyToPublic, publicKeyToAddress } from '@stacks/transactions';
+
+import { deriveStxPrivateKey } from '@leather.io/stacks';
 
 import { mnemonicToRootNode } from '@app/common/keychain/keychain';
 
 export function getStacksAddressByIndex(secretKey: string, addressVersion: AddressVersion) {
   return (index: number) => {
-    const accountPrivateKey = createStacksPrivateKey(
-      deriveStxPrivateKey({ rootNode: mnemonicToRootNode(secretKey) as any, index })
-    );
-    const pubKey = getPublicKey(accountPrivateKey);
+    const accountPrivateKey = deriveStxPrivateKey({
+      keychain: mnemonicToRootNode(secretKey) as any,
+      index,
+    });
+
+    const pubKey = privateKeyToPublic(accountPrivateKey);
     return publicKeyToAddress(addressVersion, pubKey);
   };
 }
