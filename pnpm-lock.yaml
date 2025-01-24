@@ -415,8 +415,8 @@ importers:
         specifier: 0.6.0
         version: 0.6.0(@vue/compiler-sfc@3.5.13)
       '@leather.io/rpc':
-        specifier: 2.4.0
-        version: 2.4.0(encoding@0.1.13)
+        specifier: 2.5.2
+        version: 2.5.2(encoding@0.1.13)
       '@ls-lint/ls-lint':
         specifier: 2.2.3
         version: 2.2.3
@@ -3373,6 +3373,9 @@ packages:
   '@leather.io/models@0.25.0':
     resolution: {integrity: sha512-wd50i92SiYR7XV54dae1nEVyG83lH0WYzuCe7MezNWZrk4wK/+H1EAvFr7k1cdyJDVs6Nv++uWaRMkr+38pLMw==}
 
+  '@leather.io/models@0.24.3':
+    resolution: {integrity: sha512-vsla6ARj645vqNDyj/5TEKrRI933Aac3Pq3rOyvf3zwepJqgdmPFbkLGFa36oHpC9hLsD6iy1zUyeEp71nqmdg==}
+
   '@leather.io/panda-preset@0.8.0':
     resolution: {integrity: sha512-DnDSxZ5AJPYBdykTNpTeuB4WewwWUGWPoDWQdeX4/Th5gfekUwvnybLM9D3iVCkvmUgv+BZgMgCzHnd5cGO2FA==}
 
@@ -3395,6 +3398,9 @@ packages:
 
   '@leather.io/rpc@2.5.4':
     resolution: {integrity: sha512-tNZDDMBJWEGMgzX3FRjkHOBi+EsyLnCF3mEz9ted4IK7AybLvbUKCMoLN29wMv9/PdMjgmPngQiBTLXC2PsBjQ==}
+
+  '@leather.io/rpc@2.5.2':
+    resolution: {integrity: sha512-1T4GpCjKGeFsfBDZ+jXHL2Gn3cNasTwG3fzHvBM0eg5PQPA/OZVva73iWYDULEbYZFYeyHOsMFEStRuI7yluLw==}
 
   '@leather.io/stacks@1.4.0':
     resolution: {integrity: sha512-vF3eQljr+dsfg8DhlEFgQKvr9NHn9CKwt8XT51kWnULTtZH6syrABiarHGwhtE/AZz9weg5n5q/+m8b4lN6bGw==}
@@ -19394,6 +19400,12 @@ snapshots:
       bignumber.js: 9.1.2
       zod: 3.23.8
 
+  '@leather.io/models@0.24.3':
+    dependencies:
+      '@stacks/stacks-blockchain-api-types': 7.8.2
+      bignumber.js: 9.1.2
+      zod: 3.23.8
+
   '@leather.io/panda-preset@0.8.0(jsdom@22.1.0)(typescript@5.4.5)':
     dependencies:
       '@pandacss/dev': 0.46.1(jsdom@22.1.0)(typescript@5.4.5)
@@ -19467,6 +19479,15 @@ snapshots:
   '@leather.io/rpc@2.5.4(encoding@0.1.13)':
     dependencies:
       '@leather.io/models': 0.25.0
+      '@stacks/network': 6.13.0(encoding@0.1.13)
+      '@stacks/transactions-v7': '@stacks/transactions@7.0.2(encoding@0.1.13)'
+      zod: 3.23.8
+    transitivePeerDependencies:
+      - encoding
+
+  '@leather.io/rpc@2.5.2(encoding@0.1.13)':
+    dependencies:
+      '@leather.io/models': 0.24.3
       '@stacks/network': 6.13.0(encoding@0.1.13)
       '@stacks/transactions-v7': '@stacks/transactions@7.0.2(encoding@0.1.13)'
       zod: 3.23.8
