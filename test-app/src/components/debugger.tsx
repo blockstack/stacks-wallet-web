@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 import '@btckit/types';
 import { demoTokenContract } from '@common/contracts';
-import type { StacksTestnet } from '@common/legacy-network';
 import { useSTXAddress } from '@common/use-stx-address';
 import {
   stacksTestnetNetwork as network,
@@ -13,6 +12,7 @@ import {
 import { hexToBytes } from '@stacks/common';
 import { useConnect } from '@stacks/connect-react';
 import { STACKS_TESTNET } from '@stacks/network';
+import { type StacksTestnet } from '@stacks/network-v6';
 import {
   type ClarityValue,
   type FungiblePostCondition,

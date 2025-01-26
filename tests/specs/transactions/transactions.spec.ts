@@ -87,10 +87,10 @@ test.describe('Transaction signing', () => {
       const requestBody = request.postData();
       if (!requestBody) return;
 
-      const deserialisedTx = deserializeTransaction(requestBody);
-      const payload = deserialisedTx.payload as TokenTransferPayloadWire;
+      const deserializedTx = deserializeTransaction(JSON.parse(requestBody).tx);
+      const payload = deserializedTx.payload as TokenTransferPayloadWire;
       const amount = Number(payload.amount);
-      const fee = Number(deserialisedTx.auth.spendingCondition?.fee);
+      const fee = Number(deserializedTx.auth.spendingCondition?.fee);
       const parsedDisplayedFee = parseFloat(displayedFee.replace(' STX', ''));
 
       test.expect(fee).toEqual(stxToMicroStx(parsedDisplayedFee).toNumber());

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { createFetchFn } from '@stacks/common';
 import { ChainId } from '@stacks/network';
 
 import {
@@ -15,10 +16,7 @@ import { RouteUrls } from '@shared/route-urls';
 import { isValidUrl } from '@shared/utils/validate-url';
 
 import { removeTrailingSlash } from '@app/common/url-join';
-import {
-  useCurrentStacksNetworkState,
-  useNetworksActions,
-} from '@app/store/networks/networks.hooks';
+import { useNetworksActions } from '@app/store/networks/networks.hooks';
 
 /**
  * The **peer** network ID.
@@ -81,10 +79,10 @@ export function useAddNetwork() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const network = useCurrentStacksNetworkState();
   const networksActions = useNetworksActions();
   const initialValues = useInitialValues();
   const { isEditNetworkMode } = useAddNetworkState();
+  const fetchFn = createFetchFn();
 
   return {
     error,
@@ -121,8 +119,7 @@ export function useAddNetwork() {
       const bitcoinPath = removeTrailingSlash(new URL(values.bitcoinUrl).href);
 
       try {
-        const bitcoinResponse =
-          network.client.fetch && (await network.client.fetch(`${bitcoinPath}/mempool/recent`));
+        const bitcoinResponse = await fetchFn(`${bitcoinPath}/mempool/recent`);
         if (!bitcoinResponse?.ok) throw new Error('Unable to fetch mempool from bitcoin node');
         const bitcoinMempool = await bitcoinResponse.json();
         if (!Array.isArray(bitcoinMempool))
@@ -135,8 +132,7 @@ export function useAddNetwork() {
 
       let stacksChainInfo: any;
       try {
-        const stacksResponse =
-          network.client.fetch && (await network.client.fetch(`${stacksPath}/v2/info`));
+        const stacksResponse = await fetchFn(`${stacksPath}/v2/info`);
         stacksChainInfo = await stacksResponse?.json();
         if (!stacksChainInfo) throw new Error('Unable to fetch info from stacks node');
       } catch (error) {
