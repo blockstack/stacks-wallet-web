@@ -2,9 +2,12 @@ import {
   TEST_ACCOUNT_1_NATIVE_SEGWIT_ADDRESS,
   TEST_ACCOUNT_1_STX_ADDRESS,
   TEST_ACCOUNT_1_TAPROOT_ADDRESS,
+  TEST_PASSWORD,
 } from '@tests/mocks/constants';
 import { testSoftwareAccountDefaultWalletState } from '@tests/page-object-models/onboarding.page';
+import { HomePageSelectors } from '@tests/selectors/home.selectors';
 import { OnboardingSelectors } from '@tests/selectors/onboarding.selectors';
+import { SettingsSelectors } from '@tests/selectors/settings.selectors';
 
 import { BITCOIN_API_BASE_URL_MAINNET } from '@leather.io/models';
 
@@ -14,7 +17,7 @@ test.describe('Onboarding an existing user', () => {
   // Functionality is important for backwards compatibility with older wallet versions
   test.describe('Encryption key values', () => {
     test.beforeEach(async ({ extensionId, globalPage, onboardingPage }) => {
-      // clear storage local of web page with evaluate
+      // clear local storage of web page with evaluate
       await globalPage.setupAndUseApiCalls(extensionId);
       await globalPage.page.evaluate(async () => {
         await chrome.storage.local.clear();
@@ -24,7 +27,14 @@ test.describe('Onboarding an existing user', () => {
 
     test('that the encryption key is generated correctly against a known working value', async ({
       globalPage,
+      homePage,
+      page,
     }) => {
+      await homePage.lock();
+      await page.getByTestId(SettingsSelectors.EnterPasswordInput).fill(TEST_PASSWORD);
+      await page.getByTestId(SettingsSelectors.UnlockWalletBtn).click();
+      await homePage.page.getByTestId(HomePageSelectors.HomePageContainer).waitFor();
+
       const encryptionKey = await globalPage.page.evaluate(async () => {
         const { encryptionKey } = await chrome.storage.session.get('encryptionKey');
         return encryptionKey;
