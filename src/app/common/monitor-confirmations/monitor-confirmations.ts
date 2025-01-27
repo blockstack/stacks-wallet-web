@@ -1,8 +1,8 @@
 import type { SupportedBlockchains } from '@leather.io/models';
 
-const monitoredTxs: MonitoredConfirmation[] = [];
+const monitoredTxs: PendingConfirmation[] = [];
 
-export interface MonitoredConfirmation {
+export interface PendingConfirmation {
   chain: SupportedBlockchains;
   txid: string;
 }
