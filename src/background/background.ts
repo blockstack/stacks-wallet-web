@@ -6,6 +6,7 @@ import { CONTENT_SCRIPT_PORT, type LegacyMessageFromContentScript } from '@share
 import { WalletRequests } from '@shared/rpc/rpc-methods';
 import { warnUsersAboutDevToolsDangers } from '@shared/utils/dev-tools-warning-log';
 
+import { monitorPendingConfirmations } from './alarms/transaction-monitor';
 import { initContextMenuActions } from './init-context-menus';
 import { internalBackgroundMessageHandler } from './messaging/internal-methods/message-handler';
 import {
@@ -59,3 +60,5 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   // Listener fn must return `true` to indicate the response will be async
   return true;
 });
+
+monitorPendingConfirmations();

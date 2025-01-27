@@ -1,32 +1,45 @@
-import type { PendingConfirmation } from '@app/common/monitor-confirmations/monitor-confirmations';
+/* eslint-disable no-console */
+import { z } from 'zod';
 
-export async function monitorTransactions() {
-  const alarm = await chrome.alarms.get('transaction-monitor');
+import { supportedBlockchains } from '@leather.io/models';
+
+export const pendingConfirmationSchema = z.object({
+  chain: z.enum(supportedBlockchains),
+  txid: z.string(),
+});
+
+export type PendingConfirmation = z.infer<typeof pendingConfirmationSchema>;
+
+const pendingConfirmationsAlarm = 'pending-confirmation-alarm';
+const PENDING_CONFIRMATIONS_STORE = 'pendingConfirmations';
+
+export async function monitorPendingConfirmations() {
+  console.log('monitoring confirmations');
+  const alarm = await chrome.alarms.get(pendingConfirmationsAlarm);
 
   if (!alarm) {
-    await chrome.alarms.create('transaction-monitor', {
+    console.log('starting pending confirmation alarm');
+    await chrome.alarms.create(pendingConfirmationsAlarm, {
       periodInMinutes: 0.05,
     });
   }
 }
 
-const MONITORED_TXNS_KEY = 'monitoredTransactions';
-
 interface PendingConfirmationStore {
   pendingConfirmations: PendingConfirmation[];
 }
 
-export async function readTransactionStore() {
+export async function readPendingConfirmationsStore() {
   const { pendingConfirmations = [] } = chrome.storage.local.get(
-    MONITORED_TXNS_KEY
+    PENDING_CONFIRMATIONS_STORE
   ) as unknown as PendingConfirmationStore;
 
   return pendingConfirmations;
 }
 
 export async function writeTransaction(pendingConfirmation: PendingConfirmation) {
-  const exisitingPendingConfirmations = await readTransactionStore();
+  const exisitingPendingConfirmations = await readPendingConfirmationsStore();
   return await chrome.storage.local.set({
-    [MONITORED_TXNS_KEY]: [pendingConfirmation, ...exisitingPendingConfirmations],
+    [PENDING_CONFIRMATIONS_STORE]: [pendingConfirmation, ...exisitingPendingConfirmations],
   });
 }
