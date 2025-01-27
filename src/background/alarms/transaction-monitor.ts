@@ -1,6 +1,6 @@
 import type { PendingConfirmation } from '@app/common/monitor-confirmations/monitor-confirmations';
 
-async function monitorTransactions() {
+export async function monitorTransactions() {
   const alarm = await chrome.alarms.get('transaction-monitor');
 
   if (!alarm) {
@@ -9,9 +9,6 @@ async function monitorTransactions() {
     });
   }
 }
-
-// eslint-disable-next-line no-console
-monitorTransactions().catch(error => console.error(error));
 
 const MONITORED_TXNS_KEY = 'monitoredTransactions';
 
