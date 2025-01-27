@@ -11,6 +11,32 @@ import { BITCOIN_API_BASE_URL_MAINNET } from '@leather.io/models';
 import { test } from '../../fixtures/fixtures';
 
 test.describe('Onboarding an existing user', () => {
+  // Functionality is important for backwards compatibility with older wallet versions
+  test.describe('Encryption key values', () => {
+    test.beforeEach(async ({ extensionId, globalPage, onboardingPage }) => {
+      // clear storage local of web page with evaluate
+      await globalPage.setupAndUseApiCalls(extensionId);
+      await globalPage.page.evaluate(async () => {
+        await chrome.storage.local.clear();
+      });
+      await onboardingPage.signInWithTestAccount(extensionId);
+    });
+
+    test('that the encryption key is generated correctly against a known working value', async ({
+      globalPage,
+    }) => {
+      const encryptionKey = await globalPage.page.evaluate(async () => {
+        const { encryptionKey } = await chrome.storage.session.get('encryptionKey');
+        return encryptionKey;
+      });
+
+      test
+        .expect(encryptionKey)
+        .toEqual(
+          'd904f412b8d116540017c302f3f7033813c95902af5a067c7befcc34fa5e5290709f157f80548603a1e4f8edc2c0d5d7'
+        );
+    });
+  });
   test('going through the onboarding flow to sign in', async ({
     extensionId,
     globalPage,
@@ -99,29 +125,6 @@ test.describe('Onboarding an existing user', () => {
         const stacksAddress = await homePage.getReceiveStxAddress();
         test.expect(stacksAddress).toEqual(TEST_ACCOUNT_1_STX_ADDRESS);
       });
-    });
-  });
-
-  // Functionality is important for backwards compatibility with older wallet versions
-  test.describe('Encryption key values', () => {
-    test.beforeEach(async ({ extensionId, globalPage, onboardingPage }) => {
-      await globalPage.setupAndUseApiCalls(extensionId);
-      await onboardingPage.signInWithTestAccount(extensionId);
-    });
-
-    test('that the encryption key is generated correctly against a known working value', async ({
-      globalPage,
-    }) => {
-      const encryptionKey = await globalPage.page.evaluate(async () => {
-        const { encryptionKey } = await chrome.storage.session.get('encryptionKey');
-        return encryptionKey;
-      });
-
-      test
-        .expect(encryptionKey)
-        .toEqual(
-          'd904f412b8d116540017c302f3f7033813c95902af5a067c7befcc34fa5e5290709f157f80548603a1e4f8edc2c0d5d7'
-        );
     });
   });
 });
