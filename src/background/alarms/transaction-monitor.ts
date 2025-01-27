@@ -10,17 +10,24 @@ export const pendingConfirmationSchema = z.object({
 
 export type PendingConfirmation = z.infer<typeof pendingConfirmationSchema>;
 
-const pendingConfirmationsAlarm = 'pending-confirmation-alarm';
+export const pendingConfirmationsAlarm = 'pending-confirmation-alarm2';
 const PENDING_CONFIRMATIONS_STORE = 'pendingConfirmations';
 
 export async function monitorPendingConfirmations() {
   console.log('monitoring confirmations');
   const alarm = await chrome.alarms.get(pendingConfirmationsAlarm);
+  console.log(JSON.stringify(alarm));
 
   if (!alarm) {
     console.log('starting pending confirmation alarm');
     await chrome.alarms.create(pendingConfirmationsAlarm, {
-      periodInMinutes: 0.05,
+      periodInMinutes: 1,
+    });
+    await chrome.alarms.onAlarm.addListener(alarm => {
+      if (alarm.name === pendingConfirmationsAlarm) {
+        // eslint-disable-next-line no-console
+        console.log('alarm running');
+      }
     });
   }
 }

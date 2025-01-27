@@ -6,7 +6,10 @@ import { CONTENT_SCRIPT_PORT, type LegacyMessageFromContentScript } from '@share
 import { WalletRequests } from '@shared/rpc/rpc-methods';
 import { warnUsersAboutDevToolsDangers } from '@shared/utils/dev-tools-warning-log';
 
-import { monitorPendingConfirmations } from './alarms/transaction-monitor';
+import {
+  monitorPendingConfirmations,
+  pendingConfirmationsAlarm,
+} from './alarms/transaction-monitor';
 import { initContextMenuActions } from './init-context-menus';
 import { internalBackgroundMessageHandler } from './messaging/internal-methods/message-handler';
 import {
@@ -61,4 +64,13 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   return true;
 });
 
-monitorPendingConfirmations();
+console.log('hello from background');
+
+monitorPendingConfirmations()
+  .then(() => {
+    console.log('confirmation called');
+  })
+  .catch(() => {
+    // eslint-disable-next-line no-console
+    console.error('whoops!');
+  });
