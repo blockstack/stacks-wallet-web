@@ -35,6 +35,7 @@ import { FundPage } from '@app/pages/fund/fund';
 import { Home } from '@app/pages/home/home';
 import { LegacyAccountAuth } from '@app/pages/legacy-account-auth/legacy-account-auth';
 import { BackUpSecretKeyPage } from '@app/pages/onboarding/back-up-secret-key/back-up-secret-key';
+import { ForgotPassword } from '@app/pages/onboarding/sign-in/forgot-password';
 import { SignIn } from '@app/pages/onboarding/sign-in/sign-in';
 import { WelcomePage } from '@app/pages/onboarding/welcome/welcome';
 import { ReceiveBtcModal } from '@app/pages/receive/receive-btc';
@@ -248,6 +249,8 @@ function useAppRoutes() {
               </OnboardingGate>
             }
           />
+          <Route path={RouteUrls.ForgotPassword} element={<ForgotPassword />} />
+
           <Route
             path={RouteUrls.ViewSecretKey}
             element={
