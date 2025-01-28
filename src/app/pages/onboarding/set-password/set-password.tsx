@@ -21,7 +21,6 @@ import {
 } from '@app/common/validation/validate-password';
 import { Content, TwoColumnLayout } from '@app/components/layout';
 import { OnboardingHeader } from '@app/features/container/headers/onboarding.header';
-import { OnboardingGate } from '@app/routes/onboarding-gate';
 import { useStacksAccounts } from '@app/store/accounts/blockchain/stacks/stacks-account.hooks';
 
 import { PasswordField } from './components/password-field';
@@ -29,11 +28,7 @@ import { PasswordField } from './components/password-field';
 // Imported dynamically
 // ts-unused-exports:disable-next-line
 export function SetPasswordRoute() {
-  return (
-    <OnboardingGate>
-      <SetPasswordPage />
-    </OnboardingGate>
-  );
+  return <SetPasswordPage />;
 }
 
 interface SetPasswordFormValues {
