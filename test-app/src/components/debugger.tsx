@@ -9,22 +9,25 @@ import {
   stacksMainnetNetwork,
   stacksTestnetNetwork,
 } from '@common/utils';
+import { hexToBytes } from '@stacks/common';
 import { useConnect } from '@stacks/connect-react';
-import { StacksMainnet, StacksTestnet } from '@stacks/network';
+import { STACKS_TESTNET } from '@stacks/network';
+import { type StacksTestnet } from '@stacks/network-v6';
 import {
-  FungibleConditionCode,
-  NonFungibleConditionCode,
+  type ClarityValue,
+  type FungiblePostCondition,
+  type NonFungiblePostCondition,
   PostConditionMode,
-  StacksTransaction,
+  StacksTransactionWire,
+  type StxPostCondition,
   broadcastTransaction,
   bufferCV,
   bufferCVFromString,
-  createAssetInfo,
-  createNonFungiblePostCondition,
   intCV,
-  makeStandardFungiblePostCondition,
-  makeStandardSTXPostCondition,
   noneCV,
+  postConditionToWire,
+  serializeCV,
+  serializePostConditionWire,
   someCV,
   sponsorTransaction,
   standardPrincipalCV,
@@ -42,7 +45,7 @@ import { ExplorerLink } from './explorer-link';
 
 export const Debugger = () => {
   const { doContractCall, doSTXTransfer, doContractDeploy } = useConnect();
-  const address = useSTXAddress();
+  const address = useSTXAddress() ?? '';
 
   const [txId, setTxId] = useState<string>('');
   const [txType, setTxType] = useState<string>('');
@@ -58,44 +61,44 @@ export const Debugger = () => {
   };
 
   // If need to add more test tokens: STW7PFH79HW1C9Z0SXBP5PTPHKZZ58KK9WP1MZZA
-  const handleSponsoredTransactionBroadcast = async (tx: StacksTransaction) => {
+  const handleSponsoredTransactionBroadcast = async (tx: StacksTransactionWire) => {
     const sponsorOptions = {
-      fee: new BN(388),
+      fee: 388,
       sponsorPrivateKey: 'b8c6aaef4b6de5e62648a59fff13e389856dff5e58163e676c2cfdf9dd5dd11101',
       transaction: tx,
     };
 
     const sponsoredTx = await sponsorTransaction(sponsorOptions);
-    return broadcastTransaction(sponsoredTx, network);
+    return broadcastTransaction({ transaction: sponsoredTx, network: STACKS_TESTNET });
   };
 
   const callBnsTransfer = async () => {
     // this will fail because the address does not own the name
     clearState();
-    const args = [
+    const args: ClarityValue[] = [
       bufferCVFromString('id'), // namespace
       bufferCVFromString('stella'), // name
       standardPrincipalCV('ST1X6M947Z7E58CNE0H8YJVJTVKS9VW0PHEG3NHN3'), // recipient
       noneCV(), // zonefile
     ];
+    const pc: NonFungiblePostCondition = {
+      type: 'nft-postcondition',
+      address,
+      condition: 'sent',
+      asset: 'ST000000000000000000002AMW42H.bns::names',
+      assetId: tupleCV({
+        name: bufferCV(hexToBytes('stella')),
+        namespace: bufferCV(hexToBytes('id')),
+      }),
+    };
     await doContractCall({
       network,
       contractAddress: 'ST000000000000000000002AMW42H',
       contractName: 'bns',
       functionName: 'name-transfer',
-      functionArgs: args,
+      functionArgs: args.map(arg => serializeCV(arg)),
       attachment: 'This is an attachment',
-      postConditions: [
-        createNonFungiblePostCondition(
-          address || '', // the sender
-          NonFungibleConditionCode.Sends, // will not own this NFT anymore
-          createAssetInfo('ST000000000000000000002AMW42H', 'bns', 'names'), // bns NFT
-          tupleCV({
-            name: bufferCVFromString('stella'),
-            namespace: bufferCVFromString('id'),
-          }) // the name
-        ),
-      ],
+      postConditions: [serializePostConditionWire(postConditionToWire(pc))],
       onFinish: data => {
         console.log('finished bns call!', data);
         setState('Contract Call', data.txId);
@@ -115,7 +118,7 @@ export const Debugger = () => {
       contractAddress: 'ST9VQ21ZEGG54JDFE39B99ZBTSFSWMEC323MENFG',
       contractName: 'animal',
       functionName: 'transfer',
-      functionArgs: args,
+      functionArgs: args.map(arg => serializeCV(arg)),
       postConditionMode: PostConditionMode.Allow,
       postConditions: [],
       onFinish: data => {
@@ -144,23 +147,24 @@ export const Debugger = () => {
       standardPrincipalCV(contractAddress),
       trueCV(),
     ];
-    const postConditions = [
-      makeStandardSTXPostCondition(
-        address || '',
-        FungibleConditionCode.LessEqual,
-        new BN('100', 10)
-      ),
-    ];
+
+    const pc1: StxPostCondition = {
+      type: 'stx-postcondition',
+      address,
+      condition: 'lte',
+      amount: new BN('100', 10).toString(),
+    };
+
     console.log('creating allow mode contract call');
     await doContractCall({
       network,
       contractAddress,
       contractName: 'faker',
       functionName: 'rawr',
-      functionArgs: args,
+      functionArgs: args.map(arg => serializeCV(arg)),
       attachment: 'This is an attachment',
       postConditionMode: mode,
-      postConditions,
+      postConditions: [serializePostConditionWire(postConditionToWire(pc1))],
       onFinish: async (data: any) => {
         console.log('finished faker!', data);
         if (sponsored) handleSponsoredTransactionBroadcast(data.stacksTransaction);
@@ -217,6 +221,13 @@ export const Debugger = () => {
     });
   };
 
+  const pc2: StxPostCondition = {
+    type: 'stx-postcondition',
+    address,
+    condition: 'eq',
+    amount: new BN(42, 10).toString(),
+  };
+
   const getRocketTokens = async () => {
     clearState();
     await doContractCall({
@@ -224,10 +235,8 @@ export const Debugger = () => {
       contractAddress: 'ST1X6M947Z7E58CNE0H8YJVJTVKS9VW0PHEG3NHN3',
       contractName: 'dull-sapphire-bird',
       functionName: 'buy',
-      functionArgs: [uintCV(42)],
-      postConditions: [
-        makeStandardSTXPostCondition(address || '', FungibleConditionCode.Equal, new BN(42, 10)),
-      ],
+      functionArgs: [serializeCV(uintCV(42))],
+      postConditions: [serializePostConditionWire(postConditionToWire(pc2))],
       onFinish: data => {
         console.log('finished faucet!', data);
         setState('Token Faucet', data.txId);
@@ -256,6 +265,14 @@ export const Debugger = () => {
     });
   };
 
+  const pc3: FungiblePostCondition = {
+    type: 'ft-postcondition',
+    address,
+    condition: 'eq',
+    amount: new BN(1).toString(),
+    asset: 'ST6G7N19FKNW24XH5JQ5P5WR1DN10QWMKQSPSTK7.stella-the-cat::stella-token',
+  };
+
   const sendStellaTokens = async () => {
     clearState();
     await doContractCall({
@@ -268,19 +285,8 @@ export const Debugger = () => {
         standardPrincipalCV(address || ''), // sender
         standardPrincipalCV('ST1X6M947Z7E58CNE0H8YJVJTVKS9VW0PHEG3NHN3'), // recipient
         someCV(bufferCVFromString('meow')), // memo
-      ],
-      postConditions: [
-        makeStandardFungiblePostCondition(
-          address || '',
-          FungibleConditionCode.Equal,
-          new BN(1),
-          createAssetInfo(
-            'ST6G7N19FKNW24XH5JQ5P5WR1DN10QWMKQSPSTK7',
-            'stella-the-cat',
-            'stella-token'
-          )
-        ),
-      ],
+      ].map(arg => serializeCV(arg)),
+      postConditions: [serializePostConditionWire(postConditionToWire(pc3))],
       onFinish: data => {
         console.log('finished faucet!', data);
         setState('Token Faucet', data.txId);
@@ -289,6 +295,14 @@ export const Debugger = () => {
         console.log('popup closed!');
       },
     });
+  };
+
+  const pc4: FungiblePostCondition = {
+    type: 'ft-postcondition',
+    address,
+    condition: 'eq',
+    amount: new BN(1).toString(),
+    asset: 'ST1X6M947Z7E58CNE0H8YJVJTVKS9VW0PHEG3NHN3.dull-sapphire-bird::rocket-token',
   };
 
   const sendRocketTokens = async () => {
@@ -302,19 +316,8 @@ export const Debugger = () => {
         uintCV(1), // amount
         standardPrincipalCV(address || ''), // sender
         standardPrincipalCV('ST1X6M947Z7E58CNE0H8YJVJTVKS9VW0PHEG3NHN3'), // recipient
-      ],
-      postConditions: [
-        makeStandardFungiblePostCondition(
-          address || '',
-          FungibleConditionCode.Equal,
-          new BN(1),
-          createAssetInfo(
-            'ST1X6M947Z7E58CNE0H8YJVJTVKS9VW0PHEG3NHN3',
-            'dull-sapphire-bird',
-            'rocket-token'
-          )
-        ),
-      ],
+      ].map(arg => serializeCV(arg)),
+      postConditions: [serializePostConditionWire(postConditionToWire(pc4))],
       onFinish: data => {
         console.log('finished faucet!', data);
         setState('Token Faucet', data.txId);
@@ -325,10 +328,18 @@ export const Debugger = () => {
     });
   };
 
+  const pc5: FungiblePostCondition = {
+    type: 'ft-postcondition',
+    address,
+    condition: 'eq',
+    amount: new BN(1).toString(),
+    asset: 'SP466FNC0P7JWTNM2R9T199QRZN1MYEDTAR0KP27.miamicoin-token::miami-token',
+  };
+
   const sendMiamiTokens = async () => {
     clearState();
     await doContractCall({
-      network: new StacksMainnet(),
+      network,
       contractAddress: 'SP466FNC0P7JWTNM2R9T199QRZN1MYEDTAR0KP27',
       contractName: 'miamicoin-token',
       functionName: 'transfer',
@@ -336,19 +347,8 @@ export const Debugger = () => {
         uintCV(1), // amount
         standardPrincipalCV(address || ''), // sender
         standardPrincipalCV('ST1X6M947Z7E58CNE0H8YJVJTVKS9VW0PHEG3NHN3'), // recipient
-      ],
-      postConditions: [
-        makeStandardFungiblePostCondition(
-          address || '',
-          FungibleConditionCode.Equal,
-          new BN(1),
-          createAssetInfo(
-            'SP466FNC0P7JWTNM2R9T199QRZN1MYEDTAR0KP27',
-            'miamicoin-token',
-            'miami-token'
-          )
-        ),
-      ],
+      ].map(arg => serializeCV(arg)),
+      postConditions: [serializePostConditionWire(postConditionToWire(pc5))],
       onFinish: data => {
         setState('Token Faucet', data.txId);
       },

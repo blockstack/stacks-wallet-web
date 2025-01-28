@@ -15,8 +15,12 @@ export function SwapAssetList({ assets, type }: SwapAssetListProps) {
 
   return (
     <Stack mb="space.05" p="space.05" width="100%" data-testid={SwapSelectors.SwapAssetList}>
-      {selectableAssets.map(asset => (
-        <SwapAssetItem asset={asset} key={asset.tokenId} onClick={() => onSelectAsset(asset)} />
+      {selectableAssets.map((asset, idx) => (
+        <SwapAssetItem
+          asset={asset}
+          key={`${asset.tokenId}${idx}`}
+          onClick={() => onSelectAsset(asset)}
+        />
       ))}
     </Stack>
   );

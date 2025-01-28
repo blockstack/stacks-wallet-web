@@ -1,8 +1,9 @@
 import { Suspense, useMemo } from 'react';
 
-import { TransactionTypes } from '@stacks/connect';
 import { PostConditionMode } from '@stacks/transactions';
 import { Flex } from 'leather-styles/jsx';
+
+import { TransactionTypes } from '@leather.io/stacks';
 
 import { IS_TEST_ENV } from '@shared/environment';
 
@@ -23,7 +24,7 @@ function PostConditionsSuspense(): React.JSX.Element | null {
     [postConditions]
   );
   const isStxTransfer =
-    pendingTransaction?.txType === TransactionTypes.STXTransfer && !hasPostConditions;
+    pendingTransaction?.txType === TransactionTypes.StxTokenTransfer && !hasPostConditions;
 
   if (!postConditions || !pendingTransaction) return <></>;
   if (!IS_TEST_ENV && mode === PostConditionMode.Allow) return null;

@@ -5,11 +5,10 @@ import {
   useAlexCurrencyPriceAsMarketData,
   useCryptoCurrencyMarketDataMeanAverage,
 } from '@leather.io/query';
+import { getPrincipalFromAssetString } from '@leather.io/stacks';
 import { createMoney } from '@leather.io/utils';
 
 import { useConfigSbtc } from '@app/query/common/remote-config/remote-config.query';
-
-import { getPrincipalFromContractId } from '../utils';
 
 function castBitcoinMarketDataToSbtcMarketData(bitcoinMarketData: MarketData) {
   return createMarketData(
@@ -25,10 +24,10 @@ export function useSip10FiatMarketData() {
 
   return useMemo(
     () => ({
-      getTokenMarketData(principal: string, symbol: string) {
-        const lookupIdentifier = principal.includes('::')
-          ? getPrincipalFromContractId(principal)
-          : principal;
+      getTokenMarketData(identifier: string, symbol: string) {
+        const lookupIdentifier = identifier.includes('::')
+          ? getPrincipalFromAssetString(identifier)
+          : identifier;
 
         if (isSbtcContract(lookupIdentifier)) {
           return castBitcoinMarketDataToSbtcMarketData(bitcoinMarketData);

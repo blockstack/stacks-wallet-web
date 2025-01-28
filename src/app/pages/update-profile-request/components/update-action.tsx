@@ -1,7 +1,6 @@
 import { useCallback, useState } from 'react';
 
-import { ProfileUpdatePayload } from '@stacks/connect';
-import { createFetchFn } from '@stacks/network';
+import { createFetchFn } from '@stacks/common';
 import { PublicPersonProfile, PublicProfileBase } from '@stacks/profile';
 import {
   DEFAULT_PROFILE,
@@ -14,6 +13,7 @@ import { gaiaUrl } from '@leather.io/constants';
 
 import { finalizeProfileUpdate } from '@shared/actions/finalize-profile-update';
 import { analytics } from '@shared/utils/analytics';
+import type { ProfileUpdatePayload } from '@shared/utils/legacy-requests';
 
 import { useCurrentStacksAccount } from '@app/store/accounts/blockchain/stacks/stacks-account.hooks';
 import { useProfileUpdateRequestSearchParams } from '@app/store/profiles/requests.hooks';

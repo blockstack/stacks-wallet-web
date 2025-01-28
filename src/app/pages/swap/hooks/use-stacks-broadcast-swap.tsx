@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { StacksTransaction } from '@stacks/transactions';
+import type { StacksTransaction } from '@stacks/transactions-v6';
 
 import { isError, isString } from '@leather.io/utils';
 
@@ -9,7 +9,7 @@ import { logger } from '@shared/logger';
 import { RouteUrls } from '@shared/route-urls';
 
 import { LoadingKeys, useLoading } from '@app/common/hooks/use-loading';
-import { useSubmitTransactionCallback } from '@app/common/hooks/use-submit-stx-transaction';
+import { useSubmitTransactionCallbackV6 } from '@app/common/hooks/use-submit-stx-transaction-v6';
 import { useToast } from '@app/features/toasts/use-toast';
 
 export function useStacksBroadcastSwap() {
@@ -17,7 +17,7 @@ export function useStacksBroadcastSwap() {
   const navigate = useNavigate();
   const toast = useToast();
 
-  const broadcastTransactionFn = useSubmitTransactionCallback({
+  const broadcastTransactionFn = useSubmitTransactionCallbackV6({
     loadingKey: LoadingKeys.SUBMIT_SWAP_TRANSACTION,
   });
 

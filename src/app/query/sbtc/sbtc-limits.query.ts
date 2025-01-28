@@ -3,7 +3,7 @@ import axios from 'axios';
 import { z } from 'zod';
 
 import { useStacksClient } from '@leather.io/query';
-import { getStacksContractIdStringParts } from '@leather.io/stacks';
+import { getStacksAssetStringParts } from '@leather.io/stacks';
 
 import { useCurrentStacksAccountAddress } from '@app/store/accounts/blockchain/stacks/stacks-account.hooks';
 
@@ -47,7 +47,7 @@ export function useGetSbtcLimits() {
 export function useGetCurrentSbtcSupply() {
   const client = useStacksClient();
   const { contractId } = useConfigSbtc();
-  const { contractAddress } = getStacksContractIdStringParts(contractId);
+  const { contractAddress } = getStacksAssetStringParts(contractId);
   const stxAddress = useCurrentStacksAccountAddress();
 
   return useQuery({

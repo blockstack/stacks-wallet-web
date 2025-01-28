@@ -1,20 +1,17 @@
 import { useCallback, useMemo } from 'react';
 import { useAsync } from 'react-async-hook';
 
-import { bytesToHex } from '@noble/hashes/utils';
-import { TransactionTypes } from '@stacks/connect';
+import { bytesToHex } from '@stacks/common';
+import { PostCondition, StacksTransactionWire, TransactionSigner } from '@stacks/transactions';
 import {
-  FungibleConditionCode,
-  PostCondition,
   StacksTransaction,
-  TransactionSigner,
-  createAssetInfo,
+  TransactionSigner as TransactionSignerV6,
   createStacksPrivateKey,
-  makeStandardFungiblePostCondition,
-} from '@stacks/transactions';
+} from '@stacks/transactions-v6';
 import BN from 'bn.js';
 
 import { useNextNonce } from '@leather.io/query';
+import { TransactionTypes, formatAssetString } from '@leather.io/stacks';
 import { isUndefined, stxToMicroStx } from '@leather.io/utils';
 
 import { logger } from '@shared/logger';
@@ -26,7 +23,10 @@ import {
   generateUnsignedTransaction,
 } from '@app/common/transactions/stacks/generate-unsigned-txs';
 import { useWalletType } from '@app/common/use-wallet-type';
-import { listenForStacksTxLedgerSigning } from '@app/features/ledger/flows/stacks-tx-signing/stacks-tx-signing-event-listeners';
+import {
+  listenForStacksTxLedgerSigning,
+  listenForStacksTxLedgerSigningV6,
+} from '@app/features/ledger/flows/stacks-tx-signing/stacks-tx-signing-event-listeners';
 import { useLedgerNavigate } from '@app/features/ledger/hooks/use-ledger-navigate';
 import { useToast } from '@app/features/toasts/use-toast';
 import {
@@ -66,7 +66,6 @@ export function useUnsignedStacksTransactionBaseState() {
 
   return useMemo(() => {
     if (!account || !payload || !stxAddress) return { transaction: undefined, options };
-
     if (
       payload.txType === TransactionTypes.ContractCall &&
       !validateStacksAddress(payload.contractAddress)
@@ -93,13 +92,13 @@ interface PostConditionsOptions {
 export function makePostCondition(options: PostConditionsOptions): PostCondition {
   const { contractAddress, contractAssetName, contractName, stxAddress, amount } = options;
 
-  const assetInfo = createAssetInfo(contractAddress, contractName, contractAssetName);
-  return makeStandardFungiblePostCondition(
-    stxAddress,
-    FungibleConditionCode.Equal,
-    new BN(amount, 10).toString(),
-    assetInfo
-  );
+  return {
+    type: 'ft-postcondition',
+    address: stxAddress,
+    condition: 'eq',
+    amount: new BN(amount, 10).toString(),
+    asset: formatAssetString({ contractAddress, contractName, assetName: contractAssetName }),
+  };
 }
 
 export function useGenerateUnsignedStacksTransaction() {
@@ -131,7 +130,7 @@ function useUnsignedStacksTransaction(values: StacksTransactionFormValues) {
   return tx.result;
 }
 
-function useSignTransactionSoftwareWallet() {
+function useSignTransactionSoftwareWalletV6() {
   const toast = useToast();
   const account = useCurrentStacksAccount();
 
@@ -143,8 +142,8 @@ function useSignTransactionSoftwareWallet() {
         );
         return;
       }
-      const signer = new TransactionSigner(tx);
       if (!account) return null;
+      const signer = new TransactionSignerV6(tx);
       signer.signOrigin(createStacksPrivateKey(account.stxPrivateKey));
       return tx;
     },
@@ -152,18 +151,58 @@ function useSignTransactionSoftwareWallet() {
   );
 }
 
+function useSignTransactionSoftwareWallet() {
+  const toast = useToast();
+  const account = useCurrentStacksAccount();
+
+  return useCallback(
+    (tx: StacksTransactionWire) => {
+      if (account?.type !== 'software') {
+        [toast.error, logger.error].forEach(fn =>
+          fn('Cannot use this method to sign a non-software wallet transaction')
+        );
+        return;
+      }
+      if (!account) return null;
+      const signer = new TransactionSigner(tx);
+      signer.signOrigin(account.stxPrivateKey);
+      return tx;
+    },
+    [account, toast.error]
+  );
+}
+
+export function useSignStacksTransactionV6() {
+  const { whenWallet } = useWalletType();
+  const ledgerNavigate = useLedgerNavigate();
+  const signSoftwareTx = useSignTransactionSoftwareWalletV6();
+
+  return (tx: StacksTransaction) =>
+    whenWallet({
+      async ledger(tx: StacksTransaction) {
+        const serializedTx = tx.serialize();
+        ledgerNavigate.toConnectAndSignStacksTransactionStep(bytesToHex(serializedTx));
+        return listenForStacksTxLedgerSigningV6(bytesToHex(serializedTx));
+      },
+      async software(tx: StacksTransaction) {
+        return signSoftwareTx(tx);
+      },
+    })(tx);
+}
+
 export function useSignStacksTransaction() {
   const { whenWallet } = useWalletType();
   const ledgerNavigate = useLedgerNavigate();
   const signSoftwareTx = useSignTransactionSoftwareWallet();
 
-  return (tx: StacksTransaction) =>
+  return (tx: StacksTransactionWire) =>
     whenWallet({
-      async ledger(tx: StacksTransaction) {
-        ledgerNavigate.toConnectAndSignStacksTransactionStep(tx);
-        return listenForStacksTxLedgerSigning(bytesToHex(tx.serialize()));
+      async ledger(tx: StacksTransactionWire) {
+        const serializedTx = tx.serialize();
+        ledgerNavigate.toConnectAndSignStacksTransactionStep(serializedTx);
+        return listenForStacksTxLedgerSigning(serializedTx);
       },
-      async software(tx: StacksTransaction) {
+      async software(tx: StacksTransactionWire) {
         return signSoftwareTx(tx);
       },
     })(tx);

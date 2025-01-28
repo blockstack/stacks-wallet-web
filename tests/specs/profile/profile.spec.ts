@@ -87,10 +87,10 @@ test.describe('Gaia profile request', () => {
     await profileUpdatingPage.clickUpdateProfileButton();
 
     const request = await requestPromise;
-    const requestBody = request.postDataBuffer();
+    const requestBody = request.postData();
     if (!requestBody) return;
 
-    const { decodedToken } = JSON.parse(requestBody.toString())[0];
+    const { decodedToken } = JSON.parse(requestBody)[0];
     test.expect(decodedToken).toBeDefined();
 
     test.expect(decodedToken?.header?.alg).toEqual('ES256K');

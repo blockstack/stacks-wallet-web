@@ -1,4 +1,4 @@
-import { ChainID } from '@stacks/common';
+import { ChainId } from '@stacks/network';
 import { Person } from '@stacks/profile';
 
 import { getProfileDataContentFromToken } from '@app/common/profiles/requests';
@@ -20,7 +20,7 @@ export function ProfileDataContent(props: ProfileDataContentProps) {
   return (
     <>
       <ProfileBox profile={person} />
-      <NoFeesWarningRow chainId={network?.chainId ?? ChainID.Testnet} />
+      <NoFeesWarningRow chainId={network?.chainId ?? ChainId.Testnet} />
       <UpdateAction profileUpdaterPayload={profileUpdateRequest} />
       <hr />
       <Disclaimer

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 
-import { TransactionVersion, getAddressFromPublicKey } from '@stacks/transactions';
+import { getAddressFromPublicKey } from '@stacks/transactions';
 import { LedgerError } from '@zondax/ledger-stacks';
 import get from 'lodash.get';
 
@@ -26,6 +26,7 @@ import {
   useCurrentStacksAccount,
   useStacksAccounts,
 } from '@app/store/accounts/blockchain/stacks/stacks-account.hooks';
+import { useCurrentStacksNetworkState } from '@app/store/networks/networks.hooks';
 
 import { useLedgerNavigate } from '../../hooks/use-ledger-navigate';
 import { checkLockedDeviceError, useLedgerResponseState } from '../../utils/generic-ledger-utils';
@@ -42,6 +43,7 @@ export function LedgerSignJwtContainer() {
   useScrollLock(true);
 
   const activeAccount = useCurrentStacksAccount();
+  const network = useCurrentStacksNetworkState();
   const accounts = useStacksAccounts();
 
   const getBitcoinAddressesLegacyFormat = useGetLegacyAuthBitcoinAddresses();
@@ -131,8 +133,8 @@ export function LedgerSignJwtContainer() {
         dataPublicKey: account.dataPublicKey,
         profile: {
           stxAddress: {
-            testnet: getAddressFromPublicKey(account.stxPublicKey, TransactionVersion.Testnet),
-            mainnet: getAddressFromPublicKey(account.stxPublicKey, TransactionVersion.Mainnet),
+            testnet: getAddressFromPublicKey(account.stxPublicKey, network),
+            mainnet: getAddressFromPublicKey(account.stxPublicKey, network),
           },
           ...legacyAddressObj,
         },

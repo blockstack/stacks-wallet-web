@@ -1,4 +1,4 @@
-import { ChainID } from '@stacks/transactions';
+import { ChainId } from '@stacks/network';
 import { HStack, styled } from 'leather-styles/jsx';
 
 import { stacksChainIdToCoreNetworkMode } from '@leather.io/stacks';
@@ -6,7 +6,7 @@ import { stacksChainIdToCoreNetworkMode } from '@leather.io/stacks';
 import { capitalize } from '@app/common/utils';
 
 interface NoFeesWarningRowProps {
-  chainId: ChainID;
+  chainId: ChainId;
 }
 export function NoFeesWarningRow({ chainId }: NoFeesWarningRowProps) {
   return (

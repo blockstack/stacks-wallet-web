@@ -301,7 +301,7 @@ export class OnboardingPage {
     const iterationCounter = createCounter();
 
     do {
-      if (iterationCounter.getValue() > 5) throw new Error('Unable to initialised wallet state');
+      if (iterationCounter.getValue() > 5) throw new Error('Unable to initialize wallet state');
 
       await this.page.evaluate(
         async walletState => chrome.storage.local.set({ 'persist:root': walletState }),

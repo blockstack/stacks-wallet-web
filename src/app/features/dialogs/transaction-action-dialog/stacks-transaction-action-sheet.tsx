@@ -4,7 +4,7 @@ import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import type { MempoolTransaction, Transaction } from '@stacks/stacks-blockchain-api-types';
-import type { StacksTransaction } from '@stacks/transactions';
+import type { StacksTransactionWire } from '@stacks/transactions';
 import { ActivitySelectors } from '@tests/selectors/activity.selectors';
 import { Flex, Stack } from 'leather-styles/jsx';
 
@@ -35,14 +35,14 @@ interface StacksTransactionActionSheetProps {
   title: string;
   actionType: StacksTransactionActionType;
   txid: string;
-  rawTx: StacksTransaction;
+  rawTx: StacksTransactionWire;
   tx: MempoolTransaction | Transaction;
 }
 
 interface StacksTransactionActionSheetLoaderProps {
   children(args: {
     txid: string;
-    rawTx: StacksTransaction;
+    rawTx: StacksTransactionWire;
     tx: MempoolTransaction | Transaction;
   }): React.ReactNode;
 }

@@ -36,9 +36,9 @@ export function SignLedgerMessage() {
         <ApproveLedgerOperationLayout
           description="Sign structured data on your Ledger"
           details={[
-            ['Chain ID', cvToDisplay(domain.data['chain-id'])],
-            ['Name', cvToDisplay(domain.data.name)],
-            ['Version', cvToDisplay(domain.data.version)],
+            ['Chain ID', cvToDisplay(domain.value['chain-id'])],
+            ['Name', cvToDisplay(domain.value.name)],
+            ['Version', cvToDisplay(domain.value.version)],
             ['Message hash [1/2]', hashPart1],
             ['Message hash [2/2]', hashPart2],
           ]}

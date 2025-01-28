@@ -1,6 +1,6 @@
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
-import { StacksTransaction } from '@stacks/transactions';
+import { StacksTransactionWire } from '@stacks/transactions';
 import { Formik, FormikHelpers } from 'formik';
 import { Flex } from 'leather-styles/jsx';
 import * as yup from 'yup';
@@ -40,7 +40,7 @@ import { MinimalErrorMessage } from './minimal-error-message';
 import { StacksTxSubmitAction } from './submit-action';
 
 interface StacksTransactionSignerProps {
-  stacksTransaction: StacksTransaction;
+  stacksTransaction: StacksTransactionWire;
   disableFeeSelection?: boolean;
   disableNonceSelection?: boolean;
   isMultisig: boolean;

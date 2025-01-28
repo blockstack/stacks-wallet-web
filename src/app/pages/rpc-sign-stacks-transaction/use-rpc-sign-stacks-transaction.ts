@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 
-import { bytesToHex } from '@stacks/common';
 import { MultiSigSpendingCondition, deserializeTransaction } from '@stacks/transactions';
 
 import { RpcErrorCode } from '@leather.io/rpc';
@@ -62,8 +61,8 @@ export function useRpcSignStacksTransaction() {
         makeRpcSuccessResponse('stx_signTransaction', {
           id: requestId,
           result: {
-            txHex: bytesToHex(signedTransaction.serialize()),
-            transaction: bytesToHex(signedTransaction.serialize()),
+            txHex: signedTransaction.serialize(),
+            transaction: signedTransaction.serialize(),
           },
         })
       );
