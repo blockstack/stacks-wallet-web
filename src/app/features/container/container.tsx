@@ -20,6 +20,7 @@ import { useAppDispatch, useHasStateRehydrated } from '@app/store';
 import { stxChainSlice } from '@app/store/chains/stx-chain.slice';
 
 import { useRestoreFormState } from '../popup-send-form-restoration/use-restore-form-state';
+import { useInitPushNotifications } from '../push-notifications/push-notifications';
 
 export function Container() {
   const { pathname: locationPathname } = useLocation();
@@ -28,6 +29,8 @@ export function Container() {
   const dispatch = useAppDispatch();
 
   const hasStateRehydrated = useHasStateRehydrated();
+
+  useInitPushNotifications();
 
   useOnWalletLock(() => closeWindow());
   useOnSignOut(() => closeWindow());
