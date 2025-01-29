@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import '@btckit/types';
 import { demoTokenContract } from '@common/contracts';
 import { useSTXAddress } from '@common/use-stx-address';
 import {

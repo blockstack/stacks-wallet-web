@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 
-import { RpcErrorCode } from '@btckit/types';
 import { hexToBytes } from '@noble/hashes/utils';
 import { bytesToHex } from '@stacks/common';
 
@@ -10,6 +9,7 @@ import {
   useCalculateBitcoinFiatValue,
   useCryptoCurrencyMarketDataMeanAverage,
 } from '@leather.io/query';
+import { RpcErrorCode } from '@leather.io/rpc';
 import {
   formatMoney,
   formatMoneyPadded,
@@ -132,6 +132,7 @@ export function useRpcSignPsbt() {
             tabId,
             makeRpcSuccessResponse('signPsbt', { id: requestId, result: { hex: bytesToHex(psbt) } })
           );
+          closeWindow();
           return;
         }
 
@@ -159,7 +160,6 @@ export function useRpcSignPsbt() {
 
           return;
         }
-        closeWindow();
       } catch (e) {
         return navigate(RouteUrls.RequestError, {
           state: { message: isError(e) ? e.message : '', title: 'Failed to sign' },

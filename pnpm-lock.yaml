@@ -399,9 +399,6 @@ importers:
       '@actions/core':
         specifier: 1.10.1
         version: 1.10.1
-      '@btckit/types':
-        specifier: 0.0.19
-        version: 0.0.19
       '@chromatic-com/storybook':
         specifier: 3.2.2
         version: 3.2.2(react@18.3.1)(storybook@8.4.4(prettier@3.3.3))
@@ -2231,9 +2228,6 @@ packages:
 
   '@btc-helpers/rpc@2.0.0':
     resolution: {integrity: sha512-Y5T3MUCW3lMENJiOJEk4DOwTW6GY/b/xmcf+kxoPZZw2uCyY+m3a9wV9wrJdIceqv3ET2iLFbGHjLwl25UYwGA==}
-
-  '@btckit/types@0.0.19':
-    resolution: {integrity: sha512-APoOfYSg9SRR4CMXL606IDtpgh+ZD3kS/+iY0BkUALD6HvXo2pVw20L5YYIc+HrgMcF6WN0TH7TXdVs+Vu+kww==}
 
   '@chromatic-com/storybook@3.2.2':
     resolution: {integrity: sha512-xmXt/GW0hAPbzNTrxYuVo43Adrtjue4DeVrsoIIEeJdGaPNNeNf+DHMlJKOBdlHmCnFUoe9R/0mLM9zUp5bKWw==}
@@ -18058,8 +18052,6 @@ snapshots:
       cross-fetch: 3.1.8(encoding@0.1.13)
     transitivePeerDependencies:
       - encoding
-
-  '@btckit/types@0.0.19': {}
 
   '@chromatic-com/storybook@3.2.2(react@18.3.1)(storybook@8.4.4(prettier@3.3.3))':
     dependencies:

@@ -338,6 +338,6 @@ try {
 }
 
 // Legacy product provider objects
-if (typeof window.btc === 'undefined') {
+if (typeof (window as any).btc === 'undefined') {
   (window as any).btc = warnAboutDeprecatedProvider(provider);
 }
