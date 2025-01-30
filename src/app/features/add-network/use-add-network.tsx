@@ -10,6 +10,7 @@ import {
   bitcoinNetworkToNetworkMode,
   networkConfigurationSchema,
 } from '@leather.io/models';
+import { isDefined } from '@leather.io/utils';
 
 import { RouteUrls } from '@shared/route-urls';
 import { isValidUrl } from '@shared/utils/validate-url';
@@ -175,7 +176,7 @@ export function useAddNetwork() {
           bitcoinUrl: bitcoinPath,
         });
         navigate(RouteUrls.Home);
-      } else if (chainId === ChainID.Mainnet || chainId === ChainID.Testnet) {
+      } else if (isDefined(chainId)) {
         removeEditedNetwork();
         networksActions.addNetwork({
           id: key as DefaultNetworkConfigurations,
